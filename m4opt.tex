@@ -1,4 +1,5 @@
 \documentclass[twocolumn,times]{aastex631}
+\usepackage{acronym}
 
 % \received{March 1, 2021}
 % \revised{April 1, 2021}
@@ -6,6 +7,12 @@
 % \submitjournal{AJ}
 \shorttitle{M$^4$OPT}
 \shortauthors{Singer et al.}
+
+\acrodef{KN}[KN]{kilonova}
+\acrodefplural{KN}[KNe]{kilonovae}
+\acrodef{NUV}[NUV]{near ultraviolet}
+\acrodef{FUV}[FUV]{far ultraviolet}
+\acrodef{UVEX}[UVEX]{UltraViolet EXplorer}
 
 \begin{document}
 
@@ -40,6 +47,26 @@ TODO
 \subsection{Tiling and scheduling without slew constraints}
 
 \section{Case study: GW observations with UVEX}
+
+In Appendix E.2, \citet{2021arXiv211115608K} specifies fiducial parameter ranges for radioactively-powered or shock-powered \ac{KN} models and 90\% credible intervals for the absolute magnitude in each band. These absolute magnitude ranges are reproduced in the Table~\ref{tab:kn-abs-mag} below.
+
+\ac{UVEX} obseves in both the \ac{NUV} and \ac{FUV} filters simultaneously. In orer to achieve a detection in at least one filter, regardless of the model, we should plan obsevations using the fainter of the two models and the brighter of the two bands: the nucleosynthesis-powered model in NUV, with an absolute magnitude range of $[-15.6, -12.4]$. Assuming that this is the 90\% credible interval of a Gaussian distribution, the absolute magnitude has the approximate distribution
+%
+\begin{equation}
+    M_\mathrm{NUV} \sim \mathcal{N}(-14, 1).
+\end{equation}
+
+\begin{deluxetable}{lcc}
+\tablecaption{\label{tab:kn-abs-mag}Ranges of peak absolute magnitudes of \acp{KN}. Adapted from \citet{2021arXiv211115608K} Appendix E.2.}
+\tablehead{
+    & \multicolumn2c{absolute magnitude range} \\
+    \colhead{Model} & \colhead{NUV} & \colhead{FUV}
+}
+\startdata
+Nucleosynthesis powered & [-15.6, -12.4] & [-17.8, -15.3] \\
+Shock powered & [-14.5, -10.2] & [-17.9, -15.0]
+\enddata
+\end{deluxetable}
 
 \subsection{Comparison with greedy method}
 
