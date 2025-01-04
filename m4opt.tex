@@ -11,9 +11,11 @@
 \acrodef{GW}[GW]{gravitational wave}
 \acrodef{KN}[KN]{kilonova}
 \acrodefplural{KN}[KNe]{kilonovae}
+\acrodef{M4OPT}[M$^4$OPT]{Multi-Mission Multi-Messenger Observation Planning Toolkit}
 \acrodef{NSF}[NSF]{U.S. National Science Foundation}
 \acrodef{NUV}[NUV]{near ultraviolet}
 \acrodef{FUV}[FUV]{far ultraviolet}
+\acrodef{SN}[S/N]{signal to noise ratio}
 \acrodef{SDSC}[SDSC]{San Diego Supercomputing Center}
 \acrodef{UVEX}[UVEX]{UltraViolet EXplorer}
 
@@ -35,8 +37,6 @@ TODO
 
 \section{Introduction} \label{sec:intro}
 
-Need to cite UVEX science paper, \citet{2021arXiv211115608K} and Criswell et al. (in prep.).
-
 \section{Fundamentals of mixed integer programming}
 
 \subsection{Logic to MILP translation dictionary}
@@ -53,11 +53,13 @@ Need to cite UVEX science paper, \citet{2021arXiv211115608K} and Criswell et al.
 
 \section{Case study: GW observations with UVEX}
 
-\Ac{GW} simulations come from \cite{r_weizmann_2024_14142970}.
+Here is the setup of our case study.
 
-In Appendix E.2, \citet{2021arXiv211115608K} specifies fiducial parameter ranges for radioactively-powered or shock-powered \ac{KN} models and 90\% credible intervals for the absolute magnitude in each band. These absolute magnitude ranges are reproduced in the Table~\ref{tab:kn-abs-mag} below.
+\paragraph{\Ac{GW} localizations}
+We started with the same simulated \ac{GW} localizations as \citet{criswell}, which covers LIGO, Virgo, and KAGRA's fifth~(O5) and sixth~(O6) observing runs. The data are publicly archived in \cite{r_weizmann_2024_14142970}. These simulated events were generated using the same methodology as \citet{2022ApJ...924...54P} and \citet{2023ApJ...958..158K}, except that the \ac{SN} threshold for \ac{GW} detection is set to~10. The localizations were generated with the rapid localization engine BAYESTAR \citep{2016PhRvD..93b4013S} and consist of 3D posterior probability distributions of sky location and luminosity distance \citep{2016ApJ...829L..15S,2016ApJS..226...10S}.
 
-\ac{UVEX} obseves in both the \ac{NUV} and \ac{FUV} filters simultaneously. In orer to achieve a detection in at least one filter, regardless of the model, we should plan obsevations using the fainter of the two models and the brighter of the two bands: the nucleosynthesis-powered model in NUV, with an absolute magnitude range of $[-15.6, -12.4]$. Assuming that this is the 90\% credible interval of a Gaussian distribution, the absolute magnitude has the approximate distribution
+\paragraph{\Ac{KN} aboslute magnitude}
+Appendix~E.2 of \citet{2021arXiv211115608K} specifies fiducial parameter ranges for radioactively-powered or shock-powered \ac{KN} models and 90\% credible intervals for the absolute magnitude in each band. These absolute magnitude ranges are reproduced in the Table~\ref{tab:kn-abs-mag} below. \ac{UVEX} obseves in both the \ac{NUV} and \ac{FUV} filters simultaneously. In orer to achieve a detection in at least one filter, regardless of the model, we should plan obsevations using the fainter of the two models and the brighter of the two bands: the nucleosynthesis-powered model in NUV, with an absolute magnitude range of $[-15.6, -12.4]$. Assuming that this is the 90\% credible interval of a Gaussian distribution, the absolute magnitude has the approximate distribution
 %
 \begin{equation}
     M_\mathrm{NUV} \sim \mathcal{N}(-14, 1).
@@ -75,10 +77,29 @@ In Appendix E.2, \citet{2021arXiv211115608K} specifies fiducial parameter ranges
     \enddata
 \end{deluxetable}
 
+\paragraph{Follow-up time window}
+\citet{criswell} required a single epoch of \ac{UVEX} observations to take 3~hours or less. To match this choice, we configure \ac{M4OPT} to plan two visits of each field with a minimum cadence of 30~min between repeated visits, with a total elapsed time limit of 6~hours. 
+
+\paragraph{Run duration}
+As in \citet{criswell}, we assumed 1.5~years of overlap between the \ac{UVEX} prime mission and the \ac{GW} observing run.
+
+\paragraph{Follow-up selection criterion}
+We ran \ac{M4OPT} on all simulated events. We considered events selected for follow-up with \ac{UVEX} if the scheduler's objective values was $\geq 0.1$.
+
+The results are shown in Fig~\ref{fig:area-distance}. The expected numbers of events selected for follow-up and detected are shown in Table~\ref{tab:selected-detected} below.
+
 \begin{figure*}
     \includegraphics[width=\textwidth]{figures/area-distance}
     \caption{\label{fig:area-distance}90\% credible area and distance of simulated \ac{GW} events. Events that were selected for follow-up with \ac{UVEX} are represented by magenta dots, with the area of each dot proportional to the probability of detection. Events that were not selected for follow-up are marked with gray dots. The blue boundary represents the analytical predictor of the detection threshold.}
 \end{figure*}
+
+\begin{deluxetable}{lcc}
+    \tablecaption{\label{tab:selected-detected}Expected number of events selected for follow-up and detected.}
+    \tablehead{& O5 & O6}
+    \startdata
+    \input{tables/selected-detected.tex}
+    \enddata
+\end{deluxetable}
 
 \subsection{Comparison with greedy method}
 
