@@ -15,7 +15,7 @@ jobs:
       - name: Check out source
         uses: actions/checkout@v4
       - name: Install packages
-        run: sudo apt install latexmk texlive texlive-latex-extra
+        run: sudo apt install latexmk texlive texlive-latex-extra texlive-publishers
       - name: Typeset
         run: latexmk -pdf
       - uses: actions/upload-artifact@v4
