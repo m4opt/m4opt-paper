@@ -8,6 +8,8 @@
 \shorttitle{M$^4$OPT}
 \shortauthors{Singer et al.}
 
+\acrodef{CDF}[CDF]{cumulative distribution function}
+\acrodef{FOV}[FOV]{field of view}
 \acrodef{GW}[GW]{gravitational wave}
 \acrodef{KN}[KN]{kilonova}
 \acrodefplural{KN}[KNe]{kilonovae}
@@ -17,6 +19,7 @@
 \acrodef{FUV}[FUV]{far ultraviolet}
 \acrodef{SN}[S/N]{signal to noise ratio}
 \acrodef{SDSC}[SDSC]{San Diego Supercomputing Center}
+\acrodef{ToO}[ToO]{target of opportunity}
 \acrodef{UVEX}[UVEX]{UltraViolet EXplorer}
 
 \begin{document}
@@ -80,17 +83,28 @@ Appendix~E.2 of \citet{2021arXiv211115608K} specifies fiducial parameter ranges 
 \paragraph{Follow-up time window}
 \citet{criswell} required a single epoch of \ac{UVEX} observations to take 3~hours or less. To match this choice, we configure \ac{M4OPT} to plan two visits of each field with a minimum cadence of 30~min between repeated visits, with a total elapsed time limit of 6~hours. 
 
+\paragraph{Exposure time}
+The exposure time is allowed to vary adaptively for each field, with a minimum exposure time of $\epsilon_\mathrm{min} = 300$~s. The minimum exposure time corresponds to a single standard \ac{UVEX} imaging exposure. (A standard survey dwell consists of 3 consecutive stacked 300~s exposures.)
+
 \paragraph{Run duration}
 As in \citet{criswell}, we assumed 1.5~years of overlap between the \ac{UVEX} prime mission and the \ac{GW} observing run.
 
 \paragraph{Follow-up selection criterion}
-We ran \ac{M4OPT} on all simulated events. We considered events selected for follow-up with \ac{UVEX} if the scheduler's objective values was $\geq 0.1$.
+We ran \ac{M4OPT} on all simulated events. We considered events selected for follow-up with \ac{UVEX} if the scheduler's objective values $P$ was less than $P^* = 0.1$. Although the decision of whether to execute a \ac{ToO} is based solely on the scheduler's objective value, we can predict an analytical threshold for triggering on an event based on the area of its $Q$th credible region and its luminosity distance $d_\mathrm{L}$:
+%
+\begin{eqnarray}
+    d_\mathrm{L} &<& d_\mathrm{L}^* = 10^{\frac{1}{5}(x^* - \mu_X + \sigma_X \Phi^{-1}(1-P^*) - 25)}\,\mathrm{Mpc} \label{eq:threshold-distance} \\
+    A_Q &<& A_Q^* = \left(\frac{\Psi^{-1}(Q)}{\Psi^{-1}(P^*)}\right)^2 \left(\frac{\delta - \beta}{\epsilon_\mathrm{min} n_K}\right)A_\mathrm{FOV} \label{eq:threshold-area} \\
+    \frac{A_Q}{A_\mathrm{FOV}} &<& \left(\frac{d_\mathrm{L}}{d_\mathrm{L}^*}\right)^{-4} \label{eq:threshold-area-distance}
+\end{eqnarray}
+%
+where $x^*$ is the faintest limiting magnitude at any point on the sky, $A_\mathrm{FOV}$ is the area of the \ac{FOV}, $\Phi(x)$ is the inverse of the \ac{CDF} of the standard normal distribution, and $\Psi^{-1}(x) = -2\ln(1 - x)$ is the inverse of the \ac{CDF} of a $\chi^2$ distribution with 2 degrees of freedom.
 
 The results are shown in Fig~\ref{fig:area-distance}. The expected numbers of events selected for follow-up and detected are shown in Table~\ref{tab:selected-detected} below.
 
 \begin{figure*}
     \includegraphics[width=\textwidth]{figures/area-distance}
-    \caption{\label{fig:area-distance}90\% credible area and distance of simulated \ac{GW} events. Events that were selected for follow-up with \ac{UVEX} are represented by colored dots, with the color of the dot representing the scheduler objective value and the area of the dot the detection probability. Events that were not selected for follow-up are marked with gray dots. The blue boundary represents the analytical predictor of the detection threshold.}
+    \caption{\label{fig:area-distance}90\% credible area and distance of simulated \ac{GW} events. Events that were selected for follow-up with \ac{UVEX} are represented by colored dots, with the color of the dot representing the scheduler objective value and the area of the dot the detection probability. Events that were not selected for follow-up are marked with gray dots. The blue boundary represents the analytical predictor of the detection threshold given by Eqs.~(\ref{eq:threshold-distance},\ref{eq:threshold-area},\ref{eq:threshold-area-distance}).}
 \end{figure*}
 
 \begin{deluxetable}{lcc}
