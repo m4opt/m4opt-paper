@@ -13,7 +13,7 @@ jobs:
       - name: Check out source
         uses: actions/checkout@v4
       - name: Install packages
-        run: apt install texlive
+        run: sudo apt install texlive
       - name: Typeset
         run: latexmk -pdf
       - uses: actions/upload-artifact@v4
