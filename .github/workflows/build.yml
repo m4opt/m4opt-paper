@@ -1,0 +1,21 @@
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  latex:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+      - name: Install packages
+        run: apt install texlive
+      - name: Typeset
+        run: latexmk -pdf
+      - uses: actions/upload-artifact@v4
+        with:
+          path: m4opt.pdf
