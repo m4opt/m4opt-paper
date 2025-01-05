@@ -8,21 +8,30 @@
 \shorttitle{M$^4$OPT}
 \shortauthors{Singer et al.}
 
+% Some of these acronym definitions contain the definite article ("the") and some do not.
+% If an acronym's part of speech is a proper noun, then it has a definite article when it
+% appears in expanded form. For example, we write "The UltraViolet Explorer is a space telescope,"
+% and "UVEX is a space telescope," but we don't write "The luminosity function of the kilonovae is given in Eq. (3)."
+\acrodef{ACCESS}[ACCESS]{Advanced Cyberinfrastructure Coordination Ecosystem: Services \& Support}
 \acrodef{CDF}[CDF]{cumulative distribution function}
 \acrodef{CSR}[CSR]{concept study report}
 \acrodef{FOV}[FOV]{field of view}
 \acrodef{GW}[GW]{gravitational wave}
 \acrodef{KN}[KN]{kilonova}
 \acrodefplural{KN}[KNe]{kilonovae}
-\acrodef{M4OPT}[M$^4$OPT]{Multi-Mission Multi-Messenger Observation Planning Toolkit}
-\acrodef{NOSA}[NOSA]{NASA Open Source Agreement}
-\acrodef{NSF}[NSF]{U.S. National Science Foundation}
+\acrodef{MIDEX}[MIDEX]{Medium-Class Explorer}
+\acrodef{M4OPT}[M$^4$OPT]{the Multi-Mission Multi-Messenger Observation Planning Toolkit}
+\acrodef{NOSA}[NOSA]{the NASA Open Source Agreement}
+\acrodef{NSF}[NSF]{the U.S. National Science Foundation}
 \acrodef{NUV}[NUV]{near ultraviolet}
 \acrodef{FUV}[FUV]{far ultraviolet}
+\acrodef{ROI}[ROI]{region of interest}
 \acrodef{SN}[S/N]{signal to noise ratio}
-\acrodef{SDSC}[SDSC]{San Diego Supercomputing Center}
+\acrodef{SDSC}[SDSC]{the San Diego Supercomputing Center}
 \acrodef{ToO}[ToO]{target of opportunity}
-\acrodef{UVEX}[UVEX]{UltraViolet EXplorer}
+\acrodefplural{ToO}[ToOs]{targets of opportunity}
+\acrodef{UV}[UV]{ultraviolet}
+\acrodef{UVEX}[UVEX]{the UltraViolet EXplorer}
 
 \begin{document}
 
@@ -35,16 +44,17 @@
 \author{Friends}
 
 \begin{abstract}
-TODO
+\Ac{UVEX} is a wide-field, all-sky, time-domain, ultraviolet survey space telescope selected as a NASA \ac{MIDEX} mission for launch in 2030. \ac{UVEX} will conduct an unprecedented all-sky time-domain survey in two \ac{UV} filters. \ac{UVEX} will follow up \ac{GW} binary neutron star mergers as \acp{ToO}, rapidly scanning across their localization regions to search for their \ac{KN} counterparts. Early-time multiband ultraviolet light curves of \acp{KN} are key to explaining the interplay between jet and ejecta in binary neutron star mergers. Owing to high Galactic extinction in the ultraviolet and \ac{UVEX}'s large \ac{FOV}, variation in sensitivity across the \ac{GW} \ac{ROI} is an important consideration for observation planning. We present an adaptive strategy for \ac{GW} follow-up with \ac{UVEX} in which exposure time is adjusted dynamically for each field individual to maximize the overall probability of detection. We have implemented this strategy in an open source astronomical scheduling toolkit called \ac{M4OPT}, on GitHub at \url{https://github.com/m4opt/m4opt}.
 \end{abstract}
 
 \keywords{Computational methods~(1965) --- Gravitational wave astronomy~(675) --- Open source software~(1866) --- Ultraviolet observatories~(1739) --- Ultraviolet transient sources~(1854) --- Wide-field telescopes~(1800)}
 
 \section{Introduction} \label{sec:intro}
+\ac{UVEX} is a \ac{MIDEX}
 
 \ac{M4OPT} is a rewrite of dorado-scheduling\footnote{\url{https://github.com/nasa/dorado-scheduling}} and dorado-sensitivity\footnote{\url{https://github.com/nasa/dorado-sensitivity}}.
 
-\ac{NOSA} has been panned by the \citet{FSF}, the \citet{NAP25217}, and even the \citet{SMD}.
+\Ac{NOSA} has been panned by the \citet{FSF}, the \citet{NAP25217}, and even the \citet{SMD}.
 
 \begin{figure}
     \plotone{figures/uvex-tiling}
@@ -126,14 +136,12 @@ The results are shown in Fig~\ref{fig:area-distance}. The expected numbers of ev
     \enddata
 \end{deluxetable}
 
-\subsection{Comparison with greedy method}
-
 \section{Conclusion}
 
 \begin{acknowledgments}
 This work was performed in part at the Aspen Center for Physics, which is supported by \ac{NSF} grant PHY-2210452.
 
-This work used Expanse at \ac{SDSC} through allocation AST200029, ``Towards a complete catalog of variable sources to support efficient searches for compact binary mergers and their products,'' from the Advanced Cyberinfrastructure Coordination Ecosystem: Services \& Support (ACCESS) program, which is supported by \ac{NSF} grants \#2138259, \#2138286, \#2138307, \#2137603, and \#2138296.
+This work used Expanse at \ac{SDSC} through allocation AST200029, ``Towards a complete catalog of variable sources to support efficient searches for compact binary mergers and their products,'' from the \ac{ACCESS} program, which is supported by \ac{NSF} grants \#2138259, \#2138286, \#2138307, \#2137603, and \#2138296.
 \end{acknowledgments}
 
 \vspace{5mm}
