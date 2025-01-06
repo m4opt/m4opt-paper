@@ -127,17 +127,292 @@ In this paper, we introduce \ac{M4OPT}. It is released under a permissive and ma
     \caption{\label{fig:overlapping-fields}HEALPix tiles belonging to overlapping fields.}
 \end{figure}
 
-\subsection{Logic to MILP translation dictionary}
+\section{Multimessenger Follow-Up as an \ac{MILP} Problem}
 
-\subsection{A simple example}
+Here we document our representation of the multimessenger follow-up problem as a mixed integer linear program.
 
-\subsection{Maximum weighted coverage problem}
+\subsection{Problem 1: Fixed Exposure Time}
 
-\subsection{No overlap constraints}
+We receive a HEALPix probability sky map that describes the probability distribution of the true but unknown position of a target of interest as a function of position on the sky. There is a delay between the time that the event occurred and when we can start observations due to the time it takes to uplink commands to the spacecraft, and there is a deadline by which we must complete our observations.
 
-\section{Progressive elaboration of the problem}
+Our telescope can observe any of a set of $n_J$ reference fields at predetermined sky locations in order to tile the sky map. For each reference field that we select, our telescope must visit the reference field at least $n_K$ times. We have a cadence requirement: each visit of a given reference field must occur at least a time $\gamma$ after the previous visit.
 
-\subsection{Tiling and scheduling without slew constraints}
+Every visit takes a certain amount of exposure time, and it takes a known amount of time to slew between different reference fields. We may only a visit a reference field when it is within the field of regard, the region that constrains where the telescope may point at any given instant of time.
+
+\subsubsection{Data Preparation}
+
+\begin{enumerate}
+    \item Construct a discrete 1D grid of times that stretch from the delayed start of observations up to the deadline.
+    \item Propagate the orbit of the spacecraft to calculate the position of the spacecraft at each time step.
+    \item For each reference field and each time step, test whether the reference field is within the instantaneous field of regard, creating an observability bit map.
+    \item Transform the observability bit map into a list of time segments during which each reference field is observable.
+    \item Discard segments that are shorter than the exposure time.
+    \item Discard reference fields that have no observable segments.
+    \item For each reference field, find the HEALPix pixel indices that are within the field's footprint.
+    \item Select the top 50 reference fields that contain the greatest probability.
+    \item Discard pixels that are not contained in any reference field.
+    \item Calculate the slew times between fields.
+\end{enumerate}
+
+\subsubsection{Index Sets}
+
+\begin{itemize}
+    \item $I = \{0, 1, \dots, n_I - 1\}$: pixels
+    \item $J = \{0, 1, \dots, n_J - 1\}$: reference fields
+    \item $K = \{0, 1, \dots, n_K - 1\}$: visits
+    \item $\left(M_j = \{0, 1, \dots, {n_M}_j\}\right)_{j \in J}$: observable segments for reference field $j$
+    \item $\left(J_i = \{0, 1, \dots, {n_J}_i\}\right)_{i \in I}$: set of indices of fields that contain pixel $i$
+\end{itemize}
+
+\subsubsection{Parameters}
+
+\begin{itemize}
+    \item $\left(\rho_i\right)_{i \in I}$: probability that source is inside pixel $i$
+    \item $\left(\sigma_{jj^\prime}\right)_{j \in J, j^\prime \in J}$: slew time from reference field $j$ to reference field $j^\prime$
+    \item $\left(\alpha_{jm}\right)_{j \in J, m \in M}$: start time of observable segment $m$ of reference field $j$
+    \item $\left(\omega_{jm}\right)_{j \in J, m \in M}$: end time of observable segment $m$ of reference field $j$
+    \item $\epsilon$: exposure time
+    \item $\gamma$: cadence, time between visits
+    \item $\beta$: delay from event time to start of observations
+    \item $\delta$: deadline from event time to end of last observation
+\end{itemize}
+
+\subsubsection{Decision variables}
+
+Binary decision variables:
+
+\begin{itemize}
+    \item $\left(p_i\right)_{i \in I}$: pixel $i$ is inside the footprint of one or more selected reference fields
+    \item $\left(r_j\right)_{j \in J}$: reference field $j$ is selected for observation
+    \item $\left(s_{jkm}\right)_{j \in J, k \in K, m \in M \mid {n_M}_j > 1}$: whether reference field $j$ visit $k$ occurs in segment $m$
+\end{itemize}
+
+Continuous decision variables:
+
+\begin{itemize}
+    \item $\left(t_{jk}\right)_{j \in J, k \in K}$: midpoint time of observation $j$ visit $k$
+\end{itemize}
+
+\subsubsection{Constraints}
+
+\paragraph{Containment}
+Only count pixels that are inside one or more reference fields.
+%
+\begin{equation}
+    \label{eq:fixed-exptime-constraint-containment}
+    \forall i :\quad p_i \leq \sum_{j \in J_i} r_j
+\end{equation}
+
+\paragraph{Cadence}
+If a reference field is selected for observation, then enforce a minimum time between visits.
+%
+\begin{equation}
+    \label{eq:fixed-exptime-constraint-cadence}
+    \forall k > 1 ,\; j :\quad t_{jk} - t_{j,k-1} \geq (\epsilon + \gamma) r_j
+\end{equation}
+
+\paragraph{No overlap}
+Observations cannot overlap in time; they must be separated by at least the exposure time plus the slew time.
+%
+\begin{equation}
+    \label{eq:fixed-exptime-constraint-no-overlap}
+    \forall j^\prime > j,\; k ,\; k^\prime :\quad \left|t_{jk} - t_{j^\prime k^\prime}\right|  \geq \left(\sigma_{jj^\prime} + \epsilon\right) \left( r_j + r_{j^\prime} - 1\right)
+\end{equation}
+
+\paragraph{Field of regard}
+An observation of a reference field can only occur while the coordinates of the reference field are within the field of regard.
+
+For fields that have one observable segment (${n_M}_j = 1$), this constraint is simpy an inequality:
+%
+\begin{equation}
+    \label{eq:fixed-exptime-constraint-for-one}
+    \forall j ,\; k \;, m \mid {n_M}_j = 1 :\quad \alpha_{jm} + \epsilon / 2 \leq t_{jk} \leq \omega_{jm} - \epsilon / 2
+\end{equation}
+
+For fields that have more than one observable segment (${n_M}_j > 1$), we use the decision variable $s_{jkm}$ to determine which inequality is satisfied:
+%
+\begin{eqnarray}
+    \label{eq:fixed-exptime-constraint-for-many}
+    \forall j ,\; k \;, m \mid {n_M}_j > 1 :\quad s_{jkm} &=& 1 \;\Rightarrow\; \alpha_{jm} + \epsilon / 2 \leq t_{jk} \leq \omega_{jm} - \epsilon / 2, \\
+    \sum_m s_{jkm} &\geq& 1
+\end{eqnarray}
+
+\subsubsection{Cuts}
+
+\paragraph{Total exposure time}
+Although it is implied by other constraints, the constraint that the total exposure time cannot exceed the total available time is found to speed up the search.
+%
+\begin{equation}
+    \label{eq:fixed-exptime-cut-total-time}
+    \sum_{j \in J} r_j \leq \frac{\delta - \beta}{\epsilon n_K}
+\end{equation}
+
+\subsubsection{Objective}
+
+Maximize the sum of the probability of all of the pixels that are contained within selected fields:
+%
+\begin{equation}
+    \label{eq:fixed-exptime-objective}
+    \sum_{i \in I} \rho_i p_i
+\end{equation}
+
+\subsection{Problem 2: Variable Exposure Time}
+
+In this variation, we have a sky map of the exposure time required to detect the source as a function of its position on the sky. We permit the exposure time to vary for each field. A given pixel counts toward the objective value only if the exposure time of a field that contains that pixel exceeds the pixel's exposure time.
+
+\subsubsection{Additional Parameters}
+
+\begin{itemize}
+    \item $\left(\epsilon_i\right)_{i \in I}$: minimum exposure time to detect a source in pixel $i$
+    \item $\epsilon_\mathrm{min}$: minimum allowed exposure time
+    \item $\epsilon_\mathrm{max}$: maximum allowed exposure time
+\end{itemize}
+
+\subsubsection{Additional Decision Variables}
+
+Semicontinuous decision variables:
+%
+\begin{itemize}
+    \item $\left(e_j\right)_{j \in J}, \forall j \in J : e_j = 0 \textnormal{ or } \epsilon_\mathrm{min} \leq e_j \leq \epsilon_\mathrm{max} \;$: exposure time of field $j$
+\end{itemize}
+
+\subsubsection{Constraints}
+
+The constraints are slightly different.
+
+\paragraph{Depth}
+Only count pixels that are observed to sufficient depth.
+%
+\begin{equation}
+    \label{eq:variable-exptime-constraint-depth}
+    \forall i \in I :\quad p_\mathrm{i} = 1 \Rightarrow \max_{j \in J_i} e_{j} \geq \epsilon_i
+\end{equation}
+
+\paragraph{Exposure time}
+If a field's exposure time is nonzero, then it is selected for observation.
+%
+\begin{equation}
+    \label{eq:variable-exptime-constraint-exptime}
+    \forall j \in J :\quad \epsilon_\mathrm{max} r_j \geq e_\mathrm{j}
+\end{equation}
+
+\paragraph{Cadence}
+This is similar to Eq.~(\ref{eq:fixed-exptime-constraint-cadence}), except that we replace the right-hand side of the inequality.
+%
+\begin{equation}
+    \label{eq:variable-exptime-constraint-cadence}
+    \forall k > 1 ,\; j :\quad t_{jk} - t_{j,k-1} \geq \gamma r_j + e_j
+\end{equation}
+
+\paragraph{No overlap}
+This is also similar to Eq.~(\ref{eq:fixed-exptime-constraint-no-overlap}), except with a slightly different right-hand side.
+%
+\begin{equation}
+    \label{eq:variable-exptime-constraint-no-overlap}
+    \forall j^\prime > j ,\; k ,\; k^\prime :\quad \left|t_{jk} - t_{j^\prime k^\prime}\right|  \geq \sigma_{jj^\prime} \left( r_j + r_{j^\prime} - 1\right) + (e_j + e_\mathrm{j^\prime}) / 2
+\end{equation}
+
+\paragraph{Field of regard}
+This is similar to Eqs.~(\ref{eq:fixed-exptime-constraint-for-one},~\ref{eq:fixed-exptime-constraint-for-many}), except that we replace $\epsilon$ with $e_j$.
+
+For fields that have one observable segment:
+%
+\begin{equation}
+    \label{eq:variable-exptime-constraint-for-one}
+    \forall j ,\; k \;, m \mid {n_M}_j = 1 :\quad \alpha_{jm} + e_j / 2 \leq t_{jk} \leq \omega_{jm} - e_j / 2
+\end{equation}
+
+For fields that have more than one observable segment:
+%
+\begin{eqnarray}    
+    \label{eq:variable-exptime-constraint-for-many}
+    \forall j ,\; k \;, m \mid {n_M}_j > 1 :\quad s_{jkm} &=& 1 \;\Rightarrow\; \alpha_{jm} + e_j / 2 \leq t_{jk} \leq \omega_{jm} - e_j / 2, \\
+    \sum_m s_{jkm} &\geq& 1
+\end{eqnarray}
+
+\subsubsection{Cuts}
+
+\paragraph{Total exposure time}
+Replace Eq.~(\ref{eq:fixed-exptime-cut-total-time}) with:
+%
+\begin{eqnarray}
+    \label{eq:ariable-exptime-cut-total-time}
+    \sum_{j \in J} r_j &\leq& \frac{\delta - \beta}{\epsilon_\mathrm{min} n_K} \\
+    \sum_{j \in J} e_j &\leq& \frac{\delta - \beta}{n_K}
+\end{eqnarray}
+
+\subsubsection{Objective}
+
+Same as above.
+
+\subsection{Problem 3: Variable Exposure Time with Prior Distribution of Absolute Magnitude}
+
+In this variation, we don't know the precise absolute magnitude $X$ of the source. In the case of kilonovae, our prior knowledge about the absolute magnitude is scant; for the sake of mathematical convenience, we assume that the absolute magnitude has a normal distribution, $X \sim~ \mathcal{N}[\mu_X, \sigma_X]$. We need to compute the distribution of \textit{apparent} magnitudes $x$ in order to determine the probability of detection as a function of exposure time for each pixel.
+
+Gravitational-wave sky maps provide the posterior distribution of distance, as a parametric ansatz distribution \citep{2016ApJ...829L..15S,2016ApJS..226...10S},
+%
+$$
+    p(r) = \frac{N}{\sqrt{2 \pi}\sigma} \exp\left[-\frac{1}{2}\left(\frac{r - \mu}{\sigma}\right)^2\right] r^2,
+$$
+%
+with the location parameter $\mu$, scale parameter $\sigma$, and normalization $N$ tabulated for each pixel. This is an inconvenient distribution for integration, so instead we construct a log-normal distance distribution with the same mean and standard deviation as the ansatz distribution.
+
+We calculate the mean $m$ and standard deviation $s$ from $\mu$ and $\sigma$ using the function \verb|ligo.skymap.distance.parameters_to_moments|. Then, the location and scale parameters of the log-normal distribution are given by
+%
+\begin{eqnarray}
+    \label{eq:log-distance-parameters}
+    \mu_{\ln r} &=& \ln m - \frac{1}{2} \ln \left(1 + \frac{s^2}{m^2}\right) \\
+    {\sigma_{\ln r}}^2 &=& \ln \left(1 + \frac{s^2}{m^2}\right).
+\end{eqnarray}
+
+The logarithm of the distance then has the distribution $\ln r \sim \mathcal{N}[\mu_{\ln r}, \sigma_{\ln r}]$. The apparent magnitude is related to the absolute magnitude through $x = X + 5 \log_{10} r + 25$, assuming that $r$ is in the units of Mpc. Therefore the apparent magnitude has the distribution $x \sim \mathcal{N}[\mu_x, \sigma_x]$, with
+%
+\begin{eqnarray}
+    \label{eq:appmag-parameters}
+    \mu_x &=& \mu_X + \left(\frac{5}{\ln 10}\right) \mu_{\ln r} + 25 \\
+    {\sigma_x}^2 &=& {\sigma_{X}}^2 + \left(\frac{5}{\ln 10}\right)^2 {\sigma_{\ln r}}^2.
+\end{eqnarray}
+
+With this Gaussian distribution of apparent magnitudes, we can now calculate the detection efficiency for each pixel: the probability that we detect the source assuming that the source is in that pixel, as a function of exposure time. For the purpose of implementation of this function in a MILP, we approximate it with a piecewise linear function, as illustrated in Fig~\ref{fig:piecewise-linear-exptime} below.
+
+\begin{figure}
+    \plotone{figures/piecewise-linear-exptime}
+    \caption{\label{fig:piecewise-linear-exptime}Piecewise linear approximation of the detection efficiency for a given pixel. In this example, we have assumed that the exposure time is inversely proportional to the square root of the flux, valid for sky background dominated imaging.}
+\end{figure}
+
+\subsubsection{Additional Data Preparation}
+
+\begin{enumerate}
+    \item Use the function \verb|ligo.skymap.distance.parameters_to_moments| and Eqs.~(\ref{eq:log-distance-parameters},~\ref{eq:appmag-parameters}) to calculate the mean and standard deviation of the apparent magnitude in each pixel.
+    \item Select desired quantiles for the approximation of the detection efficiency curve: for example, $(0, 0.05 , 0.275, 0.5  , 0.725, 0.95)$. For each pixel, calculate the exposure time required to achieve the specified detection efficiencies.
+\end{enumerate}
+
+\subsubsection{Additional Index Sets}
+
+\begin{itemize}
+    \item $N = \{0, 1, \dots, n_N\}$: indices of quantiles of detection efficiency function approximation
+\end{itemize}
+
+\subsubsection{Additional Parameters}
+
+\begin{itemize}
+    \item $\left(\xi_n\right)_{n \in N}$: quantiles for piecewise linear approximation of detection efficiency curve
+    \item $\left(\epsilon_{in}\right)_{i \in I, n \in N}$: exposure time required to achieve a detection efficiency of $\xi_n$ in pixel $i$
+    \item $\left(f_i\right)_{i \in I}$: piecewise linear function interpolating between the points $(\xi_n, \epsilon_{in})_{i \in I, n \in N}$
+\end{itemize}
+
+\subsubsection{Additional Constraints}
+
+\paragraph{Depth}
+Replace Eq.~\ref{eq:variable-exptime-constraint-depth} with:
+%
+$$
+    \forall i \in I :\quad \max_{j \in J_i} e_{j} \geq f_i(p_\mathrm{i})
+$$
+
+\subsubsection{Objective}
+
+Same as above.
 
 \section{Case study: GW observations with UVEX}
 
@@ -189,7 +464,7 @@ The results are shown in Fig~\ref{fig:area-distance}. The expected numbers of ev
 
 \begin{figure*}
     \includegraphics[width=\textwidth]{figures/area-distance}
-    \caption{\label{fig:area-distance}90\% credible area and distance of simulated \ac{GW} events. Events that were selected for follow-up with \ac{UVEX} are represented by colored dots, with the color of the dot representing the scheduler objective value and the area of the dot the detection probability. Events that were not selected for follow-up are marked with gray dots. The blue boundary represents the analytical predictor of the detection threshold given by Eqs.~(\ref{eq:threshold-distance},\ref{eq:threshold-area},\ref{eq:threshold-area-distance}).}
+    \caption{\label{fig:area-distance}90\% credible area and distance of simulated \ac{GW} events. Events that were selected for follow-up with \ac{UVEX} are represented by colored dots, with the color of the dot representing the scheduler objective value and the area of the dot the detection probability. Events that were not selected for follow-up are marked with gray dots. The blue boundary represents the analytical predictor of the detection threshold given by Eqs.~(\ref{eq:threshold-distance},~\ref{eq:threshold-area},~\ref{eq:threshold-area-distance}).}
 \end{figure*}
 
 \begin{deluxetable}{lcc}
