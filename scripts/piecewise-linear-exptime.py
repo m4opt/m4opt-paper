@@ -1,10 +1,10 @@
 from matplotlib import pyplot as plt
 import numpy as np
 from scipy import stats
+from plots import customize_style
 
-target_width = 3.5  # ApJ column size in inches
-width, height = plt.rcParams["figure.figsize"]
-plt.rcParams["figure.figsize"] = (target_width, height * target_width / width)
+customize_style()
+
 approx_color, exact_color, *_ = (
     props["color"] for props in iter(plt.rcParams["axes.prop_cycle"])
 )

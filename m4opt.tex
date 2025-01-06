@@ -86,14 +86,14 @@ More generally, there is a recognized gap in transient discovery cability in the
 Although NASA made no \ac{MoO} selection in that cycle, shortly thereafter the \citet{2021pdaa.book.....N} recommended in the 2020 decadal survey that ``NASA should establish a time-domain program to realize and sustain the necessary suite of space-based electromagnetic capabilities required to study transient and time-variable phenomena, and to follow up multi-messenger events.'' NASA soon selected a much larger and more capable mission called \acl{UVEX} (\acsu{UVEX}; \citealt{2021arXiv211115608K}; see rendering in Fig.~\ref{fig:render})\footnote{\url{https://www.uvex.caltech.edu}} as the next \ac{MIDEX}.
 
 \begin{figure}
-    \plotone{figures/UVEXrender}
+    \includegraphics[width=\columnwidth]{figures/UVEXrender}
     \caption{\label{fig:render}A rendering of \ac{UVEX}. Reproduced from the \ac{CSR} and from \citet{2021arXiv211115608K}.}
 \end{figure}
 
 \ac{UVEX}'s expected launch in 2030 will be few years after ULTRASAT, but it will be significantly more capable than ULTRASAT: it will take images simultaneously in two bands, it will observe much deeper ($>$25.8~mag over the entire survey), it will have a \ac{PSF} that is well-matched to ground-based follow-up ($\sim1\arcsec$), and it will have an onboard spectrograph. \ac{UVEX} will not just perform a transformative all-sky time-domain \ac{UV} survey. It will also be able to perform \acp{ToO} to follow up \ac{GW} mergers and other multimessenger phenomena (see Fig.~\ref{fig:uvex-tiling}). With its wide \ac{FOV} and two \ac{UV} bandpasses, it should be able to finally discern the physical mechanism of early-time emission in \acp{KN}.
 
 \begin{figure}
-    \plotone{figures/uvex-tiling}
+    \includegraphics[width=\columnwidth]{figures/uvex-tiling}
     \caption{\label{fig:uvex-tiling}An example of a \ac{ToO} observation sequence with \ac{UVEX} to follow up a \ac{GW} event. Adapted from Fig.~D-8 from the \ac{UVEX} \ac{CSR} submitted to NASA Headquarters, which is also Fig.~14 in \citet{2021arXiv211115608K}.}
 \end{figure}
 
@@ -459,6 +459,14 @@ Appendix~E.2 of \citet{2021arXiv211115608K} specifies fiducial parameter ranges 
 \paragraph{Exposure time}
 The exposure time is allowed to vary adaptively for each field, with a minimum exposure time of $\epsilon_\mathrm{min} = 300$~s. The minimum exposure time corresponds to a single standard \ac{UVEX} imaging exposure. (A standard survey dwell consists of 3 consecutive stacked 300~s exposures.)
 
+\paragraph{FOV}
+Roll angle... see Fig.~\ref{fig:nominal-roll}.
+
+\begin{figure}
+    \includegraphics[width=\columnwidth]{figures/nominal-roll}
+    \caption{\label{fig:nominal-roll}Nominal roll angle over one year for a selection of ecliptic latitudes.}
+\end{figure}
+
 \paragraph{Run duration}
 As in \citet{criswell}, we assumed 1.5~years of overlap between the \ac{UVEX} prime mission and the \ac{GW} observing run.
 
@@ -481,7 +489,7 @@ The results are shown in Fig~\ref{fig:area-distance}. The expected numbers of ev
 \end{figure*}
 
 \begin{deluxetable}{lcc}
-    \tablecaption{\label{tab:selected-detected}Expected number of events selected for follow-up and detected.}
+    \tablecaption{\label{tab:selected-detected}Expected number of events.}
     \tablehead{& O5 & O6}
     \startdata
     \input{tables/selected-detected.tex}
