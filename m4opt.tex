@@ -15,15 +15,22 @@
 \acrodef{ACCESS}[ACCESS]{Advanced Cyberinfrastructure Coordination Ecosystem: Services \& Support}
 \acrodef{CDF}[CDF]{cumulative distribution function}
 \acrodef{CSR}[CSR]{concept study report}
+\acrodef{ETC}[ETC]{exposure time calculator}
+\acrodef{FoR}[FoR]{field of regard}
+\acrodefplural{FoR}[FoRs]{fields of regard}
 \acrodef{FOV}[FOV]{field of view}
+\acrodefplural{FOV}[FOVs]{fields of view}
+\acrodef{GSFC}[GSFC]{Goddard Space Flight Center}
 \acrodef{GRB}[GRB]{gamma-ray burst}
 \acrodef{GW}[GW]{gravitational wave}
 \acrodef{KN}[KN]{kilonova}
 \acrodefplural{KN}[KNe]{kilonovae}
 \acrodef{LIGO}[LIGO]{the Laser Interferometer Gravitational-Wave Observatory}
 \acrodef{MIDEX}[MIDEX]{Medium-Class Explorer}
+\acrodef{MILP}[MILP]{mixed integer linear programming}
+\acrodef{MoO}[MoO]{Mission of Opportunity}
 \acrodef{M4OPT}[M$^4$OPT]{the Multi-Mission Multi-Messenger Observation Planning Toolkit}
-\acrodef{NOSA}[NOSA]{the NASA Open Source Agreement}
+\acrodef{NOSA}[NOSA]{NASA Open Source Agreement}
 \acrodef{NS}[NS]{neutron star}
 \acrodef{NSF}[NSF]{the U.S. National Science Foundation}
 \acrodef{NUV}[NUV]{near ultraviolet}
@@ -63,20 +70,43 @@ In 2017, \ac{LIGO} and Virgo \citep{2017PhRvL.119p1101A} detected a long-duratio
 
 The scientific harvest from this one event was remarkable. It fulfilled a three-decaded-old dream of using \acp{GW} as ``standard sirens'' to measure the Hubble constant \citep{1986Natur.323..310S,2017Natur.551...85A}. Moreover, it proved once and for all the hypotheses that \ac{NS} mergers are the central engines of short \acp{GRB} \citep{2013ApJ...776...18F} and the main cosmic factories of heavy $r$-process elements \citep{1999ApJ...525L.121F}. 
 
-It had long been understood that such mergers would tidally disrupt their \acp{NS}, and that radioactive decay of the heavy elements synthesized in their hot neutron-rich ejecta would fuel transients \citep{1974ApJ...192L.145L,1989Natur.340..126E,1998ApJ...507L..59L} that came to be called \acp{KN}. In those early days, people assumed that the ejecta would have opacities similar to those in \acp{SN} and predicted fairly bright \ac{KN} light curves that peaked in the optical or \ac{UV} and that would be fairly easy to detect. However, further study of the atomic structure of lanthanides led to the realization that their dense absorption spectra would lead to line-blanketing in the optical, containing the radiation and only letting it leak out much more slowly and at longer wavelengths, in the infrared \citep{2013ApJ...774...25K}. Observers grimly realized that although \acp{KN} were still among the most promising counterparts of \ac{NS} mergers \citep{2012ApJ...746...48M}, they would be much dimmer, redder, and harder to detect than previously expected.
+It had long been understood that such mergers would tidally disrupt their \acp{NS}, and that radioactive decay of the heavy elements synthesized in their hot neutron-rich ejecta would fuel transients \citep{1974ApJ...192L.145L,1989Natur.340..126E,1998ApJ...507L..59L} that came to be called \acp{KN}.
+
+In those early days, people assumed that the ejecta would have opacities similar to those in \acp{SN} and predicted fairly bright \ac{KN} light curves that peaked in the optical or \ac{UV} and that would be fairly easy to detect. However, further study of the atomic structure of lanthanides led to the realization that their dense absorption spectra would lead to line-blanketing in the optical, containing the radiation and only letting it leak out much more slowly and at longer wavelengths, in the infrared \citep{2013ApJ...774...25K}. Observers grimly realized that although \acp{KN} were still among the most promising counterparts of \ac{NS} mergers \citep{2012ApJ...746...48M}, they would be much dimmer, redder, and harder to detect than previously expected.
 
 Although these later and more sober predictions agreed remarkably well with the observed spectral sequence of AT2017gfo \citep{2017Natur.551...67P,2017Natur.551...80K}, contrary to those expectations it was quite blue and featureless at the earliest observed times \citep{2017Sci...358.1574S}. In the fallout from GW170817, the cause of this early optical and \ac{UV} emission remains one of the most enduring mysteries. The blue emission could be radioactively powered but result from a geometrically distinct outflow component with higher velocity and/or lower lanthanide fraction \citep{2017ApJ...848L..18N} or could result from the shock caused by the ``cocoon'' interaction between the ejecta and the nascent jet \citep{2017Sci...358.1559K,2018MNRAS.479..588G}. Lacking for GW170817, early-time \ac{UV} observations, less than 12 hours after merger, could handily settle the debate \citep{2018ApJ...855L..23A}.
 
-The 2020 decal survey by the \citet{2021pdaa.book.....N} recommended that ``NASA should establish a time-domain program to realize and sustain the necessary suite of space-based electromagnetic capabilities required to study transient and time-variable phenomena, and to follow up multi-messenger events.'' Responding to this need, \ac{UVEX} \citep{2021arXiv211115608K} was recently selected as NASA's next \ac{MIDEX}, expected to launch in 2030. Both \ac{UVEX} and the Israeli-led ULTRASAT mission \citep{2024ApJ...964...74S} will fill an acknowledged gap in time-domain capability and transient discovery potential in the \ac{UV} \citep{2014AJ....147...79S}. Although \ac{UVEX} is expected to launch a few years after ULTRASAT, it has several advantages: it will take images simultaneously in two bands, it will observe much deeper ($>$25.8~mag over the entire survey), it will have a \ac{PSF} that is well-matched to ground-based follow-up ($\sim1\arcsec$), and it will have an onboard spectrograph.
+\subsection{The Coming \ac{UV} Time Domain Revolution}
 
-\Ac{M4OPT} is a rewrite of dorado-scheduling\footnote{\url{https://github.com/nasa/dorado-scheduling}} and dorado-sensitivity\footnote{\url{https://github.com/nasa/dorado-sensitivity}}.
+More generally, there is a recognized gap in transient discovery cability in the \ac{UV}, and an acknowledged need for spaced-based \ac{UV} wide-field time-domain survey \citep{2014AJ....147...79S}. To meet this need, some of the authors proposed Dorado (n\'{e}e GUCI, \citealt{2019AAS...23421203C,2023ApJ...944..126D}) to NASA as a \ac{MoO}.
 
-\Ac{NOSA} has been panned by the \citet{FSF}, the \citet{NAP25217}, and even the \citet{SMD}.
+Although NASA made no \ac{MoO} selection in that cycle, shortly thereafter the \citet{2021pdaa.book.....N} recommended in the 2020 decadal survey that ``NASA should establish a time-domain program to realize and sustain the necessary suite of space-based electromagnetic capabilities required to study transient and time-variable phenomena, and to follow up multi-messenger events.'' NASA soon selected a much larger and more capable mission called \ac{UVEX} \citep{2021arXiv211115608K} as the next \ac{MIDEX}.
+
+\ac{UVEX}'s expected launch in 2030 will be few years after ULTRASAT, but it will be significantly more capable than ULTRASAT: it will take images simultaneously in two bands, it will observe much deeper ($>$25.8~mag over the entire survey), it will have a \ac{PSF} that is well-matched to ground-based follow-up ($\sim1\arcsec$), and it will have an onboard spectrograph. \ac{UVEX} will not just perform a transformative all-sky time-domain \ac{UV} survey. It will also be able to perform \acp{ToO} to follow up \ac{GW} mergers and other multimessenger phenomena (see Fig.~\ref{fig:uvex-tiling}). With its wide \ac{FOV} and two \ac{UV} bandpasses, it should be able to finally discern the physical mechanism of early-time emission in \acp{KN}.
 
 \begin{figure}
     \plotone{figures/uvex-tiling}
-    \caption{\label{eq:fig:uvex-tiling}An example of a \ac{ToO} observation sequence with \ac{UVEX} to follow up a \ac{GW} event. Adapted from Fig.~D-8 from the \ac{UVEX} \ac{CSR} submitted to NASA Headquarters, which is also Fig.~14 in \citet{2021arXiv211115608K}.}
+    \caption{\label{fig:uvex-tiling}An example of a \ac{ToO} observation sequence with \ac{UVEX} to follow up a \ac{GW} event. Adapted from Fig.~D-8 from the \ac{UVEX} \ac{CSR} submitted to NASA Headquarters, which is also Fig.~14 in \citet{2021arXiv211115608K}.}
 \end{figure}
+
+\subsection{Observing Strategy}
+
+In \citet{criswell}, we elaborated upon the case for \ac{GW} follow-up with \ac{UVEX} more or less as we presented it to NASA in the \ac{CSR}. That \ac{UVEX} study leveraged the same \ac{GW} \ac{ToO} analysis and strategy that we had developed for the Dorado study. We envisioned our observation planning software, dorado-scheduling\footnote{\url{https://github.com/nasa/dorado-scheduling}}, as an early draft of what would eventually evolve into real ground software and a part of the guest observer toolkit. Therefore, the study benefited from an unusual level of fidelity and realism for so early in the mission lifecycle.
+
+The dorado-scheduling package takes into consideration the time-varying \ac{FoR} of the telescope and employs the formalism of \ac{MILP} to find the globally optimal sequence of observations that covers the largest integrated probability within the \ac{GW} localization. Responding to inquiries from the Dorado reviewers about varying extinction and foregrounds, we added to the scheduler the capability to dynamically vary the exposure time of each field to adjust for spatial variations in sensitivity. This code remained on a Git branch, so it was not used in the \ac{UVEX} study.
+
+Additionally, dorado-scheduling had the major limitation that it was released under the obscure and anachronistic \ac{NOSA}, which placed severe obstacles to our own collaborators using or contributing to it. Lawyers at \ac{GSFC} continue to require all \ac{GSFC} scientists to employ \ac{NOSA} even though it has has been rejected by the \citet{FSF}, the \citet{NAP25217}, and even the \citet{SMD}. Fortunately, NASA Headquarters intervened in this case and we were permitted to establish a new truly open-source and permissively licensed software project. However, this required a rewrite which took several years.
+
+In this paper, we introduce \ac{M4OPT}. It is released under a permissive and mainstream license (BSD), but it has many other advances over the earlier work:
+%
+\begin{itemize}
+    \item It is designed from the start to support multiple missions, including \ac{UVEX} and ULTRASAT.
+    \item It can adjust exposure times given the anticipated absolute magnitude and the three-dimensional \ac{GW} localization distribution in sky position and distance.
+    \item It can dynamically vary the exposure time of each field to pierce through spatial variations in foregrounds (zodiacal light, Galactic diffuse emission) and dust extinction.
+    \item It can be given the ancicipated absolute magnitude of the source as either a point estimate or a distribution with Gaussian uncertainty.
+    \item The dynamic exposure times are made possible by a built-in NumPy \citep{harris2020array} vectorized \ac{ETC} which makes it possible to do large parameter sweeps of synthetic photometry calculations which are otherwise prohibitively slow with synphot \citep{2018ascl.soft11001S} alone.
+    \item It models additional spacecraft dynamics effects, including the roll angle of the telescope which is determined by solar power requirements.
+\end{itemize}
 
 \section{Fundamentals of mixed integer programming}
 
@@ -164,11 +194,14 @@ This work used Expanse at \ac{SDSC} through allocation AST200029, ``Towards a co
 \vspace{5mm}
 \software{
     astropy \citep{2013A&A...558A..33A,2018AJ....156..123A},
+    astroquery \citep{2019AJ....157...98G},
     dust\_extinction \citep{2024JOSS....9.7023G},
     dustmaps \citep{2018JOSS....3..695M},
     HEALPix \citep{2005ApJ...622..759G},
     healpy \citep{2019JOSS....4.1298Z},
     ligo.skymap \citep{2016PhRvD..93b4013S,2016ApJ...829L..15S,2016ApJS..226...10S},
+    NumPy \citep{harris2020array},
+    sympy \citep{10.7717/peerj-cs.103},
     synphot \citep{2018ascl.soft11001S}}
 
 \bibliography{m4opt}{}
