@@ -26,6 +26,7 @@
 \acrodef{KN}[KN]{kilonova}
 \acrodefplural{KN}[KNe]{kilonovae}
 \acrodef{LIGO}[LIGO]{the Laser Interferometer Gravitational-Wave Observatory}
+\acrodef{LP}[LP]{linear programming}
 \acrodef{MIDEX}[MIDEX]{Medium-Class Explorer}
 \acrodef{MILP}[MILP]{mixed integer linear programming}
 \acrodef{MoO}[MoO]{Mission of Opportunity}
@@ -108,7 +109,23 @@ In this paper, we introduce \ac{M4OPT}. It is released under a permissive and ma
     \item It models additional spacecraft dynamics effects, including the roll angle of the telescope which is determined by solar power requirements.
 \end{itemize}
 
-\section{Fundamentals of mixed integer programming}
+\section{Basics of \ac{MILP}}
+
+\Ac{LP} is a mathematical optimization formalism in which one represents an objective as a linear combination of decision variables, subject to constraints that take the form of a system of linear inequalities. The canonical form a \ac{LP} is
+%
+\begin{eqnarray*}
+    \text{Find } & &\mathbf{x} \in \mathbb{R}^N \\
+    \text{that maximizes } & \mathbf{c}^\mathsf{T} &\mathbf{x} \\
+    \text{subject to } & \mathbf{A} &\mathbf{x} \leq 0 \\
+    \text{and } & &\mathbf{x} \geq 0.
+\end{eqnarray*}
+%
+\ac{LP} is useful for problems of resource allocation and scheduling. If instead of being reals, certain of the decision variables are required to be integers, then the problem is called \acf{MILP}. \ac{MILP} allows one to model situations where some decision variables represent alternative courses of action or where some constraints are Boolean in nature.
+
+\begin{figure}
+    \plotone{figures/overlapping-fields}
+    \caption{\label{fig:overlapping-fields}HEALPix tiles belonging to overlapping fields.}
+\end{figure}
 
 \subsection{Logic to MILP translation dictionary}
 
