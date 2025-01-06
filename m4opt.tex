@@ -135,7 +135,7 @@ In this paper, we introduce \ac{M4OPT}. It is released under a permissive, mains
 TODO: add max weighted coverage.
 
 \begin{figure}
-    \plotone{figures/overlapping-fields}
+    \includegraphics[width=\columnwidth]{figures/overlapping-fields}
     \caption{\label{fig:overlapping-fields}HEALPix tiles belonging to overlapping fields.}
 \end{figure}
 
@@ -388,7 +388,7 @@ The logarithm of the distance then has the distribution $\ln r \sim \mathcal{N}[
 With this Gaussian distribution of apparent magnitudes, we can now calculate the detection efficiency for each pixel: the probability that we detect the source assuming that the source is in that pixel, as a function of exposure time. For the purpose of implementation of this function in a MILP, we approximate it with a piecewise linear function, as illustrated in Fig~\ref{fig:piecewise-linear-exptime} below.
 
 \begin{figure}
-    \plotone{figures/piecewise-linear-exptime}
+    \includegraphics[width=\columnwidth]{figures/piecewise-linear-exptime}
     \caption{\label{fig:piecewise-linear-exptime}Piecewise linear approximation of the detection efficiency for a given pixel. In this example, we have assumed that the exposure time is inversely proportional to the square root of the flux, valid for sky background dominated imaging.}
 \end{figure}
 
@@ -465,7 +465,7 @@ Like most space telescopes, \ac{UVEX} has solar panels that rotate on a \ac{SADA
 
 \begin{figure}
     \includegraphics[width=\columnwidth]{figures/nominal-roll}
-    \caption{\label{fig:nominal-roll}Nominal roll angle over one year for a selection of ecliptic latitudes.}
+    \caption{\label{fig:nominal-roll}Nominal roll angle as a function of time for selected ecliptic latitudes.}
 \end{figure}
 
 We discretize the footprint of the \ac{UVEX} \ac{FOV} on a HEALPix grid with $n_\mathrm{side} = 128$ (see Fig.~ref\{fig:fov).
