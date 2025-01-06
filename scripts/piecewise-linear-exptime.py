@@ -5,7 +5,9 @@ from scipy import stats
 target_width = 3.5  # ApJ column size in inches
 width, height = plt.rcParams["figure.figsize"]
 plt.rcParams["figure.figsize"] = (target_width, height * target_width / width)
-approx_color, exact_color, *_ = (props['color'] for props in iter(plt.rcParams['axes.prop_cycle']))
+approx_color, exact_color, *_ = (
+    props["color"] for props in iter(plt.rcParams["axes.prop_cycle"])
+)
 
 q = np.pad(np.linspace(0.05, 0.95, 5), (1, 0))
 log_flux = np.linspace(-3, 3)
@@ -21,21 +23,24 @@ ax.plot(tq, q, ":", marker="o", color=approx_color, clip_on=False)
 for n, (x, y) in enumerate(zip(tq, q)):
     kwargs = {}
     if n == 0:
-        kwargs["ha"] = 'left'
-        kwargs['va'] = 'top'
-        kwargs['xytext'] = (0, -4)
+        kwargs["ha"] = "left"
+        kwargs["va"] = "top"
+        kwargs["xytext"] = (0, -4)
     elif n == 1:
-        kwargs["ha"] = 'left'
-        kwargs['va'] = 'center'
-        kwargs['xytext'] = (2, 0)
+        kwargs["ha"] = "left"
+        kwargs["va"] = "center"
+        kwargs["xytext"] = (2, 0)
     else:
-        kwargs['ha'] = 'right'
-        kwargs['va'] = 'bottom'
-        kwargs['xytext'] = (-2, 2)
+        kwargs["ha"] = "right"
+        kwargs["va"] = "bottom"
+        kwargs["xytext"] = (-2, 2)
     ax.annotate(
-        rf" $(\epsilon_{{i{n}}}, \xi_{n})$", (x, y),
-        textcoords='offset points', color=approx_color,
-        **kwargs)
+        rf" $(\epsilon_{{i{n}}}, \xi_{n})$",
+        (x, y),
+        textcoords="offset points",
+        color=approx_color,
+        **kwargs,
+    )
 ax.spines["right"].set_color("none")
 ax.spines["top"].set_color("none")
 ax.plot(3, 0, ">k", clip_on=False)
