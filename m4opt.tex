@@ -461,11 +461,18 @@ Appendix~E.2 of \citet{2021arXiv211115608K} specifies fiducial parameter ranges 
 The exposure time is allowed to vary adaptively for each field, with a minimum exposure time of $\epsilon_\mathrm{min} = 300$~s. The minimum exposure time corresponds to a single standard \ac{UVEX} imaging exposure. (A standard survey dwell consists of 3 consecutive stacked 300~s exposures.)
 
 \paragraph{FOV}
-Like most space telescopes, \ac{UVEX} has solar panels that rotate on a \ac{SADA} perpendicular to the telescope boresight. The position angle of observations is fixed to the nominal roll angle that allows the spacecraft to orient the solar panels perpendicular to the Sun while keeping the cold side of the spacecraft facing away from the Sun. For any given position, the roll angle goes through one revolution per year. For targets at the ecliptic poles, the nominal roll angle varies linearly with time. For targets in the ecliptic plane, the nominal roll angle flips by 180° at the solstices. At all intermediate ecliptic latitudes, the roll angle oscillates smoothly in a manner that interpolates between these extremes (see Fig.~\ref{fig:nominal-roll}).
+Like most space telescopes, \ac{UVEX} has solar panels that rotate on a \ac{SADA} perpendicular to the telescope boresight. The position angle of observations is fixed to the nominal roll angle that allows the spacecraft to orient the solar panels perpendicular to the Sun while keeping the cold side of the spacecraft facing away from the Sun. For any given position, the roll angle goes through one revolution per year. For targets at the ecliptic poles, the nominal roll angle varies linearly with time. For targets in the ecliptic plane, the nominal roll angle flips by 180° at the solstices. At all intermediate ecliptic latitudes, the roll angle oscillates smoothly in a manner that interpolates between these extremes (see Fig.~\ref{fig:nominal-roll}). Because the roll angle changes slowly on the timescale of a day, we calculate the nominal roll angle for each field at the time of the event, and leave it fixed at that value for the duration of the observing plan.
 
 \begin{figure}
     \includegraphics[width=\columnwidth]{figures/nominal-roll}
     \caption{\label{fig:nominal-roll}Nominal roll angle over one year for a selection of ecliptic latitudes.}
+\end{figure}
+
+We discretize the footprint of the \ac{UVEX} \ac{FOV} on a HEALPix grid with $n_\mathrm{side} = 128$ (see Fig.~ref\{fig:fov).
+
+\begin{figure}
+    \includegraphics[width=\columnwidth]{figures/fov}
+    \caption{\label{fig:fov}The footprint of the \ac{UVEX} \ac{FOV} discretized on a HEALPix grid with $n_\mathrm{side} = 128$.}
 \end{figure}
 
 \paragraph{Run duration}
