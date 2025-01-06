@@ -2,24 +2,44 @@ from matplotlib import pyplot as plt
 import numpy as np
 from scipy import stats
 
+target_width = 3.5  # ApJ column size in inches
+width, height = plt.rcParams["figure.figsize"]
+plt.rcParams["figure.figsize"] = (target_width, height * target_width / width)
+approx_color, exact_color, *_ = (props['color'] for props in iter(plt.rcParams['axes.prop_cycle']))
+
 q = np.pad(np.linspace(0.05, 0.95, 5), (1, 0))
 log_flux = np.linspace(-3, 3)
 p = stats.norm.cdf(log_flux)
 t = np.exp(0.5 * log_flux)
-ax = plt.axes()
-ax.plot(t, p)
+fig, ax = plt.subplots(tight_layout=True)
+ax.plot(t, p, color=exact_color)
 ax.set_xlim(0, 3)
 ax.set_ylim(0, 1)
 
 tq = np.exp(0.5 * stats.norm.ppf(q))
+ax.plot(tq, q, ":", marker="o", color=approx_color, clip_on=False)
 for n, (x, y) in enumerate(zip(tq, q)):
-    if n > 0:
-        ax.text(x, y, rf' $(\epsilon_{{i{n}}}, \xi_{n})$', va='top')
-ax.plot(tq, q, '-o')
-ax.spines['right'].set_color('none')
-ax.spines['top'].set_color('none')
-ax.set_xlabel('Exposure time')
-ax.set_ylabel('Detection efficiency')
+    kwargs = {}
+    if n == 0:
+        kwargs["ha"] = 'left'
+        kwargs['va'] = 'top'
+        kwargs['xytext'] = (0, -4)
+    elif n == 1:
+        kwargs["ha"] = 'left'
+        kwargs['va'] = 'center'
+        kwargs['xytext'] = (2, 0)
+    else:
+        kwargs['ha'] = 'right'
+        kwargs['va'] = 'bottom'
+        kwargs['xytext'] = (-2, 2)
+    ax.annotate(
+        rf" $(\epsilon_{{i{n}}}, \xi_{n})$", (x, y),
+        textcoords='offset points', color=approx_color,
+        **kwargs)
+ax.spines["right"].set_color("none")
+ax.spines["top"].set_color("none")
+ax.plot(3, 0, ">k", clip_on=False)
+ax.set_xlabel("Exposure time")
+ax.set_ylabel("Detection efficiency")
 ax.set_xticks([])
-ax.plot(3, 0, '>k', clip_on=False)
-plt.savefig('figures/piecewise-linear-exptime.pdf')
+plt.savefig("figures/piecewise-linear-exptime.pdf")
