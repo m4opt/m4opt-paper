@@ -57,6 +57,7 @@
 \email{leo.p.singer@nasa.gov}
 
 \author{Friends}
+\noaffiliation
 
 \begin{abstract}
 \Ac{UVEX} is a wide-field, all-sky, time-domain, ultraviolet survey space telescope selected as a NASA \ac{MIDEX} mission for launch in 2030. \ac{UVEX} will conduct an unprecedented all-sky time-domain survey in two \ac{UV} filters. \ac{UVEX} will follow up \ac{GW} binary neutron star mergers as \acp{ToO}, rapidly scanning across their localization regions to search for their \ac{KN} counterparts. Early-time multiband ultraviolet light curves of \acp{KN} are key to explaining the interplay between jet and ejecta in binary neutron star mergers. Owing to high Galactic extinction in the ultraviolet and \ac{UVEX}'s large \ac{FOV}, variation in sensitivity across the \ac{GW} \ac{ROI} is an important consideration for observation planning. We present an adaptive strategy for \ac{GW} follow-up with \ac{UVEX} in which exposure time is adjusted dynamically for each field individual to maximize the overall probability of detection. We have implemented this strategy in an open source astronomical scheduling toolkit called \ac{M4OPT}, on GitHub at \url{https://github.com/m4opt/m4opt}.
@@ -82,7 +83,12 @@ Although these later and more sober predictions agreed remarkably well with the 
 
 More generally, there is a recognized gap in transient discovery cability in the \ac{UV}, and an acknowledged need for spaced-based \ac{UV} wide-field time-domain survey \citep{2014AJ....147...79S}. To meet this need, some of the authors proposed Dorado (n\'{e}e GUCI, \citealt{2019AAS...23421203C,2023ApJ...944..126D}) to NASA as a \ac{MoO}.
 
-Although NASA made no \ac{MoO} selection in that cycle, shortly thereafter the \citet{2021pdaa.book.....N} recommended in the 2020 decadal survey that ``NASA should establish a time-domain program to realize and sustain the necessary suite of space-based electromagnetic capabilities required to study transient and time-variable phenomena, and to follow up multi-messenger events.'' NASA soon selected a much larger and more capable mission called \ac{UVEX} \citep{2021arXiv211115608K} as the next \ac{MIDEX}.
+Although NASA made no \ac{MoO} selection in that cycle, shortly thereafter the \citet{2021pdaa.book.....N} recommended in the 2020 decadal survey that ``NASA should establish a time-domain program to realize and sustain the necessary suite of space-based electromagnetic capabilities required to study transient and time-variable phenomena, and to follow up multi-messenger events.'' NASA soon selected a much larger and more capable mission called \acl{UVEX} (\acsu{UVEX}; \citealt{2021arXiv211115608K}; see rendering in Fig.~\ref{fig:render})\footnote{\url{https://www.uvex.caltech.edu}} as the next \ac{MIDEX}.
+
+\begin{figure}
+    \plotone{figures/UVEXrender}
+    \caption{\label{fig:render}A rendering of \ac{UVEX}. Reproduced from the \ac{CSR} and from \citet{2021arXiv211115608K}.}
+\end{figure}
 
 \ac{UVEX}'s expected launch in 2030 will be few years after ULTRASAT, but it will be significantly more capable than ULTRASAT: it will take images simultaneously in two bands, it will observe much deeper ($>$25.8~mag over the entire survey), it will have a \ac{PSF} that is well-matched to ground-based follow-up ($\sim1\arcsec$), and it will have an onboard spectrograph. \ac{UVEX} will not just perform a transformative all-sky time-domain \ac{UV} survey. It will also be able to perform \acp{ToO} to follow up \ac{GW} mergers and other multimessenger phenomena (see Fig.~\ref{fig:uvex-tiling}). With its wide \ac{FOV} and two \ac{UV} bandpasses, it should be able to finally discern the physical mechanism of early-time emission in \acp{KN}.
 
@@ -124,6 +130,8 @@ In this paper, we introduce \ac{M4OPT}. It is released under a permissive, mains
 \end{eqnarray*}
 %
 \ac{LP} is useful for problems of resource allocation and scheduling. If instead of being reals, certain of the decision variables are required to be integers, then the problem is called \acf{MILP}. \ac{MILP} allows one to model situations where some decision variables represent alternative courses of action or where some constraints are Boolean in nature.
+
+TODO: add max weighted coverage.
 
 \begin{figure}
     \plotone{figures/overlapping-fields}
