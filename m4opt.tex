@@ -123,6 +123,8 @@ In this paper, we introduce \ac{M4OPT}. It is released under a permissive, mains
 
 \section{Basics of \ac{MILP}}
 
+TODO: discuss MILP astronomical scheduling papers: \citep{2014SPIE.9149E..0ES,2019PASP..131f8003B,2022ApJ...935...87P,2024AJ....167...33H}
+
 \Ac{LP} is a mathematical optimization formalism in which one represents an objective as a linear combination of decision variables, subject to constraints that take the form of a system of linear inequalities. The canonical form a \ac{LP} is
 %
 \begin{alignat*}{4}
@@ -148,7 +150,7 @@ The classic \ac{MWC} has a \ac{MILP} representation that forms the basis of our 
     \caption{\label{fig:max-weighted-coverage}Illustration of the maximum weighted coverage problem. Four sets $S = \{S_1, S_2, S_3, S_4\}$ are represented as regions with colored borders. The elements of those sets are represented by black numbered circles.}
 \end{figure}
 
-Application to HEALPix coverage... Fig.~\ref{fig:overlapping-fields}.
+The most basic version of our \ac{ToO} problem is that we want to maximize the total integrated probability that the true, but unknown, position of the source is within one or more of the footprints that we select to observe. The weights $(w_j)_j$ are the values of the probability sky map sampled on a HEALPix grid and the subsets $(S_i)_i$ are the HEALPix pixels contained within the footprints of the \ac{FOV} on a reference grid of allowed pointings (see Fig.~\ref{fig:overlapping-fields}).
 
 \begin{figure}
     \includegraphics[width=\columnwidth]{figures/overlapping-fields}
@@ -523,7 +525,11 @@ The results are shown in Fig~\ref{fig:area-distance}. The expected numbers of ev
     \enddata
 \end{deluxetable}
 
+TODO: add plots
+
 \section{Conclusion}
+
+TODO: write conclusion.
 
 \begin{acknowledgments}
 This work was performed in part at the Aspen Center for Physics, which is supported by \ac{NSF} grant PHY-2210452.
