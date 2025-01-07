@@ -14,6 +14,7 @@ from plots import customize_style
 
 customize_style()
 plt.rcParams["figure.figsize"][1] = 3
+plt.rcParams["legend.title_fontsize"] = plt.rcParams["axes.labelsize"]
 
 # Place the observer at the center of the Earth.
 # Note that for observers in Earth orbit, the impact of the orbital phase
