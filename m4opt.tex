@@ -494,7 +494,14 @@ We discretize the footprint of the \ac{UVEX} \ac{FOV} on a HEALPix grid with $n_
 \end{figure}
 
 \paragraph{Field grid}
-The centers of the fields are the vertices of a $\{3,5+\}_{21,4}$ icosahedral geodesic polyhedron. This grid ensures that all of the fields cover the sky without gaps, regardless of roll angle.
+The centers of the fields are the vertices of a $\{3,5+\}_{21,4}$ icosahedral geodesic polyhedron (see Fig.~\ref{fig:skygrid}). This grid ensures that all of the fields cover the sky without gaps, regardless of roll angle.
+
+\begin{figure}
+    \begin{interactive}{animation}{figures/skygrid.gif}
+    \plotone{figures/skygrid}
+    \end{interactive}
+    \caption{\label{fig:skygrid}Footprints of the \ac{UVEX} \ac{FOV} on the geodesic reference grid. This figure is available as an animation that shows the variation in position angle of each field with time.}
+\end{figure}
 
 \paragraph{Run duration}
 As in \citet{criswell}, we assumed 1.5~years of overlap between the \ac{UVEX} prime mission and the \ac{GW} observing run.
