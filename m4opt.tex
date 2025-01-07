@@ -162,6 +162,7 @@ The most basic version of our \ac{ToO} problem is that we want to maximize the t
 Here we document our representation of the multimessenger follow-up problem as a mixed integer linear program.
 
 \subsection{Problem 1: Fixed Exposure Time}
+\label{sec:fixed-exptime}
 
 We receive a HEALPix probability sky map that describes the probability distribution of the true but unknown position of a target of interest as a function of position on the sky. There is a delay between the time that the event occurred and when we can start observations due to the time it takes to uplink commands to the spacecraft, and there is a deadline by which we must complete our observations.
 
@@ -289,6 +290,7 @@ Maximize the sum of the probability of all of the pixels that are contained with
 \end{equation}
 
 \subsection{Problem 2: Variable Exposure Time}
+\label{sec:variable-exptime}
 
 In this variation, we have a sky map of the exposure time required to detect the source as a function of its position on the sky. We permit the exposure time to vary for each field. A given pixel counts toward the objective value only if the exposure time of a field that contains that pixel exceeds the pixel's exposure time.
 
@@ -376,6 +378,7 @@ Replace Eq.~(\ref{eq:fixed-exptime-cut-total-time}) with:
 Same as above.
 
 \subsection{Problem 3: Variable Exposure Time with Prior Distribution of Absolute Magnitude}
+\label{sec:absmag-distn}
 
 In this variation, we don't know the precise absolute magnitude $X$ of the source. In the case of kilonovae, our prior knowledge about the absolute magnitude is scant; for the sake of mathematical convenience, we assume that the absolute magnitude has a normal distribution, $X \sim~ \mathcal{N}[\mu_X, \sigma_X]$. We need to compute the distribution of \textit{apparent} magnitudes $x$ in order to determine the probability of detection as a function of exposure time for each pixel.
 
@@ -531,6 +534,11 @@ The results are shown in Fig~\ref{fig:area-distance}. The expected numbers of ev
     \input{tables/selected-detected.tex}
     \enddata
 \end{deluxetable}
+
+\begin{figure}
+    \includegraphics[width=\columnwidth]{figures/prob-exptime}
+    \caption{\label{fig:prob-exptime}Detection probability versus exposure time for a single example event, resulting from the fixed exposure time strategy (see Section~\ref{sec:fixed-exptime}). The horizontal dashed line shows the detection probability resulting from the variable exposure time strategy incorporating a distribution of absolute magnitudes (see Section~\ref{sec:absmag-distn}). The variable exposure time strategy is more likely to detect the counterpart than the fixed exposure time strategy, for any exposure time.}
+\end{figure}
 
 TODO: add plots
 
