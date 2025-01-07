@@ -84,7 +84,7 @@ Although these later and more sober predictions agreed remarkably well with the 
 
 \subsection{The Coming \ac{UV} Time Domain Revolution}
 
-More generally, there is a recognized gap in transient discovery cability in the \ac{UV}, and an acknowledged need for spaced-based \ac{UV} wide-field time-domain survey \citep{2014AJ....147...79S}. To meet this need, some of the authors proposed Dorado (n\'{e}e GUCI, \citealt{2019AAS...23421203C,2023ApJ...944..126D}) to NASA as a \ac{MoO}.
+More generally, there is a recognized gap in transient discovery capability in the \ac{UV}, and an acknowledged need for spaced-based \ac{UV} wide-field time-domain survey \citep{2014AJ....147...79S}. To meet this need, some of the authors proposed Dorado (n\'{e}e GUCI, \citealt{2019AAS...23421203C,2023ApJ...944..126D}) to NASA as a \ac{MoO}.
 
 Although NASA made no \ac{MoO} selection in that cycle, shortly thereafter the \citet{2021pdaa.book.....N} recommended in the 2020 decadal survey that ``NASA should establish a time-domain program to realize and sustain the necessary suite of space-based electromagnetic capabilities required to study transient and time-variable phenomena, and to follow up multi-messenger events.'' NASA soon selected a much larger and more capable mission called \acl{UVEX} (\acsu{UVEX}; \citealt{2021arXiv211115608K}; see rendering in Fig.~\ref{fig:render})\footnote{\url{https://www.uvex.caltech.edu}} as the next \ac{MIDEX}.
 
@@ -93,7 +93,7 @@ Although NASA made no \ac{MoO} selection in that cycle, shortly thereafter the \
     \caption{\label{fig:render}A rendering of \ac{UVEX}. Reproduced from the \ac{CSR} and from \citet{2021arXiv211115608K}.}
 \end{figure}
 
-\ac{UVEX}'s expected launch in 2030 will be few years after ULTRASAT, but it will be significantly more capable than ULTRASAT: it will take images simultaneously in two bands, it will observe much deeper ($>$25.8~mag over the entire survey), it will have a \ac{PSF} that is well-matched to ground-based follow-up ($\sim1\arcsec$), and it will have an onboard spectrograph. \ac{UVEX} will not just perform a transformative all-sky time-domain \ac{UV} survey. It will also be able to perform \acp{ToO} to follow up \ac{GW} mergers and other multimessenger phenomena (see Fig.~\ref{fig:uvex-tiling}). With its wide \ac{FOV} and two \ac{UV} bandpasses, it should be able to finally discern the physical mechanism of early-time emission in \acp{KN}.
+\ac{UVEX}'s expected launch in 2030 will be a few years after ULTRASAT, but it will be significantly more capable than ULTRASAT: it will take images simultaneously in two bands, it will observe much deeper ($>$25.8~mag over the entire survey), it will have a \ac{PSF} that is well-matched to ground-based follow-up ($\sim1\arcsec$), and it will have an onboard spectrograph. \ac{UVEX} will not just perform a transformative all-sky time-domain \ac{UV} survey. It will also be able to perform \acp{ToO} to follow up \ac{GW} mergers and other multimessenger phenomena (see Fig.~\ref{fig:uvex-tiling}). With its wide \ac{FOV} and two \ac{UV} bandpasses, it should be able to finally discern the physical mechanism of early-time emission in \acp{KN}.
 
 \begin{figure}
     \includegraphics[width=\columnwidth]{figures/uvex-tiling}
@@ -116,7 +116,7 @@ In this paper, we introduce \ac{M4OPT}. It is released under a permissive, mains
     \item It is designed from the start to support multiple missions, including \ac{UVEX} and ULTRASAT.
     \item It can adjust exposure times given the anticipated absolute magnitude and the three-dimensional \ac{GW} localization distribution in sky position and distance.
     \item It can dynamically vary the exposure time of each field to pierce through spatial variations in foregrounds (zodiacal light, Galactic diffuse emission) and dust extinction.
-    \item It can be given the ancicipated absolute magnitude of the source as either a point estimate or a distribution with Gaussian uncertainty.
+    \item It can be given the anticipated absolute magnitude of the source as either a point estimate or a distribution with Gaussian uncertainty.
     \item The dynamic exposure times are made possible by a NumPy \citep{harris2020array} vectorized \ac{ETC} which makes it possible to do large parameter sweeps of synthetic photometry calculations which are otherwise prohibitively slow with synphot \citep{2018ascl.soft11001S} alone.
     \item It models additional spacecraft dynamics effects, including the roll angle of the telescope which is determined by solar power requirements.
 \end{itemize}
@@ -457,7 +457,7 @@ Here is the setup of our case study.
 We started with the same simulated \ac{GW} localizations as \citet{criswell}, which covers LIGO, Virgo, and KAGRA's fifth~(O5) and sixth~(O6) observing runs. The data are publicly archived in \cite{r_weizmann_2024_14142970}. These simulated events were generated using the same methodology as \citet{2022ApJ...924...54P} and \citet{2023ApJ...958..158K}, except that the \ac{S/N} threshold for \ac{GW} detection is set to~10. The localizations were generated with the rapid localization engine BAYESTAR \citep{2016PhRvD..93b4013S} and consist of 3D posterior probability distributions of sky location and luminosity distance \citep{2016ApJ...829L..15S,2016ApJS..226...10S}.
 
 \paragraph{\Ac{KN} absolute magnitude}
-Appendix~E.2 of \citet{2021arXiv211115608K} specifies fiducial parameter ranges for radioactively-powered or shock-powered \ac{KN} models and 90\% credible intervals for the absolute magnitude in each band. These absolute magnitude ranges are reproduced in the Table~\ref{tab:kn-abs-mag}. \ac{UVEX} obseves in both the \ac{NUV} and \ac{FUV} filters simultaneously. In orer to achieve a detection in at least one filter, regardless of the model, we should plan obsevations using the fainter of the two models and the brighter of the two bands: the nucleosynthesis-powered model in NUV, with an absolute magnitude range of $[-15.6, -12.4]$. Assuming that this is the 90\% credible interval of a Gaussian distribution, the absolute magnitude has the approximate distribution
+Appendix~E.2 of \citet{2021arXiv211115608K} specifies fiducial parameter ranges for radioactively-powered or shock-powered \ac{KN} models and 90\% credible intervals for the absolute magnitude in each band. These absolute magnitude ranges are reproduced in the Table~\ref{tab:kn-abs-mag}. \ac{UVEX} observes in both the \ac{NUV} and \ac{FUV} filters simultaneously. In order to achieve a detection in at least one filter, regardless of the model, we should plan obsevations using the fainter of the two models and the brighter of the two bands: the nucleosynthesis-powered model in NUV, with an absolute magnitude range of $[-15.6, -12.4]$. Assuming that this is the 90\% credible interval of a Gaussian distribution, the absolute magnitude has the approximate distribution
 %
 \begin{equation}
     M_\mathrm{NUV} \sim \mathcal{N}(-14, 1).
@@ -489,7 +489,8 @@ Like most space telescopes, \ac{UVEX} has solar panels that rotate on a \ac{SADA
     \caption{\label{fig:nominal-roll}Nominal roll angle as a function of time for selected ecliptic latitudes.}
 \end{figure}
 
-We discretize the footprint of the \ac{UVEX} \ac{FOV} on a HEALPix grid with $n_\mathrm{side} = 128$ (see Fig.~ref\{fig:fov).
+\paragraph{HEALPix resolution}
+We discretize the footprint of the \ac{UVEX} \ac{FOV} on a HEALPix grid with $n_\mathrm{side} = 128$ (see Fig.~\ref{fig:fov}.
 
 \begin{figure}
     \includegraphics[width=\columnwidth]{figures/fov}
