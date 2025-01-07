@@ -184,7 +184,7 @@ Every visit takes a certain amount of exposure time, and it takes a known amount
 
 \subsubsection{Problem Setup}
 
-\begin{alignat*}{3}
+\begin{alignat*}{4}
 \intertext{\it Index sets ---}
     &\text{pixels}&
         I =& \{0, 1, \dots, n_I - 1\} \\
@@ -490,6 +490,9 @@ We discretize the footprint of the \ac{UVEX} \ac{FOV} on a HEALPix grid with $n_
     \includegraphics[width=\columnwidth]{figures/fov}
     \caption{\label{fig:fov}The footprint of the \ac{UVEX} \ac{FOV} discretized on a HEALPix grid with $n_\mathrm{side} = 128$.}
 \end{figure}
+
+\paragraph{Field grid}
+The centers of the fields are the vertices of a $\{3,5+\}_{21,4}$ icosahedral geodesic polyhedron. This grid ensures that all of the fields cover the sky without gaps, regardless of roll angle.
 
 \paragraph{Run duration}
 As in \citet{criswell}, we assumed 1.5~years of overlap between the \ac{UVEX} prime mission and the \ac{GW} observing run.
