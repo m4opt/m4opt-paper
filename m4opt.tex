@@ -306,7 +306,7 @@ For fields that have more than one observable segment (${n_M}_j > 1$), we use th
 \subsubsection{Cuts}
 
 \paragraph{Total exposure time}
-Although it is implied by other constraints, the constraint that the total exposure time cannot exceed the total available time is found to speed up the search.
+Although it is implied by other constraints, the constraint that the total exposure time cannot exceed the total available time is found to speed up the search. We add it as a cut: an inequality that the \ac{MILP} may use to help guide its search but that is not checked when evaluating integer feasibility.
 %
 \begin{equation}
     \label{eq:fixed-exptime-cut-total-time}
@@ -423,7 +423,7 @@ $$
 %
 with the location parameter $\mu$, scale parameter $\sigma$, and normalization $N$ tabulated for each pixel. This is an inconvenient distribution for integration, so instead we construct a log-normal distance distribution with the same mean and standard deviation as the ansatz distribution.
 
-We calculate the mean $m$ and standard deviation $s$ from $\mu$ and $\sigma$ using the function \verb|parameters_to_moments| from \texttt{ligo.skymap}\footnote{\url{https://lscsoft.docs.ligo.org/ligo.skymap/distance/}}. Then, the location and scale parameters of the log-normal distribution are given by
+We calculate the mean $m$ and standard deviation $s$ from $\mu$ and $\sigma$ using the function \texttt{parameters\_to\_moments} from \texttt{ligo.skymap}\footnote{\url{https://lscsoft.docs.ligo.org/ligo.skymap/distance/}}. Then, the location and scale parameters of the log-normal distribution are given by
 %
 \begin{eqnarray}
     \label{eq:log-distance-parameters}
@@ -449,7 +449,7 @@ With this Gaussian distribution of apparent magnitudes, we can now calculate the
 \subsubsection{Additional Data Preparation}
 
 \begin{enumerate}
-    \item Use the function \verb|parameters_to_moments| and Eqs.~(\ref{eq:log-distance-parameters},~\ref{eq:appmag-parameters}) to calculate the mean and standard deviation of the apparent magnitude in each pixel.
+    \item Use the function \texttt{parameters\_to\_moments} and Eqs.~(\ref{eq:log-distance-parameters},~\ref{eq:appmag-parameters}) to calculate the mean and standard deviation of the apparent magnitude in each pixel.
     \item Select desired quantiles for the approximation of the detection efficiency curve: for example, $(0, 0.05 , 0.275, 0.5  , 0.725, 0.95)$. For each pixel, calculate the exposure time required to achieve the specified detection efficiencies.
 \end{enumerate}
 
@@ -484,6 +484,32 @@ Same as above.
 
 \section{Exposure Time Estimation}
 
+The reference \ac{UVEX} \ac{ETC} is still closed source because the instrument is still evolving in small details. We use \ac{M4OPT}'s open-source toy model of the instrument performance that roughly reproduces the public sensitivity curve plot\footnote{\url{https://www.uvex.caltech.edu/page/for-astronomers}} (see Fig.~\ref{fig:etc}). The parmaters of the toy model are listed in Table~\ref{tab:etc}.
+
+\begin{deluxetable}{lc}
+    \tablecaption{\label{tab:etc}\ac{ETC} toy model parameters.}
+    \tablehead{
+        \colhead{Quantity} & \colhead{Value}
+    }
+    \startdata
+    Aperture diameter & 75 cm\\
+    Pixel scale & 1$\arcsec$ pix$^{-1}$ \\
+    \ac{PSF} sharpness\tablenotemark{a} & $1/(4 \pi)$ \\
+    Gain & 0.85 \\
+    Read noise & 2 ct \\
+    Dark noise & $10^{-3}$ ct s$^{-1}$ \\
+    \ac{NUV} response\tablenotemark{b} & $0.2 \sqrt{2 \pi} \phi[(\lambda - 2300 \text{ \AA}) / (180 \text{ \AA})]$ \\
+    \ac{FUV} response\tablenotemark{b} & $0.15 \sqrt{2 \pi} \phi[(\lambda - 1600 \text{ \AA}) / (100 \text{ \AA})]$
+    \enddata
+    \tablenotetext{a}{We assume an optimal \ac{PSF} photometry with a Nyquist-sampled \ac{PSF}, i.e., a sharpness of $1/4\pi$ \citep{2005MNRAS.361..861M}.}
+    \tablenotetext{b}{The function $\phi(x)$ is the standard normal distribution function.}
+\end{deluxetable}
+
+\begin{figure}
+    \includegraphics[width=\columnwidth]{figures/etc}
+    \caption{\label{fig:etc}Median limiting magnitude, averaged over target coordinates and observation time.}
+\end{figure}
+
 There are three spatially-dependent effects in the \ac{ETC}:
 
 \paragraph{Zodiacal light}
@@ -494,6 +520,8 @@ We modeled zodiacal background light by taking the ``high'' sky background spect
 
 \paragraph{Dust extinction}
 To model extinction due to dust in the Milky Way, we use the \citet{2023ApJ...950...86G} model as implemented in the \texttt{dust\_extinction} Python package \citep{2024JOSS....9.7023G}. We employ a fixed total-to-selective extinction ratio $R(V) = 3.1$ and obtain $E(B-V)$ reddening values as a function of sky position using the \citet{2016A&A...596A.109P} model as implemented by the \texttt{dustmaps} Python package \citep{2018JOSS....3..695M}.
+
+We need to perform about 1~million \ac{ETC} calculations at different sky positions and apparent magnitudes for each event. The \texttt{synphot} Python package \citep{2018ascl.soft11001S} is the standard tool for synthetic photometry. Unfortunatley, it would be prohibitively time-consuming to set up and evaluate 1~million \texttt{synphot} scenarios due to the overhead of creating all of the Python objects involved. Our \texttt{m4opt.synphot} module accelerates synethic photometry calculations by using the symbolic algebra package \texttt{sympy} \citep{10.7717/peerj-cs.103} to rearrange the \texttt{synphot} model tree into additive components with separable spatial dependence that can be integrated separately and then added back together. For nonlinear components (i.e., extinction), we do a parameter sweep and employ interpolation. The result is many orders of magnitude faster than \texttt{synphot} and contributes only about a second of run time to the scheduler.
 
 \section{Case study: GW observations with UVEX}
 
@@ -581,7 +609,7 @@ The expected numbers of events selected for follow-up and detected are shown in 
 \begin{figure*}
     \centering
     \includegraphics{figures/area-distance-O5}
-    \caption{\label{fig:area-distance-O5}The distribution events selected for follow-up and detected for O5. \textbf{Bottom left panel:} scatter plot of 90\% credible area versus distance. Events that were selected for follow-up with \ac{UVEX} are represented by colored dots. The color of the dot represents the detection probability and the area of the dot represents the scheduler objective value. Events that were not selected for follow-up are marked with gray dots. The blue boundary represents the analytical predictor of the detection threshold given by Eqs.~(\ref{eq:threshold-distance},~\ref{eq:threshold-area},~\ref{eq:threshold-area-distance}). \textbf{Upper panel:} distribution of luminosity distance, with 90th percentiles marked. \textbf{Upper panel:} distribution of 90\% credible area.}
+    \caption{\label{fig:area-distance-O5}The distribution events selected for follow-up and detected for O5. \textbf{Bottom left panel:} scatter plot of 90\% credible area versus distance. Events that were selected for follow-up with \ac{UVEX} are represented by colored dots. The color of the dot represents the detection probability and the area of the dot represents the scheduler objective value. Events that were not selected for follow-up are marked with gray dots. The blue boundary represents the analytical predictor of the detection threshold given by Eqs.~(\ref{eq:threshold-distance},~\ref{eq:threshold-area},~\ref{eq:threshold-area-distance}). \textbf{Upper panel:} distribution of luminosity distance, with 90th percentiles marked. \textbf{Right panel:} distribution of 90\% credible area.}
 \end{figure*}
 
 \begin{figure*}
