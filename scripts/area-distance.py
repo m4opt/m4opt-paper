@@ -6,7 +6,6 @@ from astropy import units as u
 from matplotlib import pyplot as plt
 from matplotlib import patheffects
 from matplotlib.colors import LinearSegmentedColormap
-from matplotlib.ticker import FuncFormatter
 from m4opt import missions
 from m4opt.models import observing
 import numpy as np
