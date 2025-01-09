@@ -107,7 +107,7 @@
 
 In 2017, \ac{LIGO} and Virgo \citep{2017PhRvL.119p1101A} detected a long-duration \ac{GW} inspiral signal, GW170817, at the same time that Fermi \citep{2017ApJ...848L..14G} and INTEGRAL \citep{2017ApJ...848L..15S} recorded a short \ac{GRB}, GRB170817a. The alert sprang traps that had been set by hundreds of telescopes worldwide \citep{2014ApJS..211....7A,2016ApJ...826L..13A} which quickly found the optical counterpart \citep{2017Sci...358.1556C}, AT2017gfo. As a measure of the degree to which the event focused the efforts of astronomers everywhere, the author list of \citet{2017ApJ...848L..12A} runs to 24 pages!
 
-The scientific harvest from this one event was remarkable. It fulfilled a three-decaded-old dream of using \acp{GW} as ``standard sirens'' to measure the Hubble constant \citep{1986Natur.323..310S,2017Natur.551...85A}. Moreover, it proved once and for all the hypotheses that \ac{NS} mergers are the central engines of short \acp{GRB} \citep{2013ApJ...776...18F} and the main cosmic factories of heavy $r$-process elements \citep{1999ApJ...525L.121F}. 
+The scientific harvest from this one event was remarkable. It fulfilled a three-decade-old dream of using \acp{GW} as ``standard sirens'' to measure the Hubble constant \citep{1986Natur.323..310S,2017Natur.551...85A}. Moreover, it proved once and for all the hypotheses that \ac{NS} mergers are the central engines of short \acp{GRB} \citep{2013ApJ...776...18F} and the main cosmic factories of heavy $r$-process elements \citep{1999ApJ...525L.121F}. 
 
 It had long been understood that such mergers would tidally disrupt their \acp{NS}, and that radioactive decay of the heavy elements synthesized in their hot neutron-rich ejecta would fuel transients \citep{1974ApJ...192L.145L,1989Natur.340..126E,1998ApJ...507L..59L} that came to be called \acp{KN}.
 
@@ -484,8 +484,6 @@ Same as above.
 
 \section{Exposure Time Estimation}
 
-
-
 There are three spatially-dependent effects in the \ac{ETC}:
 
 \paragraph{Zodiacal light}
@@ -508,6 +506,7 @@ We started with the same simulated \ac{GW} localizations as \citet{criswell}, wh
 Appendix~E.2 of \citet{2021arXiv211115608K} specifies fiducial parameter ranges for radioactively-powered or shock-powered \ac{KN} models and 90\% credible intervals for the absolute magnitude in each band. These absolute magnitude ranges are reproduced in the Table~\ref{tab:kn-abs-mag}. \ac{UVEX} observes in both the \ac{NUV} and \ac{FUV} filters simultaneously. In order to achieve a detection in at least one filter, regardless of the model, we should plan obsevations using the fainter of the two models and the brighter of the two bands: the nucleosynthesis-powered model in NUV, with an absolute magnitude range of $[-15.6, -12.4]$. Assuming that this is the 90\% credible interval of a Gaussian distribution, the absolute magnitude has the approximate distribution
 %
 \begin{equation}
+    \label{eq:absmag-distn}
     M_\mathrm{NUV} \sim \mathcal{N}(-14, 1).
 \end{equation}
 
@@ -569,11 +568,26 @@ We ran \ac{M4OPT} on all simulated events. We considered events selected for fol
 %
 where $x^*$ is the faintest limiting magnitude at any point on the sky, $A_\mathrm{FOV}$ is the area of the \ac{FOV}, $\Phi(x)$ is the inverse of the \ac{CDF} of the standard normal distribution, and $\Psi^{-1}(x) = -2\ln(1 - x)$ is the inverse of the \ac{CDF} of a $\chi^2$ distribution with 2 degrees of freedom.
 
-The results are shown in Fig~\ref{fig:area-distance}. The expected numbers of events selected for follow-up and detected are shown in Table~\ref{tab:selected-detected}.
+\subsection{Results}
+
+Recall from Section~\ref{sec:absmag-distn} that the scheduler's objective value is (a numerical approximation of) the probability of detection---integrated over the absolute magnitude, sky position, and distance, none of which are known to the scheduler.
+
+Because these are simulated events, we can determine the probability of detection for each event given its true sky location and distance. To calculate the detection probability, we calculate the limiting absolute magnitude for the deepest exposure in the observing plan at that position and distance (or an exposure time of zero if the true sky position is not contained in any planned observation). The detection probability is simply the \ac{CDF} of the absolute magnitude distribution, Eq.~(\ref{eq:absmag-distn}), evaluated at that limiting absolute magnitude.
+
+In Figs.~\ref{fig:area-distance-O5}~and~\ref{fig:area-distance-O6}, we show both the scheduler objective value and the detection probability and as a scatter plot of the 90\% credible area and the luminosity distance of events. As we would expect, both the objective value and detection probability increase as the area and distance of the events decrease.
+
+The expected numbers of events selected for follow-up and detected are shown in Table~\ref{tab:selected-detected}.
 
 \begin{figure*}
-    \includegraphics[width=\textwidth]{figures/area-distance}
-    \caption{\label{fig:area-distance}90\% credible area and distance of simulated \ac{GW} events. Events that were selected for follow-up with \ac{UVEX} are represented by colored dots, with the color of the dot representing the scheduler objective value and the area of the dot the detection probability. Events that were not selected for follow-up are marked with gray dots. The blue boundary represents the analytical predictor of the detection threshold given by Eqs.~(\ref{eq:threshold-distance},~\ref{eq:threshold-area},~\ref{eq:threshold-area-distance}).}
+    \centering
+    \includegraphics{figures/area-distance-O5}
+    \caption{\label{fig:area-distance-O5}The distribution events selected for follow-up and detected for O5. \textbf{Bottom left panel:} scatter plot of 90\% credible area versus distance. Events that were selected for follow-up with \ac{UVEX} are represented by colored dots. The color of the dot represents the detection probability and the area of the dot represents the scheduler objective value. Events that were not selected for follow-up are marked with gray dots. The blue boundary represents the analytical predictor of the detection threshold given by Eqs.~(\ref{eq:threshold-distance},~\ref{eq:threshold-area},~\ref{eq:threshold-area-distance}). \textbf{Upper panel:} distribution of luminosity distance, with 90th percentiles marked. \textbf{Upper panel:} distribution of 90\% credible area.}
+\end{figure*}
+
+\begin{figure*}
+    \centering
+    \includegraphics{figures/area-distance-O6}
+    \caption{\label{fig:area-distance-O6}Same as Fig.~\ref{fig:area-distance-O5}, but for O6.}
 \end{figure*}
 
 \begin{deluxetable}{lcc}

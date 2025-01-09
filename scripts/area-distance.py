@@ -1,0 +1,400 @@
+from astropy.coordinates import EarthLocation, ICRS
+from astropy.time import Time
+from astropy.table import QTable
+from astropy_healpix import HEALPix
+from astropy import units as u
+from matplotlib import pyplot as plt
+from matplotlib import patheffects
+from matplotlib.colors import LinearSegmentedColormap
+from matplotlib.ticker import FuncFormatter
+from m4opt import missions
+from m4opt.models import observing
+import numpy as np
+from scipy import stats
+from astropy.visualization import quantity_support
+import asdf
+import synphot
+from astropy.cosmology import Planck15 as cosmo, z_at_value
+
+from plots import customize_style
+
+quantity_support()
+
+customize_style()
+
+
+plan_args = asdf.open("scripts/plan_args.asdf")
+skymap_area_cl = 90
+hpx = HEALPix(nside=plan_args["nside"], frame=ICRS(), order="nested")
+mission = getattr(missions, plan_args["mission"])
+
+with observing(
+    observer_location=EarthLocation(0 * u.m, 0 * u.m, 0 * u.m),
+    target_coord=hpx.healpix_to_skycoord(np.arange(hpx.npix)),
+    obstime=Time("2025-01-01"),
+):
+    limmag = mission.detector.get_limmag(
+        plan_args["snr"],
+        min(plan_args["deadline"] - plan_args["delay"], plan_args["exptime_max"]),
+        synphot.SourceSpectrum(synphot.ConstFlux1D, amplitude=0 * u.ABmag),
+        plan_args["bandpass"],
+    ).max()
+
+skymap_area_cl = 90
+min_area = (mission.fov.width * mission.fov.height).to(u.deg**2)
+
+chisq_ppf = stats.chi2(df=2).ppf
+area_factor = chisq_ppf(skymap_area_cl / 100) / chisq_ppf(plan_args["cutoff"])
+max_area = (
+    area_factor
+    * min_area
+    * (plan_args["deadline"] - plan_args["delay"])
+    / (plan_args["visits"] * plan_args["exptime_min"])
+).to(u.deg**2)
+max_distance = (
+    10
+    ** (
+        0.2
+        * (
+            limmag.to_value(u.mag)
+            - (
+                plan_args["absmag_mean"]
+                - stats.norm.ppf(1 - plan_args["cutoff"]) * plan_args["absmag_stdev"]
+            )
+            - 25
+        )
+    )
+    * u.Mpc
+)
+crossover_distance = (
+    max_distance * (min_area / max_area).to_value(u.dimensionless_unscaled) ** 0.25
+)
+
+for run in ["O5", "O6"]:
+    table = QTable.read(f"scripts/{run}HLVK.ecsv")
+
+    # z = z_at_value(cosmo.luminosity_distance, table['distance'] * u.Mpc).to_value(u.dimensionless_unscaled)
+    # m2 = table['mass2'] / (1 + z)
+    # table = table[(m2 <= 3)]
+
+    width, height = plt.rcParams["figure.figsize"]
+    default_fig_width_height_ratio = width / height
+    fig_width_height_ratio = 0.8
+    fig = plt.figure(figsize=(6, 6 * fig_width_height_ratio))
+
+    left, bottom, width, height = (
+        0.125,
+        0.1,
+        0.525,
+        0.525 / default_fig_width_height_ratio,
+    )
+    depth = 0.2
+    sep = 0.025
+    ax_joint = fig.add_subplot(
+        (left, bottom / fig_width_height_ratio, width, height / fig_width_height_ratio),
+        aspect=0.25,
+        xlim=(50 * u.Mpc, 5000 * u.Mpc),
+        ylim=(
+            (10 ** (-8 / default_fig_width_height_ratio) * u.spat).to(u.deg**2),
+            (1 * u.spat).to(u.deg**2),
+        ),
+        xscale="log",
+        yscale="log",
+    )
+    ax_joint.set_xlabel(r"Luminosity distance, $d_\mathrm{L}$ (Mpc)")
+    ax_joint.set_ylabel(
+        rf"{skymap_area_cl}% credible area, $A_{{{skymap_area_cl}\%}}$ (deg$^2$)"
+    )
+    ax_x = fig.add_subplot(
+        (
+            left,
+            (bottom + height + sep) / fig_width_height_ratio,
+            width,
+            depth / fig_width_height_ratio,
+        ),
+        sharex=ax_joint,
+    )
+    ax_y = fig.add_subplot(
+        (
+            left + width + sep,
+            bottom / fig_width_height_ratio,
+            depth,
+            height / fig_width_height_ratio,
+        ),
+        sharey=ax_joint,
+    )
+
+    ax_joint.annotate(
+        "Relative\nfrequency",
+        (
+            left + width + sep,
+            (bottom + height + sep + 0.5 * depth) / fig_width_height_ratio,
+        ),
+        (
+            left + width + sep + 0.5 * depth,
+            (bottom + height + sep + 0.5 * depth) / fig_width_height_ratio,
+        ),
+        xycoords="figure fraction",
+        textcoords="figure fraction",
+        ha="center",
+        va="center",
+        arrowprops=dict(
+            facecolor="k",
+            edgecolor="none",
+            linewidth=0,
+            arrowstyle="simple",
+        ),
+        fontsize=plt.rcParams["axes.labelsize"],
+    )
+    ax_joint.annotate(
+        "Relative\nfrequency",
+        (
+            left + width + sep + 0.5 * depth,
+            (bottom + height + sep) / fig_width_height_ratio,
+        ),
+        (
+            left + width + sep + 0.5 * depth,
+            (bottom + height + sep + 0.5 * depth) / fig_width_height_ratio,
+        ),
+        xycoords="figure fraction",
+        textcoords="figure fraction",
+        ha="center",
+        va="center",
+        arrowprops=dict(
+            facecolor="k",
+            edgecolor="none",
+            linewidth=0,
+            arrowstyle="simple",
+        ),
+        fontsize=plt.rcParams["axes.labelsize"],
+        color="none",
+    )
+
+    ax_joint.fill_between(
+        [
+            ax_joint.get_xlim()[0] * u.Mpc,
+            crossover_distance,
+            max_distance,
+            max_distance,
+            ax_joint.get_xlim()[1] * u.Mpc,
+        ],
+        [
+            max_area,
+            max_area,
+            min_area,
+            ax_joint.get_ylim()[0] * u.deg**2,
+            ax_joint.get_ylim()[0] * u.deg**2,
+        ],
+        [ax_joint.get_ylim()[1] * u.deg**2] * 5,
+        color="gainsboro",
+    )
+
+    color = "tab:blue"
+    ax_joint.plot(
+        u.Quantity(
+            [
+                ax_joint.get_xlim()[0] * u.Mpc,
+                crossover_distance,
+                max_distance,
+                max_distance,
+            ]
+        ),
+        u.Quantity([max_area, max_area, min_area, ax_joint.get_ylim()[0] * u.deg**2]),
+        color=color,
+    )
+    kwargs = dict(
+        color=color,
+        ha="center",
+        va="bottom",
+        rotation_mode="anchor",
+        linespacing=0.1,
+        path_effects=[patheffects.withStroke(linewidth=2, foreground="white")],
+        fontsize=plt.rcParams["axes.labelsize"],
+    )
+    ax_joint.text(
+        np.sqrt(ax_joint.get_xlim()[0] * u.Mpc * crossover_distance),
+        max_area,
+        "Max area\n",
+        **kwargs,
+    )
+    ax_joint.text(
+        max_distance,
+        np.sqrt(ax_joint.get_ylim()[0] * u.deg**2 * min_area),
+        "Max distance\n",
+        rotation=-90,
+        **kwargs,
+    )
+    ax_joint.text(
+        np.sqrt(crossover_distance * max_distance),
+        np.sqrt(min_area * max_area),
+        "Area $\propto$ distance$^{-4}$\n",
+        rotation=-45,
+        **kwargs,
+    )
+
+    ax_joint.scatter(
+        "distance",
+        f"area({skymap_area_cl})",
+        s=1,
+        facecolor="silver",
+        edgecolor="none",
+        data=table,
+    )
+
+    cmap = plt.get_cmap("cool")
+    cmap = LinearSegmentedColormap.from_list(
+        "truncated_cool", cmap(np.linspace(1 / 3, 1))
+    )
+    scatter = ax_joint.scatter(
+        "distance",
+        f"area({skymap_area_cl})",
+        s=table["objective_value"] * 30,
+        c=table["detection_probability_known_position"],
+        cmap=cmap,
+        vmin=0,
+        vmax=1,
+        data=table,
+    )
+
+    ticks = [
+        np.quantile(
+            table["distance"],
+            [0.9],
+            weights=(table["objective_value"] > 0),
+            method="inverted_cdf",
+        ).item(),
+        np.quantile(
+            table["distance"],
+            [0.9],
+            weights=table["detection_probability_known_position"],
+            method="inverted_cdf",
+        ).item(),
+    ]
+    bins = np.linspace(*np.log(ax_joint.get_xlim()), 15)
+    color = "silver"
+    values, _ = np.histogram(np.log(table["distance"]), bins=bins)
+    ax_x.stairs(values, np.exp(bins), color=color, fill=True, zorder=0)
+    color = cmap(0)
+    values, _ = np.histogram(
+        np.log(table["distance"]),
+        weights=(table["objective_value"] > 0).astype(float),
+        bins=bins,
+    )
+    ax_x.axvline(
+        ticks[0],
+        linewidth=plt.rcParams["xtick.major.width"],
+        color=plt.rcParams["xtick.color"],
+        zorder=1,
+    )
+    ax_x.stairs(values, np.exp(bins), color=color, fill=True, zorder=2)
+    ax_x.set_ylim(0, values.max() * 1.2)
+    color = cmap(np.inf)
+    values, _ = np.histogram(
+        np.log(table["distance"]),
+        weights=table["detection_probability_known_position"],
+        bins=bins,
+    )
+    ax_x.axvline(
+        ticks[1],
+        linewidth=plt.rcParams["xtick.major.width"],
+        color=plt.rcParams["xtick.color"],
+        zorder=3,
+    )
+    ax_x.stairs(values, np.exp(bins), color=color, fill=True, zorder=4)
+    twin = ax_x.twiny()
+    twin.set_xlim(*ax_joint.get_xlim())
+    twin.set_xscale(ax_joint.get_xscale())
+    twin.set_xticks(
+        [*ticks, np.prod(np.asarray(ax_joint.get_xlim()) ** [0.5, 0.5])],
+        [*(f"{np.round(tick):g}\nMpc" for tick in ticks), "90th\npercentile"],
+    )
+    twin.xaxis.minorticks_off()
+    tick = twin.xaxis.get_major_ticks()[2]
+    tick.tick1line.set_visible(False)
+    tick.tick2line.set_visible(False)
+    tick = twin.xaxis.get_major_ticks()[0]
+    tick.label2.set_ha("left")
+    tick = twin.xaxis.get_major_ticks()[1]
+    tick.label2.set_ha("right")
+    tick = twin.xaxis.get_major_ticks()[2]
+    tick.label2.set_ha("right")
+
+    ticks = [
+        np.quantile(
+            table[f"area({skymap_area_cl})"],
+            [0.9],
+            weights=(table["objective_value"] > 0),
+            method="inverted_cdf",
+        ).item(),
+        np.quantile(
+            table[f"area({skymap_area_cl})"],
+            [0.9],
+            weights=table["detection_probability_known_position"],
+            method="inverted_cdf",
+        ).item(),
+    ]
+    bins = np.linspace(*np.log(ax_joint.get_ylim()), 15)
+    color = "silver"
+    values, _ = np.histogram(np.log(table[f"area({skymap_area_cl})"]), bins=bins)
+    ax_y.stairs(
+        values, np.exp(bins), color=color, fill=True, orientation="horizontal", zorder=0
+    )
+    color = cmap(0)
+    values, _ = np.histogram(
+        np.log(table[f"area({skymap_area_cl})"]),
+        weights=(table["objective_value"] > 0).astype(float),
+        bins=bins,
+    )
+    ax_y.axhline(
+        ticks[0],
+        linewidth=plt.rcParams["ytick.major.width"],
+        color=plt.rcParams["ytick.color"],
+        zorder=1,
+    )
+    artist = ax_y.stairs(
+        values, np.exp(bins), color=color, fill=True, orientation="horizontal", zorder=2
+    )
+    ax_y.set_xlim(0, values.max() * 1.2)
+    color = cmap(np.inf)
+    values, _ = np.histogram(
+        np.log(table[f"area({skymap_area_cl})"]),
+        weights=table["detection_probability_known_position"],
+        bins=bins,
+    )
+    ax_y.axhline(
+        ticks[1],
+        linewidth=plt.rcParams["ytick.major.width"],
+        color=plt.rcParams["ytick.color"],
+        zorder=3,
+    )
+    ax_y.stairs(
+        values, np.exp(bins), color=color, fill=True, orientation="horizontal", zorder=4
+    )
+    twin = ax_y.twinx()
+    twin.set_ylim(*ax_joint.get_ylim())
+    twin.set_yscale(ax_joint.get_yscale())
+    twin.set_yticks(
+        [*ticks, np.prod(np.asarray(ax_joint.get_ylim()) ** [0.25, 0.75])],
+        [*(f"{np.round(tick):g} deg$^2$" for tick in ticks), "90th\npercentile"],
+    )
+    twin.yaxis.minorticks_off()
+    tick = twin.yaxis.get_major_ticks()[2]
+    tick.tick1line.set_visible(False)
+    tick.tick2line.set_visible(False)
+
+    kwargs = dict(
+        color="white",
+        transform=ax_x.transAxes,
+        fontsize=plt.rcParams["legend.fontsize"],
+        zorder=5,
+    )
+    ax_x.text(0.5, 0.1, "Detected", ha="center", **kwargs)
+    ax_x.text(0.585, 0.4, "Triggered", ha="center", **kwargs)
+    ax_x.text(0.875, 0.7, "All events", ha="center", **kwargs)
+
+    plt.setp(ax_x.get_xticklabels() + ax_y.get_yticklabels(), visible=False)
+    ax_x.set_yticks([])
+    ax_y.set_xticks([])
+
+    fig.savefig(f"figures/area-distance-{run}.pdf")
+    plt.close(fig)

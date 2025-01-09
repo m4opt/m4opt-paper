@@ -1,0 +1,38 @@
+#ASDF 1.0.0
+#ASDF_STANDARD 1.6.0
+%YAML 1.1
+%TAG ! tag:stsci.edu:asdf/
+--- !core/asdf-1.1.0
+asdf_library: !core/software-1.0.0 {author: The ASDF Developers, homepage: 'http://github.com/asdf-format/asdf',
+  name: asdf, version: 4.0.0}
+history:
+  extensions:
+  - !core/extension_metadata-1.0.0
+    extension_class: asdf.extension._manifest.ManifestExtension
+    extension_uri: asdf://asdf-format.org/core/extensions/core-1.6.0
+    manifest_software: !core/software-1.0.0 {name: asdf_standard, version: 1.1.1}
+    software: !core/software-1.0.0 {name: asdf, version: 4.0.0}
+  - !core/extension_metadata-1.0.0
+    extension_class: asdf.extension._manifest.ManifestExtension
+    extension_uri: asdf://asdf-format.org/astronomy/extensions/astronomy-1.0.0
+    manifest_software: !core/software-1.0.0 {name: asdf_standard, version: 1.1.1}
+    software: !core/software-1.0.0 {name: asdf-astropy, version: 0.7.0}
+  - !core/extension_metadata-1.0.0
+    extension_class: asdf.extension._manifest.ManifestExtension
+    extension_uri: asdf://astropy.org/astropy/extensions/units-1.0.0
+    software: !core/software-1.0.0 {name: asdf-astropy, version: 0.7.0}
+absmag_mean: -14.0
+absmag_stdev: 1.0
+bandpass: NUV
+cutoff: 0.1
+deadline: !unit/quantity-1.2.0 {datatype: float64, unit: !unit/unit-1.0.0 h, value: 6.0}
+delay: !unit/quantity-1.2.0 {datatype: float64, unit: !unit/unit-1.0.0 d, value: 0.0}
+exptime_max: !unit/quantity-1.2.0 {datatype: float64, unit: !unit/unit-1.0.0 s, value: .inf}
+exptime_min: !unit/quantity-1.2.0 {datatype: float64, unit: !unit/unit-1.0.0 s, value: 300.0}
+mission: uvex
+nside: 128
+skymap: 0.fits
+snr: 5.0
+time_step: !unit/quantity-1.2.0 {datatype: float64, unit: !unit/unit-1.0.0 min, value: 1.0}
+visits: 2
+...
