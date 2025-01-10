@@ -7,7 +7,7 @@ from matplotlib import pyplot as plt
 from matplotlib import patheffects
 from matplotlib.colors import LinearSegmentedColormap
 from m4opt import missions
-from m4opt.models import observing
+from m4opt.synphot import observing
 import numpy as np
 from scipy import stats
 from astropy.visualization import quantity_support
@@ -72,9 +72,11 @@ crossover_distance = (
 for run in ["O5", "O6"]:
     table = QTable.read(f"scripts/{run}HLVK.ecsv")
 
-    # z = z_at_value(cosmo.luminosity_distance, table['distance'] * u.Mpc).to_value(u.dimensionless_unscaled)
-    # m2 = table['mass2'] / (1 + z)
-    # table = table[(m2 <= 3)]
+    z = z_at_value(cosmo.luminosity_distance, table["distance"] * u.Mpc).to_value(
+        u.dimensionless_unscaled
+    )
+    m2 = table["mass2"] / (1 + z)
+    table = table[(m2 <= 3)]
 
     width, height = plt.rcParams["figure.figsize"]
     default_fig_width_height_ratio = width / height
@@ -92,9 +94,9 @@ for run in ["O5", "O6"]:
     ax_joint = fig.add_subplot(
         (left, bottom / fig_width_height_ratio, width, height / fig_width_height_ratio),
         aspect=0.25,
-        xlim=(50 * u.Mpc, 5000 * u.Mpc),
+        xlim=(50 * u.Mpc, 4000 * u.Mpc),
         ylim=(
-            (10 ** (-8 / default_fig_width_height_ratio) * u.spat).to(u.deg**2),
+            (10 ** (np.log10(50 / 4000) * 4 / default_fig_width_height_ratio) * u.spat).to(u.deg**2),
             (1 * u.spat).to(u.deg**2),
         ),
         xscale="log",
@@ -208,7 +210,7 @@ for run in ["O5", "O6"]:
         rotation_mode="anchor",
         linespacing=0.1,
         path_effects=[patheffects.withStroke(linewidth=2, foreground="white")],
-        fontsize=plt.rcParams["axes.labelsize"],
+        fontsize=plt.rcParams["ytick.labelsize"],
     )
     ax_joint.text(
         np.sqrt(ax_joint.get_xlim()[0] * u.Mpc * crossover_distance),
@@ -234,7 +236,7 @@ for run in ["O5", "O6"]:
     ax_joint.scatter(
         "distance",
         f"area({skymap_area_cl})",
-        s=1,
+        s=2,
         facecolor="silver",
         edgecolor="none",
         data=table,
@@ -269,7 +271,7 @@ for run in ["O5", "O6"]:
             method="inverted_cdf",
         ).item(),
     ]
-    bins = np.linspace(*np.log(ax_joint.get_xlim()), 15)
+    bins = np.linspace(*np.log(ax_joint.get_xlim()), 12)
     color = "silver"
     values, _ = np.histogram(np.log(table["distance"]), bins=bins)
     ax_x.stairs(values, np.exp(bins), color=color, fill=True, zorder=0)
@@ -304,7 +306,7 @@ for run in ["O5", "O6"]:
     twin.set_xlim(*ax_joint.get_xlim())
     twin.set_xscale(ax_joint.get_xscale())
     twin.set_xticks(
-        [*ticks, np.prod(np.asarray(ax_joint.get_xlim()) ** [0.5, 0.5])],
+        [*ticks, np.prod(np.asarray(ax_joint.get_xlim()) ** [0.6, 0.4])],
         [*(f"{np.round(tick):g}\nMpc" for tick in ticks), "90th\npercentile"],
     )
     twin.xaxis.minorticks_off()
@@ -332,7 +334,7 @@ for run in ["O5", "O6"]:
             method="inverted_cdf",
         ).item(),
     ]
-    bins = np.linspace(*np.log(ax_joint.get_ylim()), 15)
+    bins = np.linspace(*np.log(ax_joint.get_ylim()), 12)
     color = "silver"
     values, _ = np.histogram(np.log(table[f"area({skymap_area_cl})"]), bins=bins)
     ax_y.stairs(
@@ -373,10 +375,14 @@ for run in ["O5", "O6"]:
     twin.set_ylim(*ax_joint.get_ylim())
     twin.set_yscale(ax_joint.get_yscale())
     twin.set_yticks(
-        [*ticks, np.prod(np.asarray(ax_joint.get_ylim()) ** [0.25, 0.75])],
+        [*ticks, np.prod(np.asarray(ax_joint.get_ylim()) ** [0.2, 0.8])],
         [*(f"{np.round(tick):g} deg$^2$" for tick in ticks), "90th\npercentile"],
     )
     twin.yaxis.minorticks_off()
+    tick = twin.yaxis.get_major_ticks()[0]
+    tick.label2.set_va("bottom")
+    tick = twin.yaxis.get_major_ticks()[1]
+    tick.label2.set_va("top")
     tick = twin.yaxis.get_major_ticks()[2]
     tick.tick1line.set_visible(False)
     tick.tick2line.set_visible(False)
@@ -387,9 +393,9 @@ for run in ["O5", "O6"]:
         fontsize=plt.rcParams["legend.fontsize"],
         zorder=5,
     )
-    ax_x.text(0.5, 0.1, "Detected", ha="center", **kwargs)
-    ax_x.text(0.585, 0.4, "Triggered", ha="center", **kwargs)
-    ax_x.text(0.875, 0.7, "All events", ha="center", **kwargs)
+    ax_x.text(0.4, 0.2, "Detected", ha="center", **kwargs)
+    ax_x.text(0.455, 0.65, "Triggered", ha="center", **kwargs)
+    ax_x.text(0.7, 0.7, "All events", ha="center", **kwargs)
 
     plt.setp(ax_x.get_xticklabels() + ax_y.get_yticklabels(), visible=False)
     ax_x.set_yticks([])

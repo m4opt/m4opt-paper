@@ -7,7 +7,7 @@ from astropy.coordinates import Galactic, EarthLocation
 from astropy.time import Time
 import synphot
 from m4opt.missions import uvex as mission
-from m4opt.models import observing, DustExtinction
+from m4opt.synphot import observing, DustExtinction
 from astropy import units as u
 
 customize_style()
@@ -31,5 +31,5 @@ limmag[np.isnan(limmag)] = -np.inf
 fig = plt.figure(tight_layout=True)
 ax = fig.add_subplot(projection="geo hours aitoff")
 ax.grid()
-plt.colorbar(ax.contourf_hpx(limmag, cmap='plasma_r', levels=[20, 21, 22, 23, 24, 25]))
+plt.colorbar(ax.contourf_hpx(limmag, cmap="plasma_r", levels=[20, 21, 22, 23, 24, 25]))
 fig.savefig("figures/exptime-position.pdf")

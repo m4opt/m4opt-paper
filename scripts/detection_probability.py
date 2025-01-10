@@ -1,4 +1,4 @@
-from m4opt.models import observing, DustExtinction
+from m4opt.synphot import observing, DustExtinction
 from m4opt.fov import footprint_healpix
 import synphot
 from astropy.coordinates import Distance, ICRS

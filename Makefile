@@ -1,4 +1,4 @@
-m4opt.pdf: m4opt.tex m4opt.bib figures/fov.pdf figures/piecewise-linear-exptime.pdf figures/skygrid.png figures/etc.pdf
+m4opt.pdf: m4opt.tex m4opt.bib figures/fov.pdf figures/piecewise-linear-exptime.pdf figures/skygrid.png figures/etc.pdf tables/selected-detected.tex
 	latexmk -pdf m4opt.tex
 
 m4opt.bib: m4opt.tex
@@ -15,3 +15,6 @@ figures/skygrid.png: scripts/skygrid.py scripts/plots.py
 
 figures/etc.pdf: scripts/etc.py scripts/plots.py
 	python scripts/etc.py
+
+tables/selected-detected.tex: scripts/selected-detected.py
+	python scripts/selected-detected.py

@@ -5,7 +5,7 @@ from astropy.time import Time
 from matplotlib import pyplot as plt
 from matplotlib.ticker import MultipleLocator
 from m4opt.missions import uvex
-from m4opt.models import observing
+from m4opt.synphot import observing
 import numpy as np
 from synphot import ConstFlux1D, SourceSpectrum
 
