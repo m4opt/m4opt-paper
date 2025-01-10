@@ -123,7 +123,7 @@ Although NASA made no \ac{MoO} selection in that cycle, shortly thereafter the \
     \caption{\label{fig:render}A rendering of \ac{UVEX}. Reproduced from the \ac{CSR} and from \citet{2021arXiv211115608K}.}
 \end{figure}
 
-\ac{UVEX} will a wide \ac{FOV} camera that will take images simultaneously in both a \ac{NUV} and a \ac{FUV} band as well as a long-slit spectrograph. The imaging \ac{PSF} of about $\sim$1$\arcsec$ will be well-matched to ground-based follow-up. \ac{UVEX} will perform a mix of surveys with different sky coverage and cadence, and will observe the entire sky to at least $>$25.8~mag over the duration of the prime mission. \ac{UVEX} will not just perform a transformative all-sky time-domain \ac{UV} survey. It will also be able to perform \acp{ToO} to follow up \ac{GW} mergers and other multimessenger phenomena (see Fig.~\ref{fig:uvex-tiling}). With its wide \ac{FOV} and two \ac{UV} bandpasses, it should be able to finally discern the physical mechanism of early-time emission in \acp{KN}.
+\ac{UVEX} will be a wide \ac{FOV} camera that will take images simultaneously in both a \ac{NUV} and a \ac{FUV} band as well as a long-slit spectrograph. The imaging \ac{PSF} of about $\sim$1$\arcsec$ will be well-matched to ground-based follow-up. \ac{UVEX} will perform a mix of surveys with different sky coverage and cadence, and will observe the entire sky to at least $>$25.8~mag over the duration of the prime mission. \ac{UVEX} will not just perform a transformative all-sky time-domain \ac{UV} survey. It will also be able to perform \acp{ToO} to follow up \ac{GW} mergers and other multimessenger phenomena (see Fig.~\ref{fig:uvex-tiling}). With its wide \ac{FOV} and two \ac{UV} bandpasses, it should be able to finally discern the physical mechanism of early-time emission in \acp{KN}.
 
 NASA has also partnered with Israel to provide a launch for ULTRASAT \citep{2024ApJ...964...74S}. ULTRASAT will have an even larger \ac{FOV} than \ac{UVEX} and will be ready to launch a few years before, but with some tradeoffs: it is much less sensitive, has a much larger \ac{PSF}, only a single imaging band, and no spectrograph. Still, \ac{UVEX} and ULTRASAT together will make a potent discovery engine for \ac{UV} transients and general and \ac{GW} counterparts in particular.
 
@@ -198,7 +198,7 @@ The most basic version of our \ac{ToO} problem is that we want to maximize the t
     \caption{\label{fig:overlapping-fields}\ac{MWC} applied to coverage of an astronomical \ac{ROI} by multiple partially overlapping fields. The centers of \ac{HEALPix} pixels are marked with gray dots.}
 \end{figure}
 
-There are a variety of free and open source \ac{MILP} solvers; the most readily available for Python users is HiGHS \citep{huangfu2018parallelizing} which now can be called directly from SciPy \citep{2020NatMe..17..261V}. However, the best commercial \ac{MILP} solvers are much faster and can handle much larger problems than any current open-source software. Although \ac{M4OPT} itself is open source, it calls the commercial \ac{MILP} solver CPLEX\footnote{\url{https://www.ibm.com/products/ilog-cplex-optimization-studio}} by IBM. CPLEX is free students, teachers, and researchers, and priced affordably for non-academic use (comparable in cost to mid-range computer-aided design software).
+There are a variety of free and open source \ac{MILP} solvers; the most readily available for Python users is HiGHS \citep{huangfu2018parallelizing} which now can be called directly from SciPy \citep{2020NatMe..17..261V}. However, the best commercial \ac{MILP} solvers are much faster and can handle much larger problems than any current open-source software. Although \ac{M4OPT} itself is open source, it calls the commercial \ac{MILP} solver CPLEX\footnote{\url{https://www.ibm.com/products/ilog-cplex-optimization-studio}} by IBM. CPLEX is free for students, teachers, and researchers, and priced affordably for non-academic use (comparable in cost to mid-range computer-aided design software).
 
 \section{\ac{MILP} Problem Formulation}
 
@@ -494,7 +494,7 @@ Same as above.
 
 \section{Exposure Time Estimation}
 
-The reference \ac{UVEX} \ac{ETC} is still closed source because the instrument is still evolving in small details. We use \ac{M4OPT}'s open-source toy model of the instrument performance that roughly reproduces the public sensitivity curve plot\footnote{\url{https://www.uvex.caltech.edu/page/for-astronomers}} (see Fig.~\ref{fig:etc}). The parmaters of the toy model are listed in Table~\ref{tab:etc}.
+The reference \ac{UVEX} \ac{ETC} is still closed source because the instrument is still evolving in small details. We use \ac{M4OPT}'s open-source toy model of the instrument performance that roughly reproduces the public sensitivity curve plot\footnote{\url{https://www.uvex.caltech.edu/page/for-astronomers}} (see Fig.~\ref{fig:etc}). The parameters of the toy model are listed in Table~\ref{tab:etc}.
 
 \begin{deluxetable}{lc}
     \tablecaption{\label{tab:etc}\ac{ETC} toy model parameters.}
