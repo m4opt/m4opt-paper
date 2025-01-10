@@ -631,9 +631,22 @@ $A_Q$ is the $Q$th percentile credible region, $x^*$ is the faintest limiting ma
 
 \subsection{Results}
 
-Because these are simulated events, we can determine the probability of detection for each event given its true sky location and distance. To calculate the detection probability, we calculate the limiting absolute magnitude for the deepest exposure in the observing plan at that position and distance (or an exposure time of zero if the true sky position is not contained in any planned observation). The detection probability is simply the \ac{CDF} of the absolute magnitude distribution, Eq.~(\ref{eq:absmag-distn}), evaluated at that limiting absolute magnitude.
+All simulated events are listed in the online version of Table~\ref{tab:events}. Because these are simulated events, we can determine the probability of detection for each event given its true sky location and distance. To calculate the detection probability, we calculate the limiting absolute magnitude for the deepest exposure in the observing plan at that position and distance (or an exposure time of zero if the true sky position is not contained in any planned observation). The detection probability is simply the \ac{CDF} of the absolute magnitude distribution, Eq.~(\ref{eq:absmag-distn}), evaluated at that limiting absolute magnitude.
 
 In Figs.~\ref{fig:area-distance-O5}~and~\ref{fig:area-distance-O6}, we show both the scheduler objective value and the detection probability and as a scatter plot of the 90\% credible area and the luminosity distance of events. As we would expect, both the objective value and detection probability increase as the area and distance of the events decrease.
+
+\begin{deluxetable*}{ccrrrrrrcc}
+    \tablecaption{\label{tab:events}Simulated events.}
+    \tablehead{
+        & & \multicolumn2c{Source frame masses} & \multicolumn3c{True position} & & \\
+        \colhead{Run} & \colhead{Event ID} & \colhead{$m_1 / M_\odot$} & \colhead{$m_2 / M_\odot$} & \colhead{$\alpha$/deg} & \colhead{$\delta$/deg} & \colhead{$d_\mathrm{L}$/Mpc} & \colhead{$A_{90\%}$ / deg$^2$} & \colhead{Objective value} & \colhead{Detection prob.}
+    }
+    \startdata
+    \input{tables/events.tex}
+    \dots & \dots & \dots & \dots & \dots & \dots & \dots & \dots & \dots & \dots
+    \enddata
+    \tablecomments{Table~\ref{tab:events} is published in its entirety in a machine-readable format. A portion is shown here for guidance regarding its form and content.}
+\end{deluxetable*}
 
 In Table~\ref{tab:selected-detected}, we list the expected numbers of events selected for follow-up and the number of \acp{KN} detected over 1.5 years of observation. The number of events selected is simply the number of observing plans with objective value $\geq 0.1$. The expected number of \acp{KN} detected is simply the sum of the detection probabilities of all of the events.
 
