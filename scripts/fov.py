@@ -33,12 +33,23 @@ plot_limit_ipix = footprint_healpix(
     regions.PolygonSkyRegion(SkyCoord(*ax.wcs.calc_footprint().T, unit=u.deg)),
     center,
 )
-plot_boundaries(plot_limit_ipix, facecolor="none", edgecolor=plt.rcParams["grid.color"])
+plot_boundaries(
+    plot_limit_ipix,
+    facecolor="none",
+    edgecolor=plt.rcParams["grid.color"],
+    linewidth=plt.rcParams["grid.linewidth"],
+)
 
 fov_boundaries = footprint_healpix(hpx, uvex.fov, center)
-plot_boundaries(fov_boundaries, edgecolor="black")
+plot_boundaries(
+    fov_boundaries, edgecolor="black", linewidth=plt.rcParams["lines.linewidth"]
+)
 
-ax.add_artist(uvex.fov.to_pixel(ax.wcs).as_artist())
+ax.add_artist(
+    uvex.fov.to_pixel(ax.wcs).as_artist(
+        edgecolor="black", linewidth=plt.rcParams["axes.linewidth"]
+    )
+)
 
 for coord in ax.coords:
     coord.set_axislabel(None)
