@@ -5,9 +5,11 @@ from plots import customize_style
 
 customize_style()
 
-approx_color, exact_color, *_ = (
-    props["color"] for props in iter(plt.rcParams["axes.prop_cycle"])
-)
+approx_color = 'black'
+exact_color='magenta'
+# exact_color, *_ = (
+#     props["color"] for props in iter(plt.rcParams["axes.prop_cycle"])
+# )
 
 q = np.pad(np.linspace(0.05, 0.95, 5), (1, 0))
 log_flux = np.linspace(-3, 3)
