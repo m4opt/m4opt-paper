@@ -9,11 +9,6 @@ table['mass1'] /= zp1
 table['mass2'] /= zp1
 table = table[table['mass2'] <= 3]
 
-def maybe_plus(s: str):
-    if not s.startswith('-'):
-        s = f'+{s}'
-    return s
-
 def maybe_zero(s: str):
     if s == '0.':
         s = '0.00'
@@ -28,11 +23,11 @@ with open("tables/events.tex", "w") as f:
             np.format_float_positional(row["mass1"], 3, fractional=True),
             np.format_float_positional(row["mass2"], 3, fractional=True),
             np.format_float_positional(np.rad2deg(row["longitude"]), 4, fractional=True),
-            maybe_plus(np.format_float_positional(np.rad2deg(row["latitude"]), 4, fractional=True)),
+            np.format_float_positional(np.rad2deg(row["latitude"]), 4, fractional=True, sign=True),
             np.format_float_positional(row["distance"], 0, trim='-', fractional=True),
             np.format_float_positional(row["area(90)"], 0, trim='-', fractional=True),
-            maybe_zero(np.format_float_positional(row["objective_value"], 2, fractional=True, trim='k')),
-            maybe_zero(np.format_float_positional(row["detection_probability_known_position"], 2, fractional=True, trim='k')),
+            np.format_float_positional(row["objective_value"], 2, min_digits=2, fractional=True, trim='k'),
+            np.format_float_positional(row["detection_probability_known_position"], 2, min_digits=2, fractional=True, trim='k'),
             sep=" & ",
             end=" \\\\\n",
             file=f,
