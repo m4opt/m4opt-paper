@@ -10,6 +10,9 @@ figures/fov.pdf: scripts/fov.py scripts/plots.py
 figures/piecewise-linear-exptime.pdf: scripts/piecewise-linear-exptime.py scripts/plots.py
 	python scripts/piecewise-linear-exptime.py
 
+figures/prob-exptime.pdf: scripts/prob-exptime.py scripts/plots.py
+	python scripts/prob-exptime.py
+
 figures/skygrid.png: scripts/skygrid.py scripts/plots.py
 	python scripts/skygrid.py
 
