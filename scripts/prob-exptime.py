@@ -9,7 +9,7 @@ from tqdm.auto import tqdm
 
 customize_style()
 
-base_path = Path("/home/lsinger/lustre/runs_SNR-10")
+base_path = Path("runs_SNR-10")
 run = "O5HLVK"
 event_id = 800
 # run = "O6HLVK"
@@ -35,9 +35,9 @@ variable_exptime_prob, *fixed_exptime_probs = [
     for plan in tqdm([variable_exptime_plan, *fixed_exptime_plans])
 ]
 
-adaptive_color, fixed_color, *_ = (
-    props["color"] for props in iter(plt.rcParams["axes.prop_cycle"])
-)
+adaptive_color = 'darkmagenta'
+fixed_color = 'tab:blue'
+
 fig, ax = plt.subplots(tight_layout=True)
 ax.set_xlim(0, 3.75)
 ax.set_ylim(0.6, 1)
