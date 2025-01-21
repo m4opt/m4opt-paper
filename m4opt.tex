@@ -172,7 +172,7 @@ In this paper, we introduce \ac{M4OPT}. It is released under a permissive, mains
     \item It is deeply integrated with the Astropy \citep{2013A&A...558A..33A,2018AJ....156..123A} ecosystem, and has an interface that is based on Astropy coordinates, units, and model classes.
 \end{itemize}
 
-In this paper, we describe the mathematical approach of \ac{M4OPT} then use it to produce realistic \ac{ToO} observing sequences with \ac{UVEX} for simulated \ac{GW} events. An example \ac{M4OPT} observing plan is shown in Fig~\ref{fig:example}. We show that the new dynamic exposure time capabilities dramatically increases the probaility of \ac{KN} detection.
+In this paper, we describe the mathematical approach of \ac{M4OPT} then use it to produce realistic \ac{ToO} observing sequences with \ac{UVEX} for simulated \ac{GW} events. An example \ac{M4OPT} observing plan is shown in Fig.~\ref{fig:example} and Table~\ref{table:example}. We show that the new dynamic exposure time capabilities dramatically increases the probaility of \ac{KN} detection.
 
 \begin{figure*}
     \begin{interactive}{animation}{figures/3628.gif}
@@ -180,6 +180,26 @@ In this paper, we describe the mathematical approach of \ac{M4OPT} then use it t
     \end{interactive}
     \caption{\label{fig:example}An example \ac{M4OPT} observing plan. The top panel shows the footprints of the observations, the 90\% credible region of the \ac{GW} localization, the region that is always outside of the \ac{FoR} as a deep blue filled region, and the region that is outside of the instantaneous \ac{FoR}. The bottom panel shows the timeline of the accumulation of detection probability and area. The region that has been covered by one visit is shown in pale red and green, whereas the reigon that has been covered by two visits is shown in deep red and green. This figure is available as an animation.}
 \end{figure*}
+
+\begin{deluxetable*}{lrccccccc}
+    \tablecaption{\label{table:example}An example \ac{M4OPT} observing plan (same as Fig.~\ref{fig:example}).}
+    \tablehead{
+        &&& \multicolumn3c{Observer location (km)}
+        & \multicolumn3c{Target position ($^\circ$)} \\
+        \colhead{Start time} &
+        \colhead{Dur. (s)} &
+        \colhead{Action} &
+        \colhead{x} &
+        \colhead{y} &
+        \colhead{z} &
+        \colhead{RA} &
+        \colhead{Dec} &
+        \colhead{Roll}
+    }
+    \startdata
+    \input{tables/3628.tex}
+    \enddata
+\end{deluxetable*}
 
 \section{Basics of \ac{MILP}}
 
