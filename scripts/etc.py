@@ -36,14 +36,15 @@ for filt in uvex.detector.bandpasses.keys():
         )
 median_limmags = np.median(limmags, axis=[2, 3])
 
+colors = ['darkmagenta', 'tab:blue']
 fig, ax = plt.subplots(tight_layout=True)
 ax.set_xlim(0, 10.5)
 ax.set_ylim(24.4, 26.5)
 ax.yaxis.set_major_locator(MultipleLocator(0.5))
 ax.grid()
 ax.invert_yaxis()
-for filt, limmag in zip(uvex.detector.bandpasses.keys(), median_limmags):
-    ax.plot(exptime, limmag, "-o", label=filt, clip_on=False)
+for filt, limmag, color in zip(uvex.detector.bandpasses.keys(), median_limmags, colors):
+    ax.plot(exptime, limmag, "-o", label=filt, color=color, clip_on=False)
     ax.annotate(filt, (10, limmag[-1]), (7.5, 0), textcoords='offset points', ha='left', va='center', fontsize=plt.rcParams['legend.fontsize'], clip_on=False)
 ax.set_xlabel("Number of stacked 900 s dwells")
 ax.set_ylabel(r"5-$\sigma$ limiting magnitude (AB)")

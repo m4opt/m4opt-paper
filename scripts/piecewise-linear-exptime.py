@@ -5,8 +5,8 @@ from plots import customize_style
 
 customize_style()
 
-approx_color = 'black'
-exact_color='magenta'
+approx_color = 'darkmagenta'
+exact_color='tab:blue'
 # exact_color, *_ = (
 #     props["color"] for props in iter(plt.rcParams["axes.prop_cycle"])
 # )
