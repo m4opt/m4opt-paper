@@ -26,8 +26,8 @@ ANIMATIONS = \
 m4opt.pdf: $(LATEXDEPS)
 	latexmk -pdf m4opt.tex
 
-# m4opt.bib: m4opt.tex
-# 	adstex $<
+m4opt.bib: m4opt.tex
+	adstex $<
 
 m4opt.zip: $(LATEXDEPS) $(ANIMATIONS) m4opt.bbl
 	zip $@ $^

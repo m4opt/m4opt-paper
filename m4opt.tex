@@ -131,7 +131,7 @@ In those early days, people assumed that the ejecta would have opacities similar
 
 Although these later and more sober predictions agreed remarkably well with the observed spectral sequence of AT2017gfo \citep{2017Natur.551...67P,2017Natur.551...80K}, contrary to those expectations it was quite blue and featureless at the earliest observed times \citep{2017Sci...358.1574S}. In the fallout from GW170817, the cause of this early optical and \ac{UV} emission remains one of the most enduring mysteries. The blue emission could be radioactively powered but result from a geometrically distinct outflow component with higher velocity and/or lower lanthanide fraction \citep{2017ApJ...848L..18N} or could result from the shock caused by the ``cocoon'' interaction between the ejecta and the nascent jet \citep{2017Sci...358.1559K,2018MNRAS.479..588G}. Lacking for GW170817, early-time \ac{UV} observations, less than 12 hours after merger, could handily settle the debate \citep{2018ApJ...855L..23A}.
 
-\subsection{The Coming \ac{UV} Time Domain Revolution}
+\subsection{The Coming UV Time Domain Revolution}
 
 More generally, there is a recognized gap in transient discovery capability in the \ac{UV}, and an acknowledged need for spaced-based \ac{UV} wide-field time-domain survey \citep{2014AJ....147...79S}. To meet this need, some of the authors proposed Dorado (n\'{e}e GUCI, \citealt{2019AAS...23421203C,2023ApJ...944..126D}) to NASA as a \ac{MoO}.
 
@@ -168,7 +168,7 @@ In this paper, we introduce \ac{M4OPT}. It is released under a permissive, mains
     \item It can be given the anticipated absolute magnitude of the source as either a point estimate or a distribution with Gaussian uncertainty.
     \item The dynamic exposure times are made possible by a \texttt{numpy} \citep{harris2020array} vectorized \ac{ETC} which enables large parameter sweeps of synthetic photometry calculations which are otherwise prohibitively slow with synphot \citep{2018ascl.soft11001S} alone.
     \item It models additional spacecraft dynamics effects, including the roll angle of the telescope which is determined by solar power requirements.
-    \item It complies fully with \ac{NPR} 7150.2D\footnote{\url{https://nodis3.gsfc.nasa.gov/displayDir.cfm?t=NPR&c=7150&s=2D}} software engineering practices for ``Class C'' software, and has 97\% test coverage.
+    \item It complies fully with \ac{NPR} 7150 \citep{NPR7150} software engineering practices for ``Class C'' software, and has 97\% test coverage.
     \item It is deeply integrated with the Astropy \citep{2013A&A...558A..33A,2018AJ....156..123A} ecosystem, and has an interface that is based on Astropy coordinates, units, and model classes.
 \end{itemize}
 
@@ -184,14 +184,14 @@ In this paper, we describe the mathematical approach of \ac{M4OPT} then use it t
 \begin{deluxetable*}{lrccccccc}
     \tablecaption{\label{table:example}An example \ac{M4OPT} observing plan (same as Fig.~\ref{fig:example}).}
     \tablehead{
-        &&& \multicolumn3c{Observer location (km)}
-        & \multicolumn3c{Target position ($^\circ$)} \\
-        \colhead{Start time} &
+        &&& \multicolumn3c{Spacecraft location (ITRS, km)}
+        & \multicolumn3c{Target (ICRS, deg)} \\
+        \colhead{Start time (UTC)} &
         \colhead{Dur. (s)} &
         \colhead{Action} &
-        \colhead{x} &
-        \colhead{y} &
-        \colhead{z} &
+        \colhead{$x$} &
+        \colhead{$y$} &
+        \colhead{$z$} &
         \colhead{RA} &
         \colhead{Dec} &
         \colhead{Roll}
@@ -201,7 +201,7 @@ In this paper, we describe the mathematical approach of \ac{M4OPT} then use it t
     \enddata
 \end{deluxetable*}
 
-\section{Basics of \ac{MILP}}
+\section{Basics of MILP}
 
 \Ac{LP} is a mathematical optimization formalism in which one represents an objective as a linear combination of decision variables, subject to constraints that take the form of a system of linear inequalities. The canonical form a \ac{LP} is
 %
@@ -239,7 +239,7 @@ The most basic version of our \ac{ToO} problem is that we want to maximize the t
 
 There are a variety of free and open source \ac{MILP} solvers; the most readily available for Python users is HiGHS \citep{huangfu2018parallelizing} which now can be called directly from SciPy \citep{2020NatMe..17..261V}. However, the best commercial \ac{MILP} solvers are much faster and can handle much larger problems than any current open-source software. Although \ac{M4OPT} itself is open source, it calls the commercial \ac{MILP} solver CPLEX\footnote{\url{https://www.ibm.com/products/ilog-cplex-optimization-studio}} by IBM. CPLEX is free for students, teachers, and researchers, and priced affordably for non-academic use (comparable in cost to mid-range computer-aided design software).
 
-\section{\ac{MILP} Problem Formulation}
+\section{MILP Problem Formulation}
 
 Now we develop an \ac{MILP} formulation of the problem of planning and scheduling \ac{GW} \ac{ToO} obsevations on a large \ac{FOV} telescope. In Section~\ref{sec:fixed-exptime}, we start with a simple but realistic problem in which we require multiple visits of each selected field that must all obey the \ac{FoR} and slew speed limitations of the telescope. In Sections~\ref{sec:variable-exptime} and \ref{sec:absmag-distn}, we add progressively more detail, finally arriving at the full dynamic exposure time problem. All three formulations from Sections~\ref{sec:fixed-exptime}, \ref{sec:variable-exptime}, and \ref{sec:absmag-distn} are implemented in \ac{M4OPT}.
 
@@ -499,7 +499,7 @@ With this Gaussian distribution of apparent magnitudes, we can now calculate the
 
 \begin{enumerate}
     \item Use the function \texttt{parameters\_to\_moments} and Eqs.~(\ref{eq:log-distance-parameters},~\ref{eq:appmag-parameters}) to calculate the mean and standard deviation of the apparent magnitude in each pixel.
-    \item Select desired quantiles for the approximation of the detection efficiency curve: for example, $(0, 0.05 , 0.275, 0.5  , 0.725, 0.95)$. For each pixel, calculate the exposure time required to achieve the specified detection efficiencies.
+    \item Select the desired quantiles for the piecewise linear approximation of the detection efficiency curve: for example, $(0, 0.05 , 0.275, 0.5  , 0.725, 0.95)$. For each pixel, calculate the exposure time required to achieve the specified detection efficiency.
 \end{enumerate}
 
 \subsubsection{Problem Setup}
@@ -550,8 +550,8 @@ The reference \ac{UVEX} \ac{ETC} is still closed source because the instrument i
     \ac{NUV} response\tablenotemark{b} & $0.2 \sqrt{2 \pi} \phi[(\lambda - 2300 \text{ \AA}) / (180 \text{ \AA})]$ \\
     \ac{FUV} response\tablenotemark{b} & $0.15 \sqrt{2 \pi} \phi[(\lambda - 1600 \text{ \AA}) / (100 \text{ \AA})]$
     \enddata
-    \tablenotetext{a}{We assume optimal \ac{PSF} photometry with a Nyquist-sampled \ac{PSF}, i.e., a sharpness of $1/4\pi$ \citep{2005MNRAS.361..861M}.}
-    \tablenotetext{b}{The function $\phi(x)$ is the standard normal distribution function.}
+    \tablenotetext{a}{We assume optimal \ac{PSF} photometry with Nyquist pixel sampling, that is, a sharpness of $1/4\pi$ \citep{2005MNRAS.361..861M}.}
+    \tablenotetext{b}{The function $\phi(x)$ is the standard normal distribution.}
 \end{deluxetable}
 
 \begin{figure}
@@ -588,9 +588,9 @@ Appendix~E.2 of \citet{2021arXiv211115608K} specifies fiducial parameter ranges 
 \end{equation}
 
 \begin{deluxetable}{lcc}
-    \tablecaption{\label{tab:kn-abs-mag}Ranges of peak absolute magnitudes of \acp{KN}. Adapted from \citet{2021arXiv211115608K} Appendix E.2.}
+    \tablecaption{\label{tab:kn-abs-mag}Ranges of peak absolute magnitudes of \acp{KN}. Adapted from Appendix E.2 of \citet{2021arXiv211115608K}.}
     \tablehead{
-        & \multicolumn2c{absolute magnitude range} \\
+        & \multicolumn2c{Absolute magnitude range} \\
         \colhead{Model} & \colhead{NUV} & \colhead{FUV}
     }
     \startdata
@@ -622,7 +622,7 @@ The optimal ``bang-bang'' slew trajectory between any two points consists of an 
 \end{figure}
 
 \paragraph{\ac{HEALPix} resolution}
-We discretize the footprint of the \ac{UVEX} \ac{FOV} on a \ac{HEALPix} grid with $n_\mathrm{side} = 128$ (see Fig.~\ref{fig:fov}.
+We discretize the footprint of the \ac{FOV} on a \ac{HEALPix} grid with $n_\mathrm{side} = 128$ (see Fig.~\ref{fig:fov}.
 
 \begin{figure}
     \includegraphics[width=\columnwidth]{figures/fov}
@@ -753,7 +753,9 @@ This is LIGO document P2500008.
     \texttt{ligo.skymap} \citep{2016PhRvD..93b4013S,2016ApJ...829L..15S,2016ApJS..226...10S},
     \texttt{matplotlib} \citep{2007CSE.....9...90H},
     \texttt{numpy} \citep{harris2020array},
+    \texttt{regions} \citep{larry_bradley_2022_6374572},
     \texttt{scipy} \citep{2020NatMe..17..261V},
+    \texttt{spiceypy} \citep{2020JOSS....5.2050A},
     \texttt{sympy} \citep{10.7717/peerj-cs.103},
     \texttt{synphot} \citep{2018ascl.soft11001S}}
 
