@@ -166,7 +166,7 @@ In this paper, we introduce \ac{M4OPT}. It is released under a permissive, mains
     \item It can adjust exposure times given the anticipated absolute magnitude and the three-dimensional \ac{GW} localization distribution in sky position and distance.
     \item It can dynamically vary the exposure time of each field to pierce through spatial variations in foregrounds (zodiacal light, Galactic diffuse emission) and dust extinction.
     \item It can be given the anticipated absolute magnitude of the source as either a point estimate or a distribution with Gaussian uncertainty.
-    \item The dynamic exposure times are made possible by a \texttt{numpy} \citep{harris2020array} vectorized \ac{ETC} which makes it possible to do large parameter sweeps of synthetic photometry calculations which are otherwise prohibitively slow with synphot \citep{2018ascl.soft11001S} alone.
+    \item The dynamic exposure times are made possible by a \texttt{numpy} \citep{harris2020array} vectorized \ac{ETC} which enables large parameter sweeps of synthetic photometry calculations which are otherwise prohibitively slow with synphot \citep{2018ascl.soft11001S} alone.
     \item It models additional spacecraft dynamics effects, including the roll angle of the telescope which is determined by solar power requirements.
     \item It complies fully with \ac{NPR} 7150.2D\footnote{\url{https://nodis3.gsfc.nasa.gov/displayDir.cfm?t=NPR&c=7150&s=2D}} software engineering practices for ``Class C'' software, and has 97\% test coverage.
     \item It is deeply integrated with the Astropy \citep{2013A&A...558A..33A,2018AJ....156..123A} ecosystem, and has an interface that is based on Astropy coordinates, units, and model classes.
