@@ -5,17 +5,12 @@ import sqlite3
 from pathlib import Path
 from astropy import units as u
 from astropy.table import QTable
-from astropy.cosmology import Planck15 as cosmo, z_at_value
 
 base_path = Path("runs_SNR-10")
-runs = ["O5HLVK", "O6HLVK"]
+runs = ["O5", "O6"]
 
-event_tables_by_run = {run: QTable.read(f"scripts/{run}.ecsv") for run in runs}
-
-for key, table in event_tables_by_run.items():
-    z = z_at_value(cosmo.luminosity_distance, table['distance'] * u.Mpc).to_value(u.dimensionless_unscaled)
-    m2 = table['mass2'] / (1 + z)
-    event_tables_by_run[key] = table[(m2 <= 3)]
+main_table = QTable.read("tables/events.ecsv")
+event_tables_by_run = {run: main_table[main_table["run"] == run] for run in runs}
 
 
 # O3 R&P paper Table II row 1 last column:
@@ -34,7 +29,7 @@ log_target_rate_mu, log_target_rate_sigma
 log_simulation_effective_rate_by_run = {}
 for run in runs:
     with sqlite3.connect(
-        f"file:{base_path / run / 'farah' / 'events.sqlite'}?mode=ro", uri=True
+        f"file:{base_path / f'{run}HLVK' / 'farah' / 'events.sqlite'}?mode=ro", uri=True
     ) as db:
         ((comment,),) = db.execute(
             "SELECT comment FROM process WHERE program = 'bayestar-inject'"
@@ -77,7 +72,9 @@ with open("tables/selected-detected.tex", "w") as f:
         print(
             label,
             *(
-                "${}_{{-{}}}^{{+{}}}$".format(*np.rint([mid, mid - lo, hi - mid]).astype(int))
+                "${}_{{-{}}}^{{+{}}}$".format(
+                    *np.rint([mid, mid - lo, hi - mid]).astype(int)
+                )
                 for mid, lo, hi in row
             ),
             sep=" & ",

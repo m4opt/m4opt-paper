@@ -47,5 +47,17 @@ figures/skygrid.png: scripts/skygrid.py scripts/plots.py
 figures/etc.pdf: scripts/etc.py scripts/plots.py
 	python scripts/etc.py
 
-tables/selected-detected.tex: scripts/selected-detected.py
+tables/selected-detected.tex: scripts/selected-detected.py tables/events.ecsv
 	python scripts/selected-detected.py
+
+tables/events.ecsv: scripts/events-ecsv.py
+	python scripts/events-ecsv.py
+
+tables/events.tex: scripts/events-tex.py tables/events.ecsv
+	python scripts/events-tex.py
+
+figures/nominal-roll.pdf: scripts/nominal-roll.py scripts/plots.py
+	python scripts/nominal-roll.py
+
+figures/slew.pdf: scripts/slew.py scripts/plots.py
+	python scripts/slew.py

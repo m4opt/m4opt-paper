@@ -11,9 +11,9 @@ from m4opt.synphot import observing
 import numpy as np
 from scipy import stats
 from astropy.visualization import quantity_support
-import asdf
 import synphot
 from astropy.cosmology import Planck15 as cosmo, z_at_value
+from pathlib import Path
 
 from plots import customize_style
 
@@ -21,8 +21,17 @@ quantity_support()
 
 customize_style()
 
+main_table = QTable.read("tables/events.ecsv")
 
-plan_args = asdf.open("scripts/plan_args.asdf")
+
+plan_args = QTable.read(
+    Path("runs_SNR-10")
+    / f"{main_table[0]['run']}HLVK"
+    / "farah"
+    / "allsky"
+    / f"{main_table[0]['coinc_event_id']}.ecsv"
+).meta["args"]
+plan_args.pop("skymap")
 skymap_area_cl = 90
 hpx = HEALPix(nside=plan_args["nside"], frame=ICRS(), order="nested")
 mission = getattr(missions, plan_args["mission"])
@@ -70,7 +79,7 @@ crossover_distance = (
 )
 
 for run in ["O5", "O6"]:
-    table = QTable.read(f"scripts/{run}HLVK.ecsv")
+    table = main_table[main_table["run"] == run]
 
     z = z_at_value(cosmo.luminosity_distance, table["distance"] * u.Mpc).to_value(
         u.dimensionless_unscaled
@@ -96,7 +105,10 @@ for run in ["O5", "O6"]:
         aspect=0.25,
         xlim=(50 * u.Mpc, 4000 * u.Mpc),
         ylim=(
-            (10 ** (np.log10(50 / 4000) * 4 / default_fig_width_height_ratio) * u.spat).to(u.deg**2),
+            (
+                10 ** (np.log10(50 / 4000) * 4 / default_fig_width_height_ratio)
+                * u.spat
+            ).to(u.deg**2),
             (1 * u.spat).to(u.deg**2),
         ),
         xscale="log",
