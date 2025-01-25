@@ -2,7 +2,7 @@
 #SBATCH --partition=shared
 #SBATCH --account=umn131
 #SBATCH -N1 -n1
-#SBATCH -t 2-00:00
+#SBATCH -t 0-8
 """Run the M4OPT scheduler on a batch of sky maps on the SDSC Expanse cluster
 (https://www.sdsc.edu/services/hpc/expanse/)."""
 
@@ -33,8 +33,8 @@ if __name__ == '__main__':
     from distributed import as_completed
     from tqdm.auto import tqdm
 
-    walltime = 48 * 60
-    max_workers = 32
+    walltime = 8 * 60
+    max_workers = 64
     exptime_s = list(range(300, 3700, 100))
 
     with SLURMCluster(
@@ -43,7 +43,7 @@ if __name__ == '__main__':
         job_cpu=job_cpu,
         job_extra_directives=["--nodes=1"],
         job_script_prologue=[f"export OMP_NUM_THREADS={job_cpu}"],
-        memory="16GiB",
+        memory="32GiB",
         processes=1,
         queue="shared",
         walltime=str(walltime),
