@@ -28,7 +28,6 @@ def task(exptime_s):
 
 
 if __name__ == '__main__':
-    from pathlib import Path
     from dask_jobqueue import SLURMCluster
     from distributed import as_completed
     from tqdm.auto import tqdm
