@@ -61,3 +61,6 @@ figures/nominal-roll.pdf: scripts/nominal-roll.py scripts/plots.py
 
 figures/slew.pdf: scripts/slew.py scripts/plots.py
 	python scripts/slew.py
+
+tables/3628.tex: scripts/plan-table.py
+	python scripts/plan-table.py
