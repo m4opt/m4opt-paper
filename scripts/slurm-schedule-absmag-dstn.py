@@ -15,7 +15,7 @@ def task(event_id):
     import shlex
 
     args = shlex.split(
-        f"schedule --mission=uvex --bandpass=NUV --deadline=6hour --timelimit=2hour --absmag-mean=-14 --absmag-stdev=1 --exptime-min=300s --nside=128 --cutoff=0.1 --jobs={job_cpu} {event_id}.fits {event_id}.ecsv --record-progress {event_id}-progress.ecsv"
+        f"schedule --mission=uvex --bandpass=NUV --deadline=6hour --timelimit=4hour --absmag-mean=-14 --absmag-stdev=1 --exptime-min=300s --nside=128 --cutoff=0.1 --jobs={job_cpu} {event_id}.fits {event_id}.ecsv --record-progress {event_id}-progress.ecsv"
     )
     try:
         with (
