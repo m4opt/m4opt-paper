@@ -1,11 +1,9 @@
 [project]
 name = "m4opt-paper"
-version = "0.1.0"
 description = "UVEX EMGW M4OPT paper"
 authors = [
     {name = "Leo Singer",email = "leo.p.singer@nasa.gov"}
 ]
-readme = "README.md"
 # FIXME: CPLEX does not yet support Python 3.12 and newer.
 # See https://ibm-data-and-ai.ideas.ibm.com/ideas/CPLEX-I-148
 requires-python = ">=3.11, <3.12"
@@ -17,6 +15,8 @@ dependencies = [
     "dask-jobqueue (>=0.9.0,<0.10.0)"
 ]
 
+[tool.poetry]
+package-mode = false
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
