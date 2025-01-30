@@ -10,3 +10,5 @@ __pycache__
 *.synctex.gz
 m4opt.pdf
 m4opt.zip
+data
+runs_SNR-10.zip
