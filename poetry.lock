@@ -1636,7 +1636,7 @@ test = ["astroplan", "pytest-astropy"]
 type = "git"
 url = "https://github.com/m4opt/m4opt"
 reference = "HEAD"
-resolved_reference = "cf357d6cbde9080d7b866306113ce2c306aa8ef8"
+resolved_reference = "0b31ab6ad6fbed445edf539480b288aad7dab689"
 
 [[package]]
 name = "markdown-it-py"
