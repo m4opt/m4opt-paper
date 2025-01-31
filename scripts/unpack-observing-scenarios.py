@@ -51,14 +51,14 @@ with zipfile.ZipFile("runs_SNR-10.zip") as archive:
     table = vstack(tables)
     del tables
 
-    table.write(out_root / "observing-scenarios.ecsv", overwrite=True)
-
     # Keep only NSBH/BNS events
     z = z_at_value(cosmo.luminosity_distance, table["distance"] * u.Mpc).to_value(
         u.dimensionless_unscaled
     )
     max_mass2 = 3
     table = table[table["mass2"] <= max_mass2 * (1 + z)]
+
+    table.write(out_root / "observing-scenarios.ecsv", overwrite=True)
 
     # Copy FITS files
     for row in tqdm(table, desc="Copying FITS files"):
