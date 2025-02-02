@@ -3,7 +3,7 @@ from astropy.cosmology import Planck15 as cosmo, z_at_value
 from astropy import units as u
 import numpy as np
 
-table = QTable.read("tables/events.ecsv")
+table = QTable.read("data/events.ecsv")
 zp1 = 1 + z_at_value(cosmo.luminosity_distance, table['distance'] * u.Mpc)
 table['mass1'] /= zp1
 table['mass2'] /= zp1

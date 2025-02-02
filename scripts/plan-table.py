@@ -2,7 +2,7 @@ from astropy.table import QTable
 import numpy as np
 from astropy import units as u
 
-table = QTable.read("runs_SNR-10/O5HLVK/farah/allsky/3628.ecsv")
+table = QTable.read("data/O5/3628.ecsv")
 table["start_time"].precision = 0
 with open("tables/3628.tex", "w") as f:
     for i, row in enumerate(table):

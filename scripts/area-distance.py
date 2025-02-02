@@ -21,15 +21,11 @@ quantity_support()
 
 customize_style()
 
-main_table = QTable.read("tables/events.ecsv")
+main_table = QTable.read("data/events.ecsv")
 
 
 plan_args = QTable.read(
-    Path("runs_SNR-10")
-    / f"{main_table[-1]['run']}HLVK"
-    / "farah"
-    / "allsky"
-    / f"{main_table[-1]['coinc_event_id']}.ecsv"
+    Path("data") / main_table[0]["run"] / f"{main_table[0]['coinc_event_id']}.ecsv"
 ).meta["args"]
 plan_args.pop("skymap")
 skymap_area_cl = 90

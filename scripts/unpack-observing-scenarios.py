@@ -44,7 +44,7 @@ with zipfile.ZipFile("runs_SNR-10.zip") as archive:
                 ((comment,),) = db.execute(
                     "SELECT comment FROM process WHERE program = 'bayestar-inject'"
                 )
-        table.meta["efective_rate"] = {run: u.Quantity(comment)}
+        table.meta["effective_rate"] = {run: u.Quantity(comment)}
 
         tables.append(table)
 

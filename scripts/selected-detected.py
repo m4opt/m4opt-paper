@@ -1,7 +1,6 @@
 from scipy import stats
 import numpy as np
 from rate_stats import poisson_lognormal_rate_quantiles
-import sqlite3
 from pathlib import Path
 from astropy import units as u
 from astropy.table import QTable
@@ -9,7 +8,7 @@ from astropy.table import QTable
 base_path = Path("runs_SNR-10")
 runs = ["O5", "O6"]
 
-main_table = QTable.read("tables/events.ecsv")
+main_table = QTable.read("data/events.ecsv")
 event_tables_by_run = {run: main_table[main_table["run"] == run] for run in runs}
 
 
@@ -26,18 +25,10 @@ log_target_rate_mu = np.log(mid)
 log_target_rate_sigma = np.log(hi / lo) / standard_90pct_interval
 log_target_rate_mu, log_target_rate_sigma
 
-log_simulation_effective_rate_by_run = {}
-for run in runs:
-    with sqlite3.connect(
-        f"file:{base_path / f'{run}HLVK' / 'farah' / 'events.sqlite'}?mode=ro", uri=True
-    ) as db:
-        ((comment,),) = db.execute(
-            "SELECT comment FROM process WHERE program = 'bayestar-inject'"
-        )
-    log_simulation_effective_rate_by_run[run] = np.log(
-        u.Quantity(comment).to_value(u.Gpc**-3 * u.yr**-1)
-    )
-log_simulation_effective_rate_by_run
+log_simulation_effective_rate_by_run = {
+    key: np.log(value.to_value(u.Gpc**-3 * u.yr**-1))
+    for key, value in main_table.meta["effective_rate"].items()
+}
 
 prob_quantiles = np.asarray([0.5, 0.05, 0.95])
 run_duration = 1.5  # years
