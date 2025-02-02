@@ -9,21 +9,15 @@
 job_cpu = 8
 
 
-def task(event_id):
-    from unittest.mock import patch
+def task(run, event_id):
     from m4opt._cli import app
     import shlex
 
-    args = shlex.split(
-        f"schedule --mission=uvex --bandpass=NUV --deadline=6hour --timelimit=4hour --absmag-mean=-14 --absmag-stdev=1 --exptime-min=300s --nside=128 --cutoff=0.1 --jobs={job_cpu} {event_id}.fits {event_id}.ecsv --record-progress {event_id}-progress.ecsv"
-    )
+    cmdline = f"schedule --mission=uvex --bandpass=NUV --deadline=6hour --timelimit=4hour --memory=10GiB --absmag-mean=-14 --absmag-stdev=1 --exptime-min=300s --nside=128 --cutoff=0.1 --jobs={job_cpu} data/{run}/{event_id}.fits data/{run}/{event_id}.ecsv"
+    args = shlex.split(cmdline)
+    print(cmdline)
     try:
-        with (
-            open(f"{event_id}.out", mode="w") as outerr,
-            patch("sys.stdout", outerr),
-            patch("sys.stderr", outerr),
-        ):
-            app(args)
+        app(args)
     except SystemExit as e:
         if e.code != 0:
             raise RuntimeError(f"Process exited with code {e.code}")
@@ -31,22 +25,11 @@ def task(event_id):
 
 if __name__ == "__main__":
     from astropy.table import QTable
-    from astropy.cosmology import Planck15 as cosmo, z_at_value
-    from astropy import units as u
     from dask_jobqueue import SLURMCluster
     from distributed import as_completed
     from tqdm.auto import tqdm
 
-    table = QTable.read("../injections.dat", format="ascii")
-
-    # Throw away BBHs
-    z = z_at_value(cosmo.luminosity_distance, table["distance"] * u.Mpc).to_value(
-        u.dimensionless_unscaled
-    )
-    max_mass2 = 3
-    keep = table["mass2"] <= max_mass2 * (1 + z)
-
-    event_ids = table["simulation_id"][keep]
+    table = QTable.read("data/observing-scenarios.ecsv")
 
     walltime = 48 * 60
     max_workers = 256
@@ -71,9 +54,16 @@ if __name__ == "__main__":
         ) as cluster,
         cluster.get_client() as client,
     ):
+        print("Submit script:")
         print(cluster.job_script())
+        print("Dashboard link:", cluster.dashboard_link)
         cluster.adapt(maximum=max_workers)
         for future in tqdm(
-            as_completed(client.map(task, event_ids)), total=len(event_ids)
+            as_completed(
+                client.map(
+                    task, table["run"].tolist(), table["coinc_event_id"].tolist()
+                )
+            ),
+            total=len(table),
         ):
             future.result()
