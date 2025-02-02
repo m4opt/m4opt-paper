@@ -1599,7 +1599,7 @@ test = ["coverage", "lalsuite"]
 
 [[package]]
 name = "m4opt"
-version = "0.1.dev483+g527dd2b"
+version = "0.1.dev484+gbb95de8"
 description = "Multi-Mission Multi-Messenger Observation Planning Toolkit"
 optional = false
 python-versions = ">=3.11"
@@ -1636,7 +1636,7 @@ test = ["astroplan", "pytest-astropy"]
 type = "git"
 url = "https://github.com/m4opt/m4opt"
 reference = "HEAD"
-resolved_reference = "527dd2b259edd8c3316bcde0088fc25be24cad6c"
+resolved_reference = "bb95de8ff9f193709203cf06a8d5768a15675012"
 
 [[package]]
 name = "markdown-it-py"
