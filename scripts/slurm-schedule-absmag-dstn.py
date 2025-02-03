@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 #SBATCH --partition=shared
 #SBATCH --account=umn131
-#SBATCH -N1 -n1
+#SBATCH -N1 -n1 --mem 8G
 #SBATCH -t 2-00:00
 """Run the M4OPT scheduler on a batch of sky maps on the SDSC Expanse cluster
 (https://www.sdsc.edu/services/hpc/expanse/)."""
