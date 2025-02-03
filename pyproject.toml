@@ -13,7 +13,7 @@ dependencies = [
     "cplex < 22.1.2",
     "m4opt @ git+https://github.com/m4opt/m4opt",
     "dask-jobqueue (>=0.9.0,<0.10.0)",
-    "dask[bokeh]",
+    "dask[diagnostics]",
     "ipython (>=8.31.0,<9.0.0)",
 ]
 
