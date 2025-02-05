@@ -31,6 +31,7 @@ plan_args.pop("skymap")
 skymap_area_cl = 90
 hpx = HEALPix(nside=plan_args["nside"], frame=ICRS(), order="nested")
 mission = getattr(missions, plan_args["mission"])
+cutoff = plan_args["cutoff"]
 
 with observing(
     observer_location=EarthLocation(0 * u.m, 0 * u.m, 0 * u.m),
@@ -76,6 +77,7 @@ crossover_distance = (
 
 for run in ["O5", "O6"]:
     table = main_table[main_table["run"] == run]
+    selected_table = table[table["objective_value"] >= cutoff]
 
     z = z_at_value(cosmo.luminosity_distance, table["distance"] * u.Mpc).to_value(
         u.dimensionless_unscaled
@@ -257,36 +259,35 @@ for run in ["O5", "O6"]:
     scatter = ax_joint.scatter(
         "distance",
         f"area({skymap_area_cl})",
-        s=table["objective_value"] * 30,
-        c=table["detection_probability_known_position"],
+        s=selected_table["objective_value"] * 30,
+        c=selected_table["detection_probability_known_position"],
         cmap=cmap,
         vmin=0,
         vmax=1,
-        data=table,
+        data=selected_table,
     )
 
     ticks = [
         np.quantile(
-            table["distance"],
+            selected_table["distance"],
             [0.9],
-            weights=(table["objective_value"] > 0),
             method="inverted_cdf",
         ).item(),
         np.quantile(
-            table["distance"],
+            selected_table["distance"],
             [0.9],
-            weights=table["detection_probability_known_position"],
+            weights=selected_table["detection_probability_known_position"],
             method="inverted_cdf",
         ).item(),
     ]
-    bins = np.linspace(*np.log(ax_joint.get_xlim()), 12)
+    bins = np.linspace(*np.log(ax_joint.get_xlim()), 16)
     color = "silver"
     values, _ = np.histogram(np.log(table["distance"]), bins=bins)
     ax_x.stairs(values, np.exp(bins), color=color, fill=True, zorder=0)
+    ax_x.set_ylim(0, values.max() * 1.1)
     color = cmap(0)
     values, _ = np.histogram(
-        np.log(table["distance"]),
-        weights=(table["objective_value"] > 0).astype(float),
+        np.log(selected_table["distance"]),
         bins=bins,
     )
     ax_x.axvline(
@@ -296,11 +297,10 @@ for run in ["O5", "O6"]:
         zorder=1,
     )
     ax_x.stairs(values, np.exp(bins), color=color, fill=True, zorder=2)
-    ax_x.set_ylim(0, values.max() * 1.2)
     color = cmap(np.inf)
     values, _ = np.histogram(
-        np.log(table["distance"]),
-        weights=table["detection_probability_known_position"],
+        np.log(selected_table["distance"]),
+        weights=selected_table["detection_probability_known_position"],
         bins=bins,
     )
     ax_x.axvline(
@@ -330,28 +330,27 @@ for run in ["O5", "O6"]:
 
     ticks = [
         np.quantile(
-            table[f"area({skymap_area_cl})"],
+            selected_table[f"area({skymap_area_cl})"],
             [0.9],
-            weights=(table["objective_value"] > 0),
             method="inverted_cdf",
         ).item(),
         np.quantile(
-            table[f"area({skymap_area_cl})"],
+            selected_table[f"area({skymap_area_cl})"],
             [0.9],
-            weights=table["detection_probability_known_position"],
+            weights=selected_table["detection_probability_known_position"],
             method="inverted_cdf",
         ).item(),
     ]
-    bins = np.linspace(*np.log(ax_joint.get_ylim()), 12)
+    bins = np.linspace(*np.log(ax_joint.get_ylim()), 16)
     color = "silver"
     values, _ = np.histogram(np.log(table[f"area({skymap_area_cl})"]), bins=bins)
     ax_y.stairs(
         values, np.exp(bins), color=color, fill=True, orientation="horizontal", zorder=0
     )
+    ax_y.set_xlim(0, values.max() * 1.1)
     color = cmap(0)
     values, _ = np.histogram(
-        np.log(table[f"area({skymap_area_cl})"]),
-        weights=(table["objective_value"] > 0).astype(float),
+        np.log(selected_table[f"area({skymap_area_cl})"]),
         bins=bins,
     )
     ax_y.axhline(
@@ -363,11 +362,10 @@ for run in ["O5", "O6"]:
     artist = ax_y.stairs(
         values, np.exp(bins), color=color, fill=True, orientation="horizontal", zorder=2
     )
-    ax_y.set_xlim(0, values.max() * 1.2)
     color = cmap(np.inf)
     values, _ = np.histogram(
-        np.log(table[f"area({skymap_area_cl})"]),
-        weights=table["detection_probability_known_position"],
+        np.log(selected_table[f"area({skymap_area_cl})"]),
+        weights=selected_table["detection_probability_known_position"],
         bins=bins,
     )
     ax_y.axhline(
@@ -383,7 +381,7 @@ for run in ["O5", "O6"]:
     twin.set_ylim(*ax_joint.get_ylim())
     twin.set_yscale(ax_joint.get_yscale())
     twin.set_yticks(
-        [*ticks, np.prod(np.asarray(ax_joint.get_ylim()) ** [0.2, 0.8])],
+        [*ticks, np.prod(np.asarray(ax_joint.get_ylim()) ** [0.1, 0.9])],
         [*(f"{np.round(tick):g} deg$^2$" for tick in ticks), "90th\npercentile"],
     )
     twin.yaxis.minorticks_off()
@@ -396,14 +394,16 @@ for run in ["O5", "O6"]:
     tick.tick2line.set_visible(False)
 
     kwargs = dict(
-        color="white",
+        # color="black",
         transform=ax_x.transAxes,
         fontsize=plt.rcParams["legend.fontsize"],
         zorder=5,
+        ha='left',
+        va='top'
     )
-    ax_x.text(0.4, 0.2, "Detected", ha="center", **kwargs)
-    ax_x.text(0.455, 0.65, "Triggered", ha="center", **kwargs)
-    ax_x.text(0.7, 0.7, "All events", ha="center", **kwargs)
+    ax_x.text(0.05, 0.9, "All events", color='dimgray', **kwargs)
+    ax_x.text(0.05, 0.78, "Triggered", color='tab:blue', **kwargs)
+    ax_x.text(0.05, 0.66, "Detected", color='magenta', **kwargs)
 
     plt.setp(ax_x.get_xticklabels() + ax_y.get_yticklabels(), visible=False)
     ax_x.set_yticks([])

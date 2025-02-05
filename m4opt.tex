@@ -179,7 +179,7 @@ In this paper, we describe the mathematical approach of \ac{M4OPT} then use it t
 
 \begin{figure*}
     \begin{interactive}{animation}{figures/3628.gif}
-        \includegraphics{figures/3628}
+        \includegraphics[width=0.9\textwidth]{figures/3628}
     \end{interactive}
     \caption{\label{fig:example}An example \ac{M4OPT} observing plan. The top panel shows the footprints of the observations, the 90\% credible region of the \ac{GW} localization, the region that is always outside of the \ac{FoR} as a deep blue filled region, and the region that is outside of the instantaneous \ac{FoR}. The bottom panel shows the timeline of the accumulation of detection probability and area. The region that has been covered by one visit is shown in pale red and green, whereas the region that has been covered by two visits is shown in deep red and green. This figure is available as an animation.}
 \end{figure*}
@@ -620,7 +620,7 @@ Like most space telescopes, \ac{UVEX} has solar panels that rotate on a \ac{SADA
 \end{figure}
 
 \paragraph{Slew time}
-The optimal ``bang-bang'' slew trajectory between any two points consists of an acceleration phase at the maximum acceleration, possibly a coasting phase at the maximum angular velocity, a deceleration phase at the maximum acceleration, and settling (see Fig.~\ref{fig:slew}). We employ a simplified slew model in which the spacecraft has a fixed maximum angular acceleration of $\alpha=0 \fdg 2$~s$^{-2}$, maximum angular rate of $0 \fdg 1$~s$^{-1}$, and settling time of 0~s, irrispective of axis. With these parameters, it takes 35.5~s to slew by the width of the \ac{FOV} and 1800.5~s to slew by 180$^\circ$.
+The optimal ``bang-bang'' slew trajectory between any two points consists of an acceleration phase at the maximum acceleration, possibly a coasting phase at the maximum angular velocity, a deceleration phase at the maximum acceleration, and settling (see Fig.~\ref{fig:slew}). We employ a simplified slew model in which the spacecraft has a fixed maximum angular acceleration of $\alpha=0 \fdg 006$~s$^{-2}$, maximum angular rate of $0 \fdg 6$~s$^{-1}$, and settling time of 60~s, irrispective of axis. With these parameters, it takes 108~s to slew by the width of the \ac{FOV} and 460~s to slew by 180$^\circ$.
 
 \begin{figure}
     \includegraphics[width=\columnwidth]{figures/slew}
@@ -719,7 +719,7 @@ The following changes would lead to a lower detection rate:
     \item We used a much denser and more heavily overlapping grid of fields in order to ensure complete coverage of the sky at all roll angles.
 \end{itemize}
 %
-Coincidentally, our trigger and detection rates in Table~\ref{tab:selected-detected} are consistent with the highest and most optimistic estimates in \citet{2025arXiv250114109C}. Although by itself this comparison is not informative on the merits of these two strategies, it is a positive result for the prospects of \ac{KN} detection with \ac{UVEX}.
+Our trigger and detection rates in Table~\ref{tab:selected-detected} are considerably greater than the most optimistic estimates in \citet{2025arXiv250114109C}. Although by itself this comparison is not informative on the merits of these two strategies, it is a positive result for the prospects of \ac{KN} detection with \ac{UVEX}.
 
 More quantitatively, we can show that the dynamic exposure time strategy results in a higher detection probability than any given fixed exposure time for a given event. Fig.~\ref{fig:prob-exptime} shows a typical example. This is a plot of detection probability (without knowledge of the position of the source) versus exposure time for observing plans for a single event generated using the formulation from Section~\ref{sec:fixed-exptime}. The detection probability for the dynamic exposure time strategy from Section~\ref{sec:absmag-distn} is shown as a horizontal dashed line.
 
