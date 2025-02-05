@@ -9,6 +9,12 @@ base_path = Path("runs_SNR-10")
 runs = ["O5", "O6"]
 
 main_table = QTable.read("data/events.ecsv")
+
+# Throw away events with objective value less than cutoff
+plan_args = QTable.read(f"data/{main_table[0]['run']}/{main_table[0]['coinc_event_id']}.ecsv").meta['args']
+cutoff = plan_args['cutoff']
+main_table = main_table[main_table['objective_value'] >= cutoff]
+
 event_tables_by_run = {run: main_table[main_table["run"] == run] for run in runs}
 
 
@@ -41,7 +47,7 @@ mu = np.asarray(
             [
                 np.sum(_)
                 for _ in [
-                    event_tables_by_run[run]["objective_value"] > 0,
+                    np.ones_like(event_tables_by_run[run]["objective_value"]),
                     event_tables_by_run[run]["detection_probability_known_position"],
                 ]
             ]
