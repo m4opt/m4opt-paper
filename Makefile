@@ -23,12 +23,6 @@ ANIMATIONS = \
 	figures/skygrid.gif \
 	figures/3628.gif
 
-runs_SNR-10.zip:
-	curl -OL https://zenodo.org/records/14585837/files/runs_SNR-10.zip
-
-data/observing-scenarios.ecsv: runs_SNR-10.zip scripts/unpack-observing-scenarios.py
-	python scripts/unpack-observing-scenarios.py
-
 m4opt.pdf: $(LATEXDEPS)
 	latexmk -pdf m4opt.tex
 
@@ -37,6 +31,12 @@ m4opt.bib: m4opt.tex
 
 m4opt.zip: $(LATEXDEPS) $(ANIMATIONS) m4opt.bbl
 	zip $@ $^
+
+runs_SNR-10.zip:
+	curl -OL https://zenodo.org/records/14585837/files/runs_SNR-10.zip
+
+data/observing-scenarios.ecsv: runs_SNR-10.zip scripts/unpack-observing-scenarios.py
+	python scripts/unpack-observing-scenarios.py
 
 figures/fov.pdf: scripts/fov.py scripts/plots.py
 	python scripts/fov.py
