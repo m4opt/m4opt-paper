@@ -2,7 +2,7 @@
 #SBATCH --partition=shared
 #SBATCH --account=umn131
 #SBATCH -N1 -n1 --mem 8G
-#SBATCH -t 2-00:00
+#SBATCH -t 12:00:00
 """Run the M4OPT scheduler on a batch of sky maps on the SDSC Expanse cluster
 (https://www.sdsc.edu/services/hpc/expanse/)."""
 
@@ -13,7 +13,7 @@ def task(run, event_id):
     from m4opt._cli import app
     import shlex
 
-    cmdline = f"schedule --mission=uvex --bandpass=NUV --deadline=6hour --timelimit=4hour --memory=10GiB --absmag-mean=-14 --absmag-stdev=1 --exptime-min=300s --nside=128 --cutoff=0.1 --jobs={job_cpu} data/{run}/{event_id}.fits data/{run}/{event_id}.ecsv"
+    cmdline = f"schedule --mission=uvex --bandpass=NUV --deadline=6hour --timelimit=2hour --memory=10GiB --absmag-mean=-14 --absmag-stdev=1 --exptime-min=300s --nside=128 --cutoff=0.1 --jobs={job_cpu} data/{run}/{event_id}.fits data/{run}/{event_id}.ecsv"
     args = shlex.split(cmdline)
     print(cmdline)
     try:
@@ -31,8 +31,8 @@ if __name__ == "__main__":
 
     table = QTable.read("data/observing-scenarios.ecsv")
 
-    walltime = 48 * 60
-    max_workers = 256
+    walltime = 12 * 60
+    max_workers = 512
 
     with (
         SLURMCluster(

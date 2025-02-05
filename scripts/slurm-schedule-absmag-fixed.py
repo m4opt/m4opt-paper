@@ -2,11 +2,12 @@
 #SBATCH --partition=shared
 #SBATCH --account=umn131
 #SBATCH -N1 -n1 --mem 8G
-#SBATCH -t 2-00:00
+#SBATCH -t 08:00:00
 """Run the M4OPT scheduler on a batch of sky maps on the SDSC Expanse cluster
 (https://www.sdsc.edu/services/hpc/expanse/)."""
 
 job_cpu = 8
+run = 'O5'
 event_id = 800
 
 
@@ -14,7 +15,7 @@ def task(exptime_s):
     from m4opt._cli import app
     import shlex
 
-    cmdline = f"schedule --mission=uvex --bandpass=NUV --deadline=6hour --timelimit=4hour --memory=10GiB --exptime-min={exptime_s}s --nside=128 --jobs={job_cpu} {event_id}.fits {event_id}-exptime-{exptime_s}s.ecsv"
+    cmdline = f"schedule --mission=uvex --bandpass=NUV --deadline=6hour --timelimit=2hour --memory=10GiB --exptime-min={exptime_s}s --nside=128 --jobs={job_cpu} data/{run}/{event_id}.fits data/{run}/{event_id}-exptime-{exptime_s}s.ecsv"
     args = shlex.split(cmdline)
     print(cmdline)
     try:
@@ -29,7 +30,7 @@ if __name__ == '__main__':
     from distributed import as_completed
     from tqdm.auto import tqdm
 
-    walltime = 48 * 60
+    walltime = 8 * 60
     max_workers = 64
     exptime_s = list(range(300, 3700, 100))
 
