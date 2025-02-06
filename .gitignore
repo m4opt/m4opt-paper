@@ -8,7 +8,7 @@ __pycache__
 *.log
 *.out
 *.synctex.gz
-m4opt.pdf
-m4opt.zip
+*.zip
 data
+m4opt.pdf
 runs_SNR-10.zip
