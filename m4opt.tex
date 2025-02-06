@@ -736,6 +736,14 @@ The \ac{M4OPT} model itself is not specific to space-based observations. With ad
 
 Our probabilistic approach to scheduling and triggering follow-up observations can in principle allow for a more detailed treatment of the selection effects incurred during \ac{GW} follow-up campaigns and astrophysical inference from the population of \acp{KN} observed by missions like \ac{UVEX}. Developing a framework for \ac{KN} inference with \ac{UVEX} observations triggered by this method is an exciting direction of future work.
 
+Some practical implementation details remain as future work to incorporate \ac{M4OPT} into the operations of a real observatory. For example:
+%
+\begin{itemize}
+\item Our slew time constraints must conservatively model the dynamics of the actual spacecraft, including differing angular rates about different axes and keep-out constraints that must hold through the entire slew trajectory.
+\item We must be able to retrieve the spacecraft ephemeris from a live data source rather than evaluating it from a predefined orbital model.
+\item We must incorporate pre-defined segments of observing dead time for housekeeping events such as pre-planned ground contacts and momentum dumping maneuvers.
+\end{itemize}
+
 Like the \ac{ZTF} scheduler \citep{2019PASP..131f8003B} and the Vera Rubin Observatory scheduler \citep{2019AJ....157..151N}, we see \ac{M4OPT} as both a core component of the ground software system that enables fully autonomous observation planning and execution, and also an approachable and well-documented part of the guest observer science tools for a mission. Its permissive open-source licensing and open development model, free from the encumbrances of \ac{NOSA}, are essential to those goals.
 
 We hope to build from it a community tool that serves many missions from the concept phase all the way through operations. Also, integration of \ac{M4OPT} with community follow-up platforms such as the Gravitational Wave Treasure Map \citep{2020ApJ...894..127W} could open possibilities for more effective and more meaningfully coordinated follow-up observations by multiple independently-operated facilities.
