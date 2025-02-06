@@ -29,8 +29,11 @@ m4opt.pdf: $(LATEXDEPS)
 m4opt.bib: m4opt.tex
 	adstex $<
 
-m4opt.zip: $(LATEXDEPS) $(ANIMATIONS) m4opt.bbl
-	zip $@ $^
+m4opt-arxiv.zip: $(LATEXDEPS) $(ANIMATIONS) m4opt.bbl
+	rm -f $@ && zip $@ $^
+
+m4opt-zenodo.zip: $(LATEXDEPS) $(ANIMATIONS) m4opt.bbl m4opt.pdf data/O?/*.fits data/O?/*.ecsv data/events.ecsv
+	rm -f $@ && zip $@ $^
 
 runs_SNR-10.zip:
 	curl -OL https://zenodo.org/records/14585837/files/runs_SNR-10.zip
