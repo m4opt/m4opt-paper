@@ -1,9 +1,10 @@
-from scipy import stats
-import numpy as np
-from rate_stats import poisson_lognormal_rate_quantiles
 from pathlib import Path
+
+import numpy as np
 from astropy import units as u
 from astropy.table import QTable
+from rate_stats import poisson_lognormal_rate_quantiles
+from scipy import stats
 
 base_path = Path("runs_SNR-10")
 runs = ["O5", "O6"]
@@ -11,9 +12,11 @@ runs = ["O5", "O6"]
 main_table = QTable.read("data/events.ecsv")
 
 # Throw away events with objective value less than cutoff
-plan_args = QTable.read(f"data/{main_table[0]['run']}/{main_table[0]['coinc_event_id']}.ecsv").meta['args']
-cutoff = plan_args['cutoff']
-main_table = main_table[main_table['objective_value'] >= cutoff]
+plan_args = QTable.read(
+    f"data/{main_table[0]['run']}/{main_table[0]['coinc_event_id']}.ecsv"
+).meta["args"]
+cutoff = plan_args["cutoff"]
+main_table = main_table[main_table["objective_value"] >= cutoff]
 
 event_tables_by_run = {run: main_table[main_table["run"] == run] for run in runs}
 

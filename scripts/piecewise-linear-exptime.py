@@ -1,12 +1,12 @@
-from matplotlib import pyplot as plt
 import numpy as np
-from scipy import stats
+from matplotlib import pyplot as plt
 from plots import customize_style
+from scipy import stats
 
 customize_style()
 
-approx_color = 'darkmagenta'
-exact_color='tab:blue'
+approx_color = "darkmagenta"
+exact_color = "tab:blue"
 # exact_color, *_ = (
 #     props["color"] for props in iter(plt.rcParams["axes.prop_cycle"])
 # )

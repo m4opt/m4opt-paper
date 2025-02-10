@@ -1,10 +1,11 @@
-from plots import customize_style
-from matplotlib import pyplot as plt
+from pathlib import Path
+
 import numpy as np
 from astropy.table import QTable
-from ligo.skymap.io import read_sky_map
 from detection_probability import get_detection_probability_unknown_position
-from pathlib import Path
+from ligo.skymap.io import read_sky_map
+from matplotlib import pyplot as plt
+from plots import customize_style
 from tqdm.auto import tqdm
 
 customize_style()
@@ -35,8 +36,8 @@ variable_exptime_prob, *fixed_exptime_probs = [
     for plan in tqdm([variable_exptime_plan, *fixed_exptime_plans])
 ]
 
-adaptive_color = 'darkmagenta'
-fixed_color = 'tab:blue'
+adaptive_color = "darkmagenta"
+fixed_color = "tab:blue"
 
 fig, ax = plt.subplots(tight_layout=True)
 ax.set_xlim(0, 3.75)

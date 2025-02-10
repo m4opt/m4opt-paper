@@ -1,12 +1,11 @@
+import numpy as np
+import regions
 from astropy import units as u
 from astropy.coordinates import ICRS, SkyCoord
 from astropy_healpix import HEALPix
-from matplotlib import pyplot as plt
 from m4opt.fov import footprint_healpix
 from m4opt.missions import uvex
-import regions
-import numpy as np
-import ligo.skymap.plot
+from matplotlib import pyplot as plt
 from plots import customize_style
 
 customize_style()

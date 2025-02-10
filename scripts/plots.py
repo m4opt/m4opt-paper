@@ -12,5 +12,5 @@ def customize_style(columns=1):
     plt.style.use("seaborn-v0_8-paper")
     plt.rcParams["font.family"] = "serif"
     plt.rcParams["font.serif"] = "Times New Roman"
-    plt.rcParams['mathtext.fontset'] = 'stix'
+    plt.rcParams["mathtext.fontset"] = "stix"
     plt.rcParams["figure.figsize"] = (target_width, height * target_width / width)

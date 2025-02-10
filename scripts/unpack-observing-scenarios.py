@@ -1,14 +1,17 @@
 """Unpack just the data that we need from https://zenodo.org/records/14585837."""
-from functools import reduce
+
 import pathlib
+import sqlite3
 import zipfile
-from tqdm.auto import tqdm
-from astropy.table import QTable, join, vstack
-from astropy.cosmology import Planck15 as cosmo, z_at_value
-from astropy import units as u
+from functools import reduce
 from shutil import copyfileobj
 from tempfile import NamedTemporaryFile
-import sqlite3
+
+from astropy import units as u
+from astropy.cosmology import Planck15 as cosmo
+from astropy.cosmology import z_at_value
+from astropy.table import QTable, join, vstack
+from tqdm.auto import tqdm
 
 runs = ["O5", "O6"]
 out_root = pathlib.Path("data")
@@ -37,7 +40,10 @@ with zipfile.ZipFile("runs_SNR-10.zip") as archive:
 
         table.meta.clear()
 
-        with (in_run / "events.sqlite").open("rb") as in_file, NamedTemporaryFile() as out_file:
+        with (
+            (in_run / "events.sqlite").open("rb") as in_file,
+            NamedTemporaryFile() as out_file,
+        ):
             copyfileobj(in_file, out_file)
             out_file.flush()
             with sqlite3.connect(f"file:{out_file.name}?mode=ro", uri=True) as db:

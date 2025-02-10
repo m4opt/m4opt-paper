@@ -1,15 +1,15 @@
-from m4opt.synphot import observing, DustExtinction
-from m4opt.fov import footprint_healpix
-import synphot
-from astropy.coordinates import Distance, ICRS
-from astropy.table import unique
 import numpy as np
-from ligo.skymap.bayestar import rasterize
-from scipy import stats
+import synphot
 from astropy import units as u
-from m4opt import missions
+from astropy.coordinates import ICRS, Distance
+from astropy.table import unique
 from astropy_healpix import HEALPix, nside_to_level
 from ligo.skymap import distance
+from ligo.skymap.bayestar import rasterize
+from m4opt import missions
+from m4opt.fov import footprint_healpix
+from m4opt.synphot import DustExtinction, observing
+from scipy import stats
 
 
 def get_detection_probability_known_position(plan, event_row, plan_args):

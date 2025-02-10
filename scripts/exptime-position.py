@@ -1,14 +1,13 @@
-from plots import customize_style
-import ligo.skymap.plot
-from matplotlib import pyplot as plt
 import numpy as np
-from astropy_healpix import HEALPix
-from astropy.coordinates import Galactic, EarthLocation
-from astropy.time import Time
 import synphot
-from m4opt.missions import uvex as mission
-from m4opt.synphot import observing, DustExtinction
 from astropy import units as u
+from astropy.coordinates import EarthLocation, Galactic
+from astropy.time import Time
+from astropy_healpix import HEALPix
+from m4opt.missions import uvex as mission
+from m4opt.synphot import DustExtinction, observing
+from matplotlib import pyplot as plt
+from plots import customize_style
 
 customize_style()
 

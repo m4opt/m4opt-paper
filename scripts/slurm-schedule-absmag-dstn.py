@@ -10,8 +10,9 @@ job_cpu = 8
 
 
 def task(run, event_id):
-    from m4opt._cli import app
     import shlex
+
+    from m4opt._cli import app
 
     cmdline = f"schedule --mission=uvex --bandpass=NUV --deadline=6hour --timelimit=2hour --memory=10GiB --absmag-mean=-14 --absmag-stdev=1 --exptime-min=300s --nside=128 --cutoff=0.1 --jobs={job_cpu} data/{run}/{event_id}.fits data/{run}/{event_id}.ecsv"
     args = shlex.split(cmdline)

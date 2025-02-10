@@ -1,3 +1,5 @@
+import numpy as np
+from astropy import units as u
 from astropy.coordinates import (
     EarthLocation,
     GeocentricMeanEcliptic,
@@ -5,11 +7,9 @@ from astropy.coordinates import (
     get_body,
 )
 from astropy.time import Time
-from astropy import units as u
+from m4opt.dynamics import nominal_roll
 from matplotlib import pyplot as plt
 from matplotlib.ticker import MultipleLocator
-from m4opt.dynamics import nominal_roll
-import numpy as np
 from plots import customize_style
 
 customize_style()
@@ -81,7 +81,11 @@ ax.plot(ax.spines["left"].get_position()[1], ax.get_ylim()[1], "^k", clip_on=Fal
 ax.grid()
 
 plt.setp(
-    ax.xaxis.get_ticklabels(), ha="left", va="top", rotation_mode="anchor", rotation=-30,
+    ax.xaxis.get_ticklabels(),
+    ha="left",
+    va="top",
+    rotation_mode="anchor",
+    rotation=-30,
 )
 
 fig.savefig("figures/nominal-roll.pdf")

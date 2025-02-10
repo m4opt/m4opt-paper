@@ -1,21 +1,22 @@
-from astropy.coordinates import EarthLocation, ICRS
-from astropy.time import Time
-from astropy.table import QTable
-from astropy_healpix import HEALPix
-from astropy import units as u
-from matplotlib import pyplot as plt
-from matplotlib import patheffects
-from matplotlib.colors import LinearSegmentedColormap
-from m4opt import missions
-from m4opt.synphot import observing
-import numpy as np
-from scipy import stats
-from astropy.visualization import quantity_support
-import synphot
-from astropy.cosmology import Planck15 as cosmo, z_at_value
 from pathlib import Path
 
+import numpy as np
+import synphot
+from astropy import units as u
+from astropy.coordinates import ICRS, EarthLocation
+from astropy.cosmology import Planck15 as cosmo
+from astropy.cosmology import z_at_value
+from astropy.table import QTable
+from astropy.time import Time
+from astropy.visualization import quantity_support
+from astropy_healpix import HEALPix
+from m4opt import missions
+from m4opt.synphot import observing
+from matplotlib import patheffects
+from matplotlib import pyplot as plt
+from matplotlib.colors import LinearSegmentedColormap
 from plots import customize_style
+from scipy import stats
 
 quantity_support()
 
@@ -398,12 +399,12 @@ for run in ["O5", "O6"]:
         transform=ax_x.transAxes,
         fontsize=plt.rcParams["legend.fontsize"],
         zorder=5,
-        ha='left',
-        va='top'
+        ha="left",
+        va="top",
     )
-    ax_x.text(0.05, 0.9, "All events", color='dimgray', **kwargs)
-    ax_x.text(0.05, 0.78, "Triggered", color='tab:blue', **kwargs)
-    ax_x.text(0.05, 0.66, "Detected", color='magenta', **kwargs)
+    ax_x.text(0.05, 0.9, "All events", color="dimgray", **kwargs)
+    ax_x.text(0.05, 0.78, "Triggered", color="tab:blue", **kwargs)
+    ax_x.text(0.05, 0.66, "Detected", color="magenta", **kwargs)
 
     plt.setp(ax_x.get_xticklabels() + ax_y.get_yticklabels(), visible=False)
     ax_x.set_yticks([])

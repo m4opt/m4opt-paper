@@ -2,15 +2,14 @@ import warnings
 
 warnings.filterwarnings("ignore", "Wswiglal-redir-stdio")
 
-from astropy import units as u
-from matplotlib import pyplot as plt
-from matplotlib.animation import FuncAnimation
 import numpy as np
+from astropy import units as u
 from m4opt.fov import footprint
 from m4opt.missions import uvex
-import ligo.skymap.plot
-from tqdm.auto import tqdm
+from matplotlib import pyplot as plt
+from matplotlib.animation import FuncAnimation
 from plots import customize_style
+from tqdm.auto import tqdm
 
 customize_style()
 plt.rcParams["figure.figsize"][1] = plt.rcParams["figure.figsize"][0]

@@ -4,6 +4,7 @@ Functions for propagating errors in rates.
 Reproduced from
 https://github.com/lpsinger/observing-scenarios-simulations/blob/main/plots-and-tables.ipynb.
 """
+
 import numpy as np
 from scipy import integrate, optimize, special, stats
 
@@ -57,6 +58,7 @@ def poisson_lognormal_rate_quantiles(p, mu, sigma):
     real variable so that it can use the scipy.optimize.root_scalar
     root finding/polishing algorithms.
     """
+
     def func(k):
         return poisson_lognormal_rate_cdf(k, mu, sigma) - p
 
@@ -73,7 +75,7 @@ def format_with_errorbars(mid, lo, hi):
     smallest = min(max(0, plus), max(0, minus))
 
     if smallest == 0:
-        return str(mid), '0', '0'
+        return str(mid), "0", "0"
     decimals = 1 - int(np.floor(np.log10(smallest)))
 
     if all(np.issubdtype(type(_), np.integer) for _ in (mid, lo, hi)):
@@ -81,7 +83,7 @@ def format_with_errorbars(mid, lo, hi):
 
     plus, minus, mid = np.round([plus, minus, mid], decimals)
     if decimals > 0:
-        fstring = '%%.0%df' % decimals
+        fstring = "%%.0%df" % decimals
     else:
-        fstring = '%d'
+        fstring = "%d"
     return [fstring % _ for _ in [mid, minus, plus]]

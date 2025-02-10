@@ -1,6 +1,5 @@
-from matplotlib import pyplot as plt
 import numpy as np
-
+from matplotlib import pyplot as plt
 from plots import customize_style
 
 customize_style()
