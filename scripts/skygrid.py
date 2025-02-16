@@ -10,6 +10,8 @@ from matplotlib import pyplot as plt
 from matplotlib.animation import FuncAnimation
 from plots import customize_style
 from tqdm.auto import tqdm
+import ligo.skymap.plot  # noqa: F401
+
 
 customize_style()
 plt.rcParams["figure.figsize"][1] = plt.rcParams["figure.figsize"][0]
