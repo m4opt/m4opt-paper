@@ -19,7 +19,7 @@ def poisson_lognormal_rate_cdf(k, mu, sigma):
 
     def func(lam):
         prior = lognorm_pdf(lam)
-        poisson_pdf = np.exp(special.xlogy(k, lam) - special.gammaln(k + 1) - lam)
+        # poisson_pdf = np.exp(special.xlogy(k, lam) - special.gammaln(k + 1) - lam)
         poisson_cdf = special.gammaincc(k + 1, lam)
         return poisson_cdf * prior
 
