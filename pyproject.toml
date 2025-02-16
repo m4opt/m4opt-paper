@@ -30,6 +30,6 @@ ignore-words-list = """
     ToO,
 """
 skip = """
-    m4opt.bib
+    m4opt.bib,
     poetry.lock,
 """
