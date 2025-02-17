@@ -71,5 +71,8 @@ figures/nominal-roll.pdf: scripts/nominal-roll.py scripts/plots.py
 figures/slew.pdf: scripts/slew.py scripts/plots.py
 	python scripts/slew.py
 
-tables/3628.tex: scripts/plan-table.py
+tables/3628.tex: scripts/plan-table.py data/O5/3628.ecsv
 	python scripts/plan-table.py
+
+figures/3628.pdf: data/O5/3628.ecsv
+	m4opt animate data/O5/3628.ecsv figures/3628.gif --still figures/3628.pdf --dpi 300 --time-step 2.5min
