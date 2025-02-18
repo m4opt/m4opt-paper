@@ -169,9 +169,10 @@ The \texttt{dorado-scheduling} package took into consideration the time-varying 
 
 The \texttt{dorado-scheduling} code also had the major limitation that it was released under the obscure and anachronistic \ac{NOSA}, which placed severe obstacles to our own collaborators using or contributing to it. The lawyers at \ac{GSFC} continue to require all \ac{GSFC} scientists to employ \ac{NOSA} even though it has has been rejected by the \citet{FSF}, the \citet{NAP25217}, and even the \citet{SMD}. Fortunately, NASA \ac{HQ} intervened in this case and we were permitted to establish a new, truly open-source, permissively licensed software project, which anyone can contribute to and use. However, this required a rewrite which took several years.
 
-In this paper, we introduce \ac{M4OPT}. It is released under a permissive, mainstream license (BSD), but it has many other advances over the earlier work:
+In this paper, we finally present \ac{M4OPT}, which has many other advances over earlier work:
 %
 \begin{itemize}
+    \item It is released under a permissive, mainstream license (the Berkeley Software Distribution, or BSD, license) to promote adoption and contribution by the community.
     \item It is designed from the start to support multiple missions, including \ac{UVEX} and ULTRASAT. We envision supporting both space- and ground-based observatories in the future.
     \item It can adjust exposure times given the anticipated absolute magnitude and the three-dimensional \ac{GW} localization distribution in sky position and distance.
     \item It can dynamically vary the exposure time of each field to pierce through spatial variations in foregrounds (zodiacal light, Galactic diffuse emission) and dust extinction.
