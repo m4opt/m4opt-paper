@@ -8,7 +8,7 @@ authors = [
 # See https://ibm-data-and-ai.ideas.ibm.com/ideas/CPLEX-I-148
 requires-python = ">=3.11, <3.12"
 dependencies = [
-    # FIXME: CPLEX does not yet support macOS. Remove this when fixed.
+    # FIXME: The latest version of CPLEX on PyPI does not yet support macOS. Remove this when fixed.
     # See https://www.ibm.com/mysupport/s/defect/aCIKe000000bpzJ/dt421849?language=en_US
     "cplex < 22.1.2",
     "m4opt @ git+https://github.com/m4opt/m4opt",
