@@ -4,7 +4,7 @@ from astropy.table import QTable
 
 table = QTable.read("data/O5/4678.ecsv")
 table["start_time"].precision = 0
-with open("tables/4678.tex", "w") as f:
+with open("tables/example.tex", "w") as f:
     for i, row in enumerate(table):
         print(
             row["start_time"],

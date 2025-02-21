@@ -1,7 +1,7 @@
 LATEXDEPS = \
 	m4opt.tex \
 	m4opt.bib \
-	figures/4678.pdf \
+	figures/example.pdf \
 	figures/area-distance-O5.pdf \
 	figures/area-distance-O6.pdf \
 	figures/etc.pdf \
@@ -15,13 +15,13 @@ LATEXDEPS = \
 	figures/slew.pdf \
 	figures/uvex-tiling.pdf \
 	figures/UVEXrender.png \
-	tables/4678.tex \
+	tables/example.tex \
 	tables/events.tex \
 	tables/selected-detected.tex
 
 ANIMATIONS = \
 	anc/skygrid.gif \
-	anc/4678.gif
+	anc/example.gif
 
 LICENSES = licenses/*.txt
 
@@ -73,8 +73,8 @@ figures/nominal-roll.pdf: scripts/nominal-roll.py scripts/plots.py
 figures/slew.pdf: scripts/slew.py scripts/plots.py
 	python scripts/slew.py
 
-tables/4678.tex: scripts/plan-table.py data/O5/4678.ecsv
+tables/example.tex: scripts/plan-table.py data/O5/4678.ecsv
 	python scripts/plan-table.py
 
-figures/4678.pdf: data/O5/4678.ecsv
-	m4opt animate data/O5/4678.ecsv anc/4678.gif --still figures/4678.pdf --dpi 300 --time-step 2.5min
+figures/example.pdf: data/O5/4678.ecsv
+	m4opt animate data/O5/4678.ecsv anc/example.gif --still figures/example.pdf --dpi 300 --time-step 2.5min
