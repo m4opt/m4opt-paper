@@ -37,7 +37,7 @@ with tqdm(total=len(frames) + 3, desc="drawing", unit="frame") as progress:
         return result
 
     func(45)
-    fig.savefig("anc/skygrid.png")
+    fig.savefig("figures/skygrid.png")
 
     with tqdm(total=len(frames), desc="saving", unit="frame") as saving_progress:
         FuncAnimation(
@@ -48,6 +48,6 @@ with tqdm(total=len(frames) + 3, desc="drawing", unit="frame") as progress:
             repeat=True,
             interval=50,
         ).save(
-            "figures/skygrid.gif",
+            "anc/skygrid.gif",
             progress_callback=lambda i, _: saving_progress.update(),
         )
