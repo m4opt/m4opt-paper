@@ -1,7 +1,7 @@
 LATEXDEPS = \
 	m4opt.tex \
 	m4opt.bib \
-	figures/3628.pdf \
+	figures/4678.pdf \
 	figures/area-distance-O5.pdf \
 	figures/area-distance-O6.pdf \
 	figures/etc.pdf \
@@ -15,13 +15,13 @@ LATEXDEPS = \
 	figures/slew.pdf \
 	figures/uvex-tiling.pdf \
 	figures/UVEXrender.png \
-	tables/3628.tex \
+	tables/4678.tex \
 	tables/events.tex \
 	tables/selected-detected.tex
 
 ANIMATIONS = \
 	figures/skygrid.gif \
-	figures/3628.gif
+	figures/4678.gif
 
 m4opt.pdf: $(LATEXDEPS)
 	latexmk -pdf m4opt.tex
@@ -71,8 +71,8 @@ figures/nominal-roll.pdf: scripts/nominal-roll.py scripts/plots.py
 figures/slew.pdf: scripts/slew.py scripts/plots.py
 	python scripts/slew.py
 
-tables/3628.tex: scripts/plan-table.py data/O5/3628.ecsv
+tables/4678.tex: scripts/plan-table.py data/O5/4678.ecsv
 	python scripts/plan-table.py
 
-figures/3628.pdf: data/O5/3628.ecsv
-	m4opt animate data/O5/3628.ecsv figures/3628.gif --still figures/3628.pdf --dpi 300 --time-step 2.5min
+figures/4678.pdf: data/O5/4678.ecsv
+	m4opt animate data/O5/4678.ecsv figures/4678.gif --still figures/4678.pdf --dpi 300 --time-step 2.5min

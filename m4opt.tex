@@ -190,8 +190,8 @@ In this paper, we finally present \ac{M4OPT}, which has many other advances over
 In this paper, we describe the mathematical approach of \ac{M4OPT} then use it to produce realistic \ac{ToO} observing sequences with \ac{UVEX} for simulated \ac{GW} events. An example \ac{M4OPT} observing plan is shown in Fig.~\ref{fig:example} and Table~\ref{table:example}. We show that the new dynamic exposure time capabilities dramatically increases the probaility of \ac{KN} detection.
 
 \begin{figure*}
-    \begin{interactive}{animation}{figures/3628.gif}
-        \includegraphics[width=0.9\textwidth]{figures/3628}
+    \begin{interactive}{animation}{figures/4678.gif}
+        \includegraphics[width=0.9\textwidth]{figures/4678}
     \end{interactive}
     \caption{\label{fig:example}An example \ac{M4OPT} observing plan. The top panel shows the footprints of the observations, the 90\% credible region of the \ac{GW} localization, the region that is always outside of the \ac{FoR} as a deep blue filled region, and the region that is outside of the instantaneous \ac{FoR}. The bottom panel shows the timeline of the accumulation of detection probability and area. The region that has been covered by one visit is shown in pale red and green, whereas the region that has been covered by two visits is shown in deep red and green. This figure is available as an animation.}
 \end{figure*}
@@ -212,7 +212,7 @@ In this paper, we describe the mathematical approach of \ac{M4OPT} then use it t
         \colhead{Roll}
     }
     \startdata
-    \input{tables/3628.tex}
+    \input{tables/4678.tex}
     \enddata
 \end{deluxetable*}
 
@@ -598,11 +598,11 @@ Here we explain the setup of \ac{M4OPT} for \ac{UVEX}.
 We started with the same simulated \ac{GW} localizations as \citet{2025arXiv250114109C}, which covers LIGO, Virgo, and KAGRA's fifth~(O5) and sixth~(O6) observing runs. The data are publicly archived in \cite{r_weizmann_2025_14585837}. These simulated events were generated using the same methodology as \citet{2022ApJ...924...54P} and \citet{2023ApJ...958..158K}, except that the \ac{S/N} threshold for \ac{GW} detection is set to~10. The localizations were generated with the rapid localization engine BAYESTAR \citep{2016PhRvD..93b4013S} and consist of 3D posterior probability distributions of sky location and luminosity distance \citep{2016ApJ...829L..15S,2016ApJS..226...10S}. Like \citet{2025arXiv250114109C} selected only those events for which the rest frame secondary (lighter) compact object mass $m_2$ was $\leq 3 M_\odot$ to pick only events that could plausibly be \ac{BNS} or \ac{NSBH} binaries.
 
 \paragraph{\Ac{KN} absolute magnitude}
-Appendix~E.2 of \citet{2021arXiv211115608K} specifies fiducial parameter ranges for nucleosynthesis-powered or shock-powered \ac{KN} models and 90\% credible intervals for the absolute magnitude in each band. These absolute magnitude ranges are reproduced in the Table~\ref{tab:kn-abs-mag}. \ac{UVEX} observes in both the \ac{NUV} and \ac{FUV} filters simultaneously. A detection in both bands is not necessary because even a detection in a single band provides constraining limits on \ac{UV} colors. In order to achieve a detection in at least one filter, regardless of the model, we should plan observations using the fainter of the two models and the brighter of the two bands: the nucleosynthesis-powered model in NUV, with an absolute magnitude range of $[-15.6, -12.4]$. Assuming that this is the 90\% credible interval of a Gaussian distribution, the absolute magnitude has the approximate distribution
+Appendix~E.2 of \citet{2021arXiv211115608K} specifies fiducial parameter ranges for nucleosynthesis-powered or shock-powered \ac{KN} models and 90\% credible intervals for the absolute magnitude in each band. These absolute magnitude ranges are reproduced in the Table~\ref{tab:kn-abs-mag}. \ac{UVEX} observes in both the \ac{NUV} and \ac{FUV} filters simultaneously, and our objective is to detect the source in both bands. Therefore we should plan observations using the fainter of the two models and the fainter of the two bands: the nucleosynthesis-powered model in FUV, with an absolute magnitude range of $[-14.5, -10.2]$. Assuming that this is the 90\% credible interval of a Gaussian distribution, the absolute magnitude has the approximate distribution
 %
 \begin{equation}
     \label{eq:absmag-distn}
-    M_\mathrm{NUV} \sim \mathcal{N}(-14, 1).
+    M_\mathrm{NUV} \sim \mathcal{N}(-12.4, 1.3).
 \end{equation}
 
 \begin{deluxetable}{lcc}
@@ -692,9 +692,11 @@ In Figs.~\ref{fig:area-distance-O5}~and~\ref{fig:area-distance-O6}, we show both
     \tablecomments{Table~\ref{tab:events} is published in its entirety in a machine-readable format. A portion is shown here for guidance regarding its form and content.}
 \end{deluxetable*}
 
-In Table~\ref{tab:selected-detected}, we list the expected numbers of events selected for follow-up and the number of \acp{KN} detected over 1.5 years of observation. The number of events selected is simply the number of observing plans with objective value $\geq 0.1$. The expected number of \acp{KN} detected is simply the sum of the detection probabilities of all of the events.
+In Table~\ref{tab:selected-detected}, we list the expected numbers of events selected for follow-up and the number of \acp{KN} detected over 1.5 years of observation. The number of events selected is simply the number of observing plans with objective value $\geq 0.1$. The expected number of \acp{KN} detected is the sum of the detection probabilities of all of the events.
 
 As in \citet{2022ApJ...924...54P} and in \citet{2023ApJ...958..158K}, this table gives central 90\% credible intervals about the median, incorporating a lognormal uncertainty in the \ac{BNS} merger rate of $210_{-120}^{240}$~Gpc$^{-3}$~yr$^{-1}$ and Poissonian variation in the number of events over a finite time duration.
+
+If instead of optimizing for a detection in both filters, we optimize for a detection in \emph{at least one filter}, then both the number of events selected and the number of events detected approximately double.
 
 \begin{figure*}
     \centering
@@ -731,7 +733,7 @@ The following changes would lead to a lower detection rate:
     \item We used a much denser and more heavily overlapping grid of fields in order to ensure complete coverage of the sky at all roll angles.
 \end{itemize}
 %
-Our trigger and detection rates in Table~\ref{tab:selected-detected} are considerably greater than the most optimistic estimates in \citet{2025arXiv250114109C}. Although by itself this comparison is not informative on the merits of these two strategies, it is a positive result for the prospects of \ac{KN} detection with \ac{UVEX}.
+Our trigger and detection rates in Table~\ref{tab:selected-detected} are comparable with the most optimistic estimates in \citet{2025arXiv250114109C}. Although by itself this comparison is not informative on the merits of these two strategies, it is a positive result for the prospects of \ac{KN} detection with \ac{UVEX}.
 
 More quantitatively, we can show that the dynamic exposure time strategy results in a higher detection probability than any given fixed exposure time for a given event. Fig.~\ref{fig:prob-exptime} shows a typical example. This is a plot of detection probability (without knowledge of the position of the source) versus exposure time for observing plans for a single event generated using the formulation from Section~\ref{sec:fixed-exptime}. The detection probability for the dynamic exposure time strategy from Section~\ref{sec:absmag-distn} is shown as a horizontal dashed line.
 
@@ -740,7 +742,7 @@ More quantitatively, we can show that the dynamic exposure time strategy results
     \caption{\label{fig:prob-exptime}Detection probability versus exposure time for a single example event, resulting from the fixed exposure time strategy (see Section~\ref{sec:fixed-exptime}). The horizontal dashed line shows the detection probability resulting from the variable exposure time strategy incorporating a distribution of absolute magnitudes (see Section~\ref{sec:absmag-distn}). The variable exposure time strategy is more likely to detect the counterpart than the fixed exposure time strategy, for any exposure time.}
 \end{figure}
 
-This novel dynamic exposure time observing strategy is promising for \ac{GW} follow-up with any large \ac{FOV} imaging instrument. Although we have focused on \ac{UVEX}, we encourage ULTRASAT to try it out using the preliminary support for that mission that we have added.
+This novel dynamic exposure time observing strategy is promising for \ac{GW} follow-up with any large \ac{FOV} imaging instrument. Although we have focused on \ac{UVEX}, we encourage ULTRASAT to try it out using the preliminary support for that mission that we have implemented.
 
 The \ac{M4OPT} model itself is not specific to space-based observations. With additional \ac{FoR} and foreground models it could be extended to ground-based telescopes or even heterogeneous combinations of ground and space telescopes. In the future, we plan to extend it to \ac{ZTF}, Vera Rubin Observatory, and other ground-based facilities. Ultimately, our vision is for \ac{M4OPT} to evolve into a scheduling toolkit featuring (1) a composable library of observing constraints inspired by the interface of the \texttt{astroplan} package \citep{2018AJ....155..128M}, (2) uniform support for observers on the ground and in space, and (3) a globally optimizing scheduler.
 

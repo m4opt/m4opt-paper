@@ -2,9 +2,9 @@ import numpy as np
 from astropy import units as u
 from astropy.table import QTable
 
-table = QTable.read("data/O5/3628.ecsv")
+table = QTable.read("data/O5/4678.ecsv")
 table["start_time"].precision = 0
-with open("tables/3628.tex", "w") as f:
+with open("tables/4678.tex", "w") as f:
     for i, row in enumerate(table):
         print(
             row["start_time"],
