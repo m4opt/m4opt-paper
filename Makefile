@@ -32,7 +32,7 @@ m4opt.pdf: $(LATEXDEPS)
 m4opt-arxiv.zip: $(LATEXDEPS) $(ANIMATIONS) m4opt.bbl
 	rm -f $@ && zip $@ $^
 
-m4opt-zenodo.zip: $(LATEXDEPS) $(ANIMATIONS) m4opt.bbl m4opt.pdf data/O?/*.fits data/O?/*.ecsv data/events.ecsv
+m4opt-zenodo.zip: $(LATEXDEPS) $(ANIMATIONS) m4opt.bbl m4opt.pdf data/O?/*.fits data/O?/*.ecsv data/events.ecsv licenses/*.txt
 	rm -f $@ && zip $@ $^
 
 runs_SNR-10.zip:
