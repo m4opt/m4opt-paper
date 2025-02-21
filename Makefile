@@ -20,8 +20,8 @@ LATEXDEPS = \
 	tables/selected-detected.tex
 
 ANIMATIONS = \
-	figures/skygrid.gif \
-	figures/4678.gif
+	anc/skygrid.gif \
+	anc/4678.gif
 
 LICENSES = licenses/*.txt
 
@@ -77,4 +77,4 @@ tables/4678.tex: scripts/plan-table.py data/O5/4678.ecsv
 	python scripts/plan-table.py
 
 figures/4678.pdf: data/O5/4678.ecsv
-	m4opt animate data/O5/4678.ecsv figures/4678.gif --still figures/4678.pdf --dpi 300 --time-step 2.5min
+	m4opt animate data/O5/4678.ecsv anc/4678.gif --still figures/4678.pdf --dpi 300 --time-step 2.5min

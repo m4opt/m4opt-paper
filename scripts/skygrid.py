@@ -1,7 +1,4 @@
-import warnings
-
-warnings.filterwarnings("ignore", "Wswiglal-redir-stdio")
-
+import ligo.skymap.plot  # noqa: F401
 import numpy as np
 from astropy import units as u
 from m4opt.fov import footprint
@@ -10,8 +7,6 @@ from matplotlib import pyplot as plt
 from matplotlib.animation import FuncAnimation
 from plots import customize_style
 from tqdm.auto import tqdm
-import ligo.skymap.plot  # noqa: F401
-
 
 customize_style()
 plt.rcParams["figure.figsize"][1] = plt.rcParams["figure.figsize"][0]
@@ -42,7 +37,7 @@ with tqdm(total=len(frames) + 3, desc="drawing", unit="frame") as progress:
         return result
 
     func(45)
-    fig.savefig("figures/skygrid.png")
+    fig.savefig("anc/skygrid.png")
 
     with tqdm(total=len(frames), desc="saving", unit="frame") as saving_progress:
         FuncAnimation(
