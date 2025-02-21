@@ -1,5 +1,8 @@
-The contents of the `data` directory (if present) are released under the terms
-of the Creative Commons Zero v1.0 Universal license
+All FITS files in the `data` directory (`data/*/*.fits`) are reproduced from
+https://zenodo.org/records/14585837.
+
+All other contents of the `data` directory (if present) are released under the
+terms of the Creative Commons Zero v1.0 Universal license
 (see `licenses/CC0-1.0.txt`).
 
 All other files, including the manuscript, are released under the terms of the
