@@ -23,16 +23,18 @@ ANIMATIONS = \
 	figures/skygrid.gif \
 	figures/4678.gif
 
+LICENSES = licenses/*.txt
+
 m4opt.pdf: $(LATEXDEPS)
 	latexmk -pdf m4opt.tex
 
 # m4opt.bib: m4opt.tex
 # 	adstex $<
 
-m4opt-arxiv.zip: $(LATEXDEPS) $(ANIMATIONS) m4opt.bbl
+m4opt-arxiv.zip: $(LATEXDEPS) $(ANIMATIONS) m4opt.bbl $(LICENSES)
 	rm -f $@ && zip $@ $^
 
-m4opt-zenodo.zip: $(LATEXDEPS) $(ANIMATIONS) m4opt.bbl m4opt.pdf data/O?/*.fits data/O?/*.ecsv data/events.ecsv licenses/*.txt
+m4opt-zenodo.zip: $(LATEXDEPS) $(ANIMATIONS) m4opt.bbl m4opt.pdf data/O?/*.fits data/O?/*.ecsv data/events.ecsv $(LICENSES)
 	rm -f $@ && zip $@ $^
 
 runs_SNR-10.zip:
