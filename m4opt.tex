@@ -588,7 +588,7 @@ We modeled zodiacal background light by taking the ``high'' sky background spect
 \citet{2014ApJS..213...32M} provides piecewise cosecant fits to the surface brightness of Galactic diffuse emission in the two GALEX bands. We employ these fits to get the spatial dependence, and obtain the wavelength dependence by interpolating and extrapolating linearly through the two bands.
 
 \paragraph{Dust extinction}
-To model extinction due to dust in the Milky Way, we use the \citet{2023ApJ...950...86G} model as implemented in the \texttt{dust\_extinction} Python package \citep{2024JOSS....9.7023G}. We employ a fixed total-to-selective extinction ratio $R(V) = 3.1$ and obtain $E(B-V)$ reddening values as a function of sky position using the \citet{2016A&A...596A.109P} model as implemented by the \texttt{dustmaps} Python package \citep{2018JOSS....3..695M}.
+To model extinction due to dust in the Milky Way, we use the \citet{2023ApJ...950...86G} model (see also \citealt{2009ApJ...705.1320G,2019ApJ...886..108F,2021ApJ...916...33G,2022ApJ...930...15D}) as implemented in the \texttt{dust\_extinction} Python package \citep{2024JOSS....9.7023G}. We employ a fixed total-to-selective extinction ratio $R(V) = 3.1$ and obtain $E(B-V)$ reddening values as a function of sky position using the \citet{2016A&A...596A.109P} model as implemented by the \texttt{dustmaps} Python package \citep{2018JOSS....3..695M}.
 
 \section{Case study: GW observations with UVEX}
 
