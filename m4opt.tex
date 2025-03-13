@@ -632,11 +632,11 @@ Like most space telescopes, \ac{UVEX} has solar panels that rotate on a \ac{SADA
 \end{figure}
 
 \paragraph{Slew time}
-The optimal ``bang-bang'' slew trajectory between any two points consists of an acceleration phase at the maximum acceleration, possibly a coasting phase at the maximum angular velocity, a deceleration phase at the maximum acceleration, and settling (see Fig.~\ref{fig:slew}). We employ a simplified slew model in which the spacecraft has a fixed maximum angular acceleration of $\alpha=0 \fdg 006$~s$^{-2}$, maximum angular rate of $0 \fdg 6$~s$^{-1}$, and settling time of 60~s, irrespective of axis. With these parameters, it takes 108~s to slew by the width of the \ac{FOV} and 460~s to slew by 180$^\circ$.
+To estimate the time to slew between any two fields, we employ a simplified model of the spacecraft dynamics in which the spacecraft has a maximum angular acceleration of $0 \fdg 006$~s$^{-2}$ and maximum angular rate $0 \fdg 6$~s$^{-1}$ about any axis, plus a fixed settling time of 60~s. We assume that the spacecraft executes an eigenaxis maneuver, rotating through the smallest possible angle about a single axis, following a ``bang-bang" angular rate profile illustrated in Fig.~\ref{fig:slew}. (Note that even for a symmetric moment of inertia, the eigenaxis maneuver is \emph{not} the fastest possible slew; see \citealt{1993JGCD...16..446B}.) With this model, it takes 108~s to slew by the width of the \ac{FOV} and 460~s to slew by 180$^\circ$.
 
 \begin{figure}
     \includegraphics[width=\columnwidth]{figures/slew}
-    \caption{\label{fig:slew}The optimal slew consists of an acceleration phase at the maximum acceleration, possibly a coasting phase at the maximum angular velocity, and a deceleration phase at the maximum acceleration.}
+    \caption{\label{fig:slew}The slew model consists of an acceleration phase at the maximum acceleration, possibly a coasting phase at the maximum angular velocity, a deceleration phase at the maximum acceleration, and a settling phase.}
 \end{figure}
 
 \paragraph{\ac{HEALPix} resolution}
