@@ -33,16 +33,21 @@ with open("tables/events.tex", "w") as f:
             ),
             np.format_float_positional(row["distance"], 0, trim="-", fractional=True),
             np.format_float_positional(row["area(90)"], 0, trim="-", fractional=True),
-            np.format_float_positional(
+            "\phantom{$<$}"
+            + np.format_float_positional(
                 row["objective_value"], 2, min_digits=2, fractional=True, trim="k"
-            ),
+            )
+            if row["objective_value"] >= 0.1
+            else r"$<$0.10",
             np.format_float_positional(
                 row["detection_probability_known_position"],
                 2,
                 min_digits=2,
                 fractional=True,
                 trim="k",
-            ),
+            )
+            if row["objective_value"] >= 0.1
+            else "---",
             sep=" & ",
             end=" \\\\\n",
             file=f,
