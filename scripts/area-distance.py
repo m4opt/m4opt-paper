@@ -89,7 +89,8 @@ for run in ["O5", "O6"]:
     width, height = plt.rcParams["figure.figsize"]
     default_fig_width_height_ratio = width / height
     fig_width_height_ratio = 0.7
-    fig = plt.figure(figsize=(7, 7 * fig_width_height_ratio))
+    width = 7
+    fig = plt.figure(figsize=(width, width * fig_width_height_ratio))
 
     left, bottom, width, height = (
         0.2,
@@ -467,5 +468,15 @@ for run in ["O5", "O6"]:
     ax_x.set_yticks([])
     ax_y.set_xticks([])
 
+    fig.text(
+        0.9,
+        0.9,
+        run,
+        fontsize="x-large",
+        zorder=1000,
+        ha="right",
+        va="top",
+        bbox={"facecolor": "white", "boxstyle": "round"},
+    )
     fig.savefig(f"figures/area-distance-{run}.pdf")
     plt.close(fig)

@@ -683,7 +683,7 @@ $A_Q$ is the $Q$th percentile credible region, $x^*$ is the faintest limiting ma
 
 All simulated events are listed in the online version of Table~\ref{tab:events}. Because these are simulated events, we can determine the probability of detection for each event given its true sky location and distance. To calculate the detection probability, we calculate the limiting absolute magnitude at that true position and distance for the longest exposure that contains that position (or an exposure time of zero if the true sky position is not contained in any planned observation). The detection probability is simply the \ac{CDF} of the absolute magnitude distribution, Eq.~(\ref{eq:absmag-distn}), evaluated at that limiting absolute magnitude.
 
-In Figs.~\ref{fig:area-distance-O5}~and~\ref{fig:area-distance-O6}, we show both the scheduler objective value and the detection probability on a scatter plot of the 90\% credible area and the luminosity distance of events. As we would expect, both the objective value and detection probability increase as the area and distance of the events decrease.
+In Fig.~\ref{fig:area-distance}, we show both the scheduler objective value and the detection probability on a scatter plot of the 90\% credible area and the luminosity distance of events. As we would expect, both the objective value and detection probability increase as the area and distance of the events decrease.
 
 \begin{deluxetable*}{ccrrrrrrcc}
     \tablecaption{\label{tab:events}Simulated events.}
@@ -708,14 +708,9 @@ If instead of optimizing for a detection in both filters, we optimize for a dete
 
 \begin{figure*}
     \centering
-    \includegraphics{figures/area-distance-O5}
-    \caption{\label{fig:area-distance-O5}The distribution events selected for follow-up and detected for O5. \textbf{Bottom left panel:} scatter plot of 90\% credible area versus distance. Events that were selected for follow-up with \ac{UVEX} are represented by colored dots. The color of the dot represents the detection probability and the area of the dot represents the scheduler objective value. Events that were not selected for follow-up are marked with gray dots. The blue boundary represents the analytical predictor of the detection threshold given by Eqs.~(\ref{eq:threshold-distance},~\ref{eq:threshold-area},~\ref{eq:threshold-area-distance}). \textbf{Upper panel:} distribution of luminosity distance, with 90th percentiles marked. \textbf{Right panel:} distribution of 90\% credible area.}
-\end{figure*}
-
-\begin{figure*}
-    \centering
-    \includegraphics{figures/area-distance-O6}
-    \caption{\label{fig:area-distance-O6}Same as Fig.~\ref{fig:area-distance-O5}, but for O6.}
+    \gridline{\fig{figures/area-distance-O5}{0.8\textwidth}{}}
+    \gridline{\fig{figures/area-distance-O6}{0.8\textwidth}{}}
+    \caption{\label{fig:area-distance}The distribution events selected for follow-up and detected for O5 and O6. Within each subfigure, there are three panels. \textbf{Bottom left panel:} scatter plot of 90\% credible area versus distance. Events that were selected for follow-up with \ac{UVEX} are represented by colored dots. The color of the dot represents the detection probability and the area of the dot represents the scheduler objective value. Events that were not selected for follow-up are marked with gray dots. The blue boundary represents the analytical predictor of the detection threshold given by Eqs.~(\ref{eq:threshold-distance},~\ref{eq:threshold-area},~\ref{eq:threshold-area-distance}). \textbf{Upper panel:} distribution of luminosity distance, with 90th percentiles marked. \textbf{Right panel:} distribution of 90\% credible area.}
 \end{figure*}
 
 \begin{deluxetable}{lcc}
