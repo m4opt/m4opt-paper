@@ -88,14 +88,14 @@ for run in ["O5", "O6"]:
 
     width, height = plt.rcParams["figure.figsize"]
     default_fig_width_height_ratio = width / height
-    fig_width_height_ratio = 0.8
-    fig = plt.figure(figsize=(6, 6 * fig_width_height_ratio))
+    fig_width_height_ratio = 0.7
+    fig = plt.figure(figsize=(7, 7 * fig_width_height_ratio))
 
     left, bottom, width, height = (
-        0.125,
-        0.1,
-        0.525,
-        0.525 / default_fig_width_height_ratio,
+        0.2,
+        0.065,
+        0.475,
+        0.475 / default_fig_width_height_ratio,
     )
     depth = 0.2
     sep = 0.025
@@ -257,16 +257,135 @@ for run in ["O5", "O6"]:
     cmap = LinearSegmentedColormap.from_list(
         "truncated_cool", cmap(np.linspace(1 / 3, 1))
     )
+    marker_scale = 30
     scatter = ax_joint.scatter(
         "distance",
         f"area({skymap_area_cl})",
-        s=selected_table["objective_value"] * 30,
+        s=selected_table["objective_value"] * marker_scale,
         c=selected_table["detection_probability_known_position"],
         cmap=cmap,
         vmin=0,
         vmax=1,
         data=selected_table,
     )
+
+    ax_legend = fig.add_subplot(
+        (
+            0.075,
+            (bottom + height + sep + 0.5 * depth - 0.08) / fig_width_height_ratio,
+            0.08,
+            0.08 / fig_width_height_ratio,
+        ),
+        aspect=1,
+    )
+    ax_legend.margins(0.2)
+    dx = 1 / 4
+    x = np.arange(0, 1 + dx, dx)
+    ax_legend.set_xticks([0, 0.5, 1])
+    ax_legend.set_yticks([0, 0.5, 1])
+    x, y = (a.ravel() for a in np.meshgrid(x, x))
+    ax_legend.scatter(
+        x,
+        y,
+        s=2,
+        facecolor="silver",
+        edgecolor="none",
+        clip_on=False,
+    )
+    ax_legend.scatter(
+        x, y, s=marker_scale * x, c=y, vmin=0, vmax=1, cmap=cmap, clip_on=False
+    )
+    twin = ax_legend.twiny()
+    twin.set_frame_on(False)
+    twin.set_ylim(ax_legend.get_ylim())
+    twin.set_xticks([])
+    twin.set_xlabel("Objective val.")
+    ax_legend.set_ylabel("Detection prob.")
+    bbox_cbar, bbox_joint = [
+        ax.get_window_extent().transformed(fig.transFigure.inverted())
+        for ax in [ax_legend, ax_joint]
+    ]
+    ax_legend.annotate(
+        "",
+        (bbox_joint.xmin, bbox_joint.ymax),
+        (bbox_cbar.xmax, bbox_cbar.ymin),
+        "figure fraction",
+        "figure fraction",
+        clip_on=False,
+        arrowprops=dict(
+            facecolor="k",
+            edgecolor="none",
+            linewidth=0,
+            arrowstyle="simple",
+            shrinkA=6,
+            shrinkB=6,
+        ),
+    )
+    ax_legend.spines[["top", "right"]].set_visible(False)
+
+    # ax_cbar = fig.add_subplot(
+    #     (
+    #         0.075,
+    #         (bottom + height + sep) / fig_width_height_ratio + 0.05,
+    #         0.015,
+    #         depth / fig_width_height_ratio - 0.05,
+    #     ),
+    # )
+    # cbar = fig.colorbar(
+    #     scatter,
+    #     cax=ax_cbar,
+    # )
+    # ax_cbar.yaxis.tick_left()
+    # ticks = ax_cbar.get_yticks()
+    # ax_cbar.scatter(
+    #     np.full_like(ticks, 2),
+    #     ticks,
+    #     s=np.maximum(2, marker_scale * ticks),
+    #     color="silver",
+    #     clip_on=False,
+    #     transform=BlendedAffine2D(ax_cbar.transAxes, ax_cbar.transData),
+    # )
+    # ax_cbar.text(
+    #     -3,
+    #     0.5,
+    #     "Detection probability",
+    #     fontsize=plt.rcParams["axes.labelsize"],
+    #     rotation=90,
+    #     rotation_mode="anchor",
+    #     ha="center",
+    #     va="bottom",
+    #     transform=ax_cbar.transAxes,
+    #     clip_on=False,
+    # )
+    # ax_cbar.text(
+    #     2.75,
+    #     0.5,
+    #     "Objective value",
+    #     fontsize=plt.rcParams["axes.labelsize"],
+    #     rotation=-90,
+    #     rotation_mode="anchor",
+    #     ha="center",
+    #     va="bottom",
+    #     transform=ax_cbar.transAxes,
+    #     clip_on=False,
+    # )
+    # bbox_cbar, bbox_joint = [ax.get_window_extent().transformed(fig.transFigure.inverted()) for ax in [ax_cbar, ax_joint]]
+    # ax_cbar.annotate(
+    #     "",
+    #     (bbox_joint.xmin, bbox_joint.ymax),
+    #     (bbox_cbar.xmax, bbox_cbar.ymin),
+    #     "figure fraction",
+    #     "figure fraction",
+    #     clip_on=False,
+    #     arrowprops=dict(
+    #         facecolor="k",
+    #         edgecolor="none",
+    #         linewidth=0,
+    #         arrowstyle="simple",
+    #         shrinkA=12,
+    #         shrinkB=12,
+    #     ),
+    # )
 
     ticks = [
         np.quantile(
@@ -312,6 +431,7 @@ for run in ["O5", "O6"]:
     )
     ax_x.stairs(values, np.exp(bins), color=color, fill=True, zorder=4)
     twin = ax_x.twiny()
+    twin.set_frame_on(False)
     twin.set_xlim(*ax_joint.get_xlim())
     twin.set_xscale(ax_joint.get_xscale())
     twin.set_xticks(
@@ -379,6 +499,7 @@ for run in ["O5", "O6"]:
         values, np.exp(bins), color=color, fill=True, orientation="horizontal", zorder=4
     )
     twin = ax_y.twinx()
+    twin.set_frame_on(False)
     twin.set_ylim(*ax_joint.get_ylim())
     twin.set_yscale(ax_joint.get_yscale())
     twin.set_yticks(
