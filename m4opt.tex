@@ -204,7 +204,7 @@ In this paper, we describe the mathematical approach of \ac{M4OPT}, and then use
         &&& \multicolumn3c{Spacecraft location (ITRS, km)\tablenotemark{a}}
         & \multicolumn3c{Target (ICRS, deg)\tablenotemark{b}} \\
         \colhead{Start time (UTC)} &
-        \colhead{Dur. (s)} &
+        \colhead{Duration (s)} &
         \colhead{Action} &
         \colhead{$x$} &
         \colhead{$y$} &
@@ -233,7 +233,7 @@ In this paper, we describe the mathematical approach of \ac{M4OPT}, and then use
 %
 \ac{LP} is useful for problems of resource allocation. If instead of being reals, certain of the decision variables are required to be integers, then the problem is called \acf{MILP}. \ac{MILP} allows one to model situations where some decision variables represent alternative courses of action or where some constraints are Boolean in nature. The textbook chapters of \citet{9781118166000.ch3} and \citet{williams2013model} serve as useful translation dictionaries from logical constraints to integer linear ineqalities.
 
-There are a variety of free and open source \ac{MILP} solvers; the most readily available for Python users is HiGHS \citep{huangfu2018parallelizing} which now can be called directly from SciPy \citep{2020NatMe..17..261V}. However, the best commercial \ac{MILP} solvers are much faster and can handle much larger problems than any current open-source software. Although \ac{M4OPT} itself is open source, it calls the commercial \ac{MILP} solver CPLEX by IBM. CPLEX is free for academic and research use by students, faculty, and staff at academic institutions. For non-academic users, its pricing is comparable in cost to mid-range computer-aided design software.
+There are a variety of free and open source \ac{MILP} solvers; the most readily available for Python users is HiGHS \citep{huangfu2018parallelizing} which now can be called directly from SciPy \citep{2020NatMe..17..261V}. However, the best commercial \ac{MILP} solvers are much faster and can handle much larger problems than any current open-source software \citep{koch2011miplib,huangfu2018parallelizing}. Although \ac{M4OPT} itself is open source, it calls the commercial \ac{MILP} solver CPLEX by IBM. CPLEX is free for academic and research use by students, faculty, and staff at academic institutions. For non-academic users, its pricing is comparable in cost to mid-range computer-aided design software.
 
 Common applications of \ac{MILP} include planning and scheduling. There are already many noteworthy and successful uses of \ac{MILP} to astronomical observation planning. \ac{LCO} uses it to allocate observations on a global queue-scheduled network of telescopes \citep{2014SPIE.9149E..0ES}. \ac{ZTF} uses it to multiplex several sky surveys with different coverage and cadence requirements on a single telescope \citep{2019PASP..131f8003B}, and our colleagues have proposed using it to schedule \ac{ToO} observations with \ac{ZTF} \citep{2022ApJ...935...87P}. It has been applied to scheduling observing programs on \acl{ALMA} (\acsu{ALMA}; \citealt{2016A&C....15...90S}) and exoplanet searches on Keck \citep{2024AJ....167...33H}.
 
