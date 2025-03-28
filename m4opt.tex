@@ -220,7 +220,7 @@ In this paper, we describe the mathematical approach of \ac{M4OPT}, and then use
     \tablenotetext{b}{The target location is given in the \ac{ICRS}.}
 \end{deluxetable*}
 
-\section{Basics of MILP}
+\section{MILP Problem Formulation}
 
 \Ac{LP} is a mathematical optimization formalism in which one represents an objective as a linear combination of decision variables, subject to constraints that take the form of a system of linear inequalities. The canonical form a \ac{LP} is
 %
@@ -237,7 +237,9 @@ There are a variety of free and open source \ac{MILP} solvers; the most readily 
 
 Common applications of \ac{MILP} include planning and scheduling. There are already many noteworthy and successful uses of \ac{MILP} to astronomical observation planning. \ac{LCO} uses it to allocate observations on a global queue-scheduled network of telescopes \citep{2014SPIE.9149E..0ES}. \ac{ZTF} uses it to multiplex several sky surveys with different coverage and cadence requirements on a single telescope \citep{2019PASP..131f8003B}, and our colleagues have proposed using it to schedule \ac{ToO} observations with \ac{ZTF} \citep{2022ApJ...935...87P}. It has been applied to scheduling observing programs on \acl{ALMA} (\acsu{ALMA}; \citealt{2016A&C....15...90S}) and exoplanet searches on Keck \citep{2024AJ....167...33H}.
 
-The classic \ac{MWC} has a \ac{MILP} representation that is at the core of our scheduler. In \ac{MWC}, one has a finite sequence of real-valued weights, $(w_j)_j$, and a finite set of sets, $S = \{S_i\}_i$, over the integers, $\forall i: S_i \subset \mathbb{Z}$. The objective is to find a subset $S^\prime \subseteq S$, with a maximum cardinality $|S^\prime| \leq k$, that maximizes the sum over all of the weights $\sum_{j \in \bigcup S^\prime} w_j$. This is illustrated in Fig.~\ref{fig:max-weighted-coverage}. The \ac{MWC} has a straightforward \ac{MILP} representation:
+\subsection{The Maximum Weighted Coverage Problem}
+
+The classic \ac{MWC} has a \ac{MILP} representation that is at the core of our \ac{ToO} planning problem. In \ac{MWC}, one has a finite sequence of real-valued weights, $(w_j)_j$, and a finite set of sets, $S = \{S_i\}_i$, over the integers, $\forall i: S_i \subset \mathbb{Z}$. The objective is to find a subset $S^\prime \subseteq S$, with a maximum cardinality $|S^\prime| \leq k$, that maximizes the sum over all of the weights $\sum_{j \in \bigcup S^\prime} w_j$. This is illustrated in Fig.~\ref{fig:max-weighted-coverage}. The \ac{MWC} has a straightforward \ac{MILP} representation:
 %
 \begin{align*}
 \text{Maximize}\quad &\sum_j y_j w_j \\
@@ -251,16 +253,45 @@ The classic \ac{MWC} has a \ac{MILP} representation that is at the core of our s
     \caption{\label{fig:max-weighted-coverage}Illustration of \ac{MWC}. Four sets $S = \{S_1, S_2, S_3, S_4\}$ are represented as regions with colored borders. The elements of those sets are represented by black numbered circles.}
 \end{figure}
 
-The most basic version of our \ac{ToO} problem is that we want to maximize the total integrated probability that the true, but unknown, position of the source is within one or more of the footprints that we select to observe. Each \ac{GW} alert comes with a localization sky map that gives the posterior probability distribution of the sky position as an image that is sampled on a \acl{HEALPix} (\acsu{HEALPix}; \citealt{2005ApJ...622..759G}) grid. The weights $(w_j)_j$ are the probability values and the subsets $(S_i)_i$ are the \ac{HEALPix} pixels contained within the footprints of the \ac{FOV} on a reference grid of allowed pointings of the telescope (see Fig.~\ref{fig:overlapping-fields}).
+The most basic version of our \ac{ToO} problem is that we want to maximize the total integrated probability that the true, but unknown, position of the source is within one or more of the footprints that we select to observe. Each \ac{GW} alert comes with a localization sky map that gives the posterior probability distribution of the sky position as an image that is sampled on a \acl{HEALPix} (\acsu{HEALPix}; \citealt{2005ApJ...622..759G}) grid. The weights $(w_j)_j$ are the probability values and the subsets $(S_i)_i$ are the \ac{HEALPix} pixels contained within the footprints of the \ac{FOV} on a reference grid of allowed pointings of the telescope (see Fig.~\ref{fig:overlapping-fields}). The solution of the \ac{MWC} problem gives us the optimal pointings of the telescope and the \ac{HEALPix} pixels contained within all of the planned observations.
 
 \begin{figure}
     \includegraphics[width=\columnwidth]{figures/overlapping-fields}
     \caption{\label{fig:overlapping-fields}\ac{MWC} applied to coverage of a region on the sky by multiple partially overlapping fields. The centers of \ac{HEALPix} pixels are marked with gray dots.}
 \end{figure}
 
+\subsection{Scheduling Constraints}
+
+Scheduling problems in which there are time intervals that must be disjoint are also prominent in classic applications of \ac{MILP}. Consider two intervals, both of duration $\delta$, and each centered on the real-valued event times $t_0$ and $t_1$ respectively, and both intervals of duration $\delta$. Suppose also that the event times $t_0$ and $t_1$ are both restricted to the range from 0 to $M$. If the two intervals must be disjoint, then we can express the situation with the following system of ineqalities:
+%
+\begin{align*}
+    0 \leq t_0 \leq M \\
+    0 \leq t_1 \leq M \\
+    \left| t_1 - t_0 \right| \geq \delta.
+\end{align*}
+%
+The last inequality is nonlinear because it contains the absolute value function. By introducing a binary decision variable $a$, we can transform it into two linear inequalities,
+%
+\begin{align*}
+    t_1 - t_0 - \delta &\leq M (1 - a) \\
+    t_0 - t_1 - \delta &\leq M a.
+\end{align*}
+
+In our \ac{ToO} problem, the times $t_0$ and $t_1$ represent the times of observations of two different fields that must be executed by a single telescope, and the duration $\delta$ represents the exposure time plus slew time. By extending to more than two intervals we can model scheduling of a sequence of observations by one telescope.
+
+\subsection{The Full Problem}
+
+The full \ac{ToO} problem as it is modeled and solved by \ac{M4OPT} has elements of the \ac{MWC} and elements of scheduling. The reader may find the full \ac{MILP} problem setup in Appendix~\ref{sec:details}, in which we develop three successively more elaborate models, finally arriving at the full problem as it is implemented by \ac{M4OPT}. These three stages are:
+
+\paragraph{Section~\ref{sec:fixed-exptime}, Fixed Exposure Time} We may observe any fields within the instantaneous \ac{FOR}. Each field must be visited twice with a minimum cadence between visits. Every field has the same fixed exposure time. The objective is to maximize the probability that the true (but unknown) position of the source is within any of the selected fields. The probability of detection is integrated over the two-dimensional \ac{GW} localization map.
+
+\paragraph{Section~\ref{sec:variable-exptime}, Variable Exposure Time} As above, but each field's exposure time may vary. We assume that the apparent magnitude of the source is known precisely, and the objective is to maximize the probability that the limiting magnitude at the true (but unknown) location of the source exceeds that apparent magnitude. The probability of detection is integrated over the two-dimensional \ac{GW} localization map and employs a sky map of the limiting magnitude as a function of exposure time.
+
+\paragraph{Section~\ref{sec:absmag-distn}, Variable Exposure Time with Prior Distribution of Absolute Magnitude} As above, but we no longer know the apparent magnitude of the source. Instead we have a luminosity function, a probability distribution over its true (but unknown) absolute magnitude, and a three-dimenisional \ac{GW} localization map in right ascension, declination, and luminosity distance. The probability of detection is integrated over the 3D localization map and the luminosity function.
+
 \section{Exposure Time Estimation}
 
-The reference \ac{UVEX} \ac{ETC} is still closed source because the instrument is still evolving in small details. We use \ac{M4OPT}'s open-source toy model of the instrument performance that roughly reproduces the public sensitivity curve plot\footnote{\url{https://www.uvex.caltech.edu/page/for-astronomers}; accessed 2025-01-26} (see Fig.~\ref{fig:etc}). The parameters of the toy model are listed in Table~\ref{tab:etc}.
+The reference \ac{ETC} for \ac{UVEX} is still closed source because the instrument is still evolving in small details. We use \ac{M4OPT}'s open-source toy model of the instrument performance that roughly reproduces the public sensitivity curve plot\footnote{\url{https://www.uvex.caltech.edu/page/for-astronomers}; accessed 2025-01-26} (see Fig.~\ref{fig:etc}). The parameters of the toy model are listed in Table~\ref{tab:etc}.
 
 \begin{deluxetable}{lc}
     \tablecaption{\label{tab:etc}\ac{ETC} toy model parameters.}
@@ -500,7 +531,8 @@ This is LIGO document P2500008-v1.
 
 \appendix
 
-\section{MILP Problem Formulation}
+\section{MILP Problem Details}
+\label{sec:details}
 
 In this appendix, we develop an \ac{MILP} formulation of the problem of planning and scheduling \ac{GW} \ac{ToO} observations on a large \ac{FOV} telescope. In Section~\ref{sec:fixed-exptime}, we start with a simple but realistic problem in which we require multiple visits of each selected field that must all obey the \ac{FOR} and slew speed limitations of the telescope. In Sections~\ref{sec:variable-exptime} and \ref{sec:absmag-distn}, we add progressively more detail, finally arriving at the full dynamic exposure time problem. All three formulations from Sections~\ref{sec:fixed-exptime}, \ref{sec:variable-exptime}, and \ref{sec:absmag-distn} are implemented in \ac{M4OPT}.
 
