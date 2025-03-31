@@ -14,6 +14,7 @@ dependencies = [
     "m4opt",
     "dask-jobqueue",
     "dask[diagnostics]",
+    "ipykernel",
     "ipython",
 ]
 
