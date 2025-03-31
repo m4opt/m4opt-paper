@@ -61,6 +61,7 @@
 \acrodef{SV}[SV]{site visit}
 \acrodef{ToO}[ToO]{target of opportunity}
 \acrodefplural{ToO}[ToOs]{targets of opportunity}
+\acrodef{ULTRASAT}[ULTRASAT]{the Ultraviolet Transient Astronomy Satellite}
 \acrodef{UV}[UV]{ultraviolet}
 \acrodef{UVEX}[UVEX]{the UltraViolet EXplorer}
 \acrodef{ZTF}[ZTF]{Zwicky Transient Facility}
@@ -154,9 +155,9 @@ Although NASA made no \ac{MoO} selection in that cycle, shortly thereafter the \
     \caption{\label{fig:render}A rendering of \ac{UVEX}. Reproduced from the \acf{CSR}.}
 \end{figure}
 
-\ac{UVEX} will have a wide, $3.5\arcdeg \times 3.5\arcdeg$ \ac{FOV} camera that will take images simultaneously in both a \acl{NUV} (\acsu{NUV}; 1390--1900~\AA) and a \acl{FUV} (\acsu{FUV}; 2030--2700~\AA) band as well as a long-slit spectrograph. The imaging \ac{PSF} diameter of about $\sim$2$\arcsec$ will be well-matched to ground-based follow-up. \ac{UVEX} will perform a mix of surveys with different sky coverage and cadence, and will observe the entire sky to at least $>$25.8~mag over the duration of the prime mission. \ac{UVEX} will not just perform a transformative all-sky time-domain \ac{UV} survey. It will also be able to perform \acp{ToO} to follow up \ac{GW} mergers and other multimessenger phenomena (see Fig.~\ref{fig:uvex-tiling}). With its wide \ac{FOV} and two \ac{UV} bandpasses, it should begin to probe the physical mechanism of early-time emission in \acp{KN}.
+\ac{UVEX} will have a wide, $3.5\arcdeg \times 3.5\arcdeg$ \ac{FOV} camera that will take images simultaneously in both a \acl{NUV} (\acsu{NUV}; 1390--1900~\AA) and a \acl{FUV} (\acsu{FUV}; 2030--2700~\AA) band reaching typical depths of $>$24.5~mag in a typical 900~s dwell. The imaging \ac{PSF} diameter of about $\sim$2$\arcsec$ will be well-matched to ground-based follow-up. It will also have a long-slit spectrograph. \ac{UVEX} will perform a mix of surveys with different sky coverage and cadence, and will observe the entire sky to at least $>$25.8~mag over the duration of the prime mission. \ac{UVEX} will not just perform a transformative all-sky time-domain \ac{UV} survey. It will also be able to perform \acp{ToO} to follow up \ac{GW} mergers and other multimessenger phenomena (see Fig.~\ref{fig:uvex-tiling}). With its wide \ac{FOV} and two \ac{UV} bandpasses, it should begin to probe the physical mechanism of early-time emission in \acp{KN}.
 
-Meanwhile, other space agencies are working on complementary ultraviolet facilities. For example, Israel has a mission called ULTRASAT \citep{2024ApJ...964...74S} for which NASA has agreed to provide the launch. ULTRASAT will have an even larger \ac{FOV} than \ac{UVEX} and will be ready for flight a few years before, but with some tradeoffs: it is much less sensitive, has a much larger \ac{PSF}, only a single imaging band, and no spectrograph. Still, \ac{UVEX} and ULTRASAT together will make a potent discovery engine for \ac{UV} transients in general and \ac{GW} counterparts in particular.
+Meanwhile, other space agencies are working on complementary ultraviolet facilities. For example, Israel has a mission called \acl{ULTRASAT} (\acsu{ULTRASAT}; \citealt{2024ApJ...964...74S}) for which NASA has agreed to provide the launch. \ac{ULTRASAT} will have an even larger \ac{FOV} ($14\arcdeg \times 14 \arcdeg$) than \ac{UVEX} and will be ready for flight a few years before, but with some tradeoffs: it is much less sensitive (22.5~mag in 900 s), has a much larger \ac{PSF} ($8 \farcs 3$ diameter), only a single imaging band (2300--2900~\AA), and no spectrograph. Still, \ac{UVEX} and \ac{ULTRASAT} together will make a potent discovery engine for \ac{UV} transients in general and \ac{GW} counterparts in particular.
 
 \begin{figure}
     \includegraphics[width=\columnwidth]{figures/uvex-tiling}
@@ -179,7 +180,7 @@ In this paper, we finally present \ac{M4OPT}, which has many other advances over
 %
 \begin{itemize}
     \item It is released under a permissive, mainstream license (the Berkeley Software Distribution, or BSD, license) to promote adoption and contribution by the community.
-    \item It is designed from the start to support multiple missions, including \ac{UVEX} and ULTRASAT. We envision supporting both space- and ground-based observatories in the future.
+    \item It is designed from the start to support multiple missions, including \ac{UVEX} and \ac{ULTRASAT}. We envision supporting both space- and ground-based observatories in the future.
     \item It can adjust exposure times given the anticipated absolute magnitude and the three-dimensional \ac{GW} localization distribution in sky position and distance.
     \item It can dynamically vary the exposure time of each field to pierce through spatial variations in foregrounds (zodiacal light, Galactic diffuse emission) and dust extinction.
     \item It can be given the anticipated absolute magnitude of the source as either a point estimate or a distribution with Gaussian uncertainty.
@@ -290,6 +291,7 @@ The full \ac{ToO} problem as it is modeled and solved by \ac{M4OPT} has elements
 \paragraph{Section~\ref{sec:absmag-distn}, Variable Exposure Time with Prior Distribution of Absolute Magnitude} As above, but we no longer know the apparent magnitude of the source. Instead we have a luminosity function, a probability distribution over its true (but unknown) absolute magnitude, which is fixed with respect to time. We also have a three-dimenisional \ac{GW} localization map in right ascension, declination, and luminosity distance. The probability of detection is integrated over the 3D localization map and the luminosity function.
 
 \section{Exposure Time Estimation}
+\label{sec:etc}
 
 The reference \ac{ETC} for \ac{UVEX} is still closed source because the instrument is still evolving in small details. We use \ac{M4OPT}'s open-source toy model of the instrument performance that roughly reproduces the public sensitivity curve plot\footnote{\url{https://www.uvex.caltech.edu/page/for-astronomers}; accessed 2025-01-26} (see Fig.~\ref{fig:etc}). The parameters of the toy model are listed in Table~\ref{tab:etc}.
 
@@ -331,6 +333,7 @@ We modeled zodiacal background light by taking the ``high'' sky background spect
 To model extinction due to dust in the Milky Way, we use the \citet{2023ApJ...950...86G} model (see also \citealt{2009ApJ...705.1320G,2019ApJ...886..108F,2021ApJ...916...33G,2022ApJ...930...15D}) as implemented in the \texttt{dust\_extinction} Python package \citep{2024JOSS....9.7023G}. We employ a fixed total-to-selective extinction ratio $R(V) = 3.1$ and obtain $E(B-V)$ reddening values as a function of sky position using the \citet{2016A&A...596A.109P} model as implemented by the \texttt{dustmaps} Python package \citep{2018JOSS....3..695M}.
 
 \section{Case study: GW observations with UVEX}
+\label{sec:parameters}
 
 Here we explain the setup of \ac{M4OPT} for \ac{UVEX}.
 
@@ -372,7 +375,7 @@ Like most space telescopes, \ac{UVEX} has solar panels that rotate on a \ac{SADA
 \end{figure}
 
 \paragraph{Slew time}
-To estimate the time to slew between any two fields, we employ a simplified model of the spacecraft dynamics in which the spacecraft has a maximum angular acceleration of $0 \fdg 006$~s$^{-2}$ and maximum angular rate $0 \fdg 6$~s$^{-1}$ about any axis, plus a fixed settling time of 60~s. We assume that the spacecraft executes an eigenaxis maneuver, rotating through the smallest possible angle about a single axis, following a ``bang-bang" angular rate profile illustrated in Fig.~\ref{fig:slew}. (Note that even for a symmetric moment of inertia, the eigenaxis maneuver is \emph{not} the fastest possible slew; see \citealt{1993JGCD...16..446B}.) With this model, it takes 108~s to slew by the width of the \ac{FOV} and 460~s to slew by 180$\arcdeg$.
+To estimate the time to slew between any two fields, we employ a simplified model of the spacecraft dynamics in which the spacecraft has a maximum angular acceleration of $0 \fdg 006$~s$^{-2}$ and maximum angular rate $0 \fdg 6$~s$^{-1}$ about any axis, plus a fixed settling time of 60~s. We assume that the spacecraft executes an eigenaxis maneuver, rotating through the smallest possible angle about a single axis, following a ``bang-bang" angular rate profile illustrated in Fig.~\ref{fig:slew}. (Note that even for a symmetric moment of inertia, this eigenaxis maneuver is \emph{not} the fastest possible slew; see \citealt{1993JGCD...16..446B}.) With this model, it takes 108~s to slew by the width of the \ac{FOV} and 460~s to slew by 180$\arcdeg$.
 
 \begin{figure}
     \includegraphics[width=\columnwidth]{figures/slew}
@@ -480,11 +483,13 @@ More quantitatively, we can show that the dynamic exposure time strategy results
     \caption{\label{fig:prob-exptime}Detection probability versus exposure time for a single example event, resulting from the fixed exposure time strategy (see Section~\ref{sec:fixed-exptime}). The horizontal dashed line shows the detection probability resulting from the variable exposure time strategy incorporating a distribution of absolute magnitudes (see Section~\ref{sec:absmag-distn}). The variable exposure time strategy is more likely to detect the counterpart than the fixed exposure time strategy, for any exposure time.}
 \end{figure}
 
-This novel dynamic exposure time observing strategy is promising for \ac{GW} follow-up with any large \ac{FOV} imaging instrument. Although we have focused on \ac{UVEX}, we encourage ULTRASAT to try it out using the preliminary support for that mission that we have added to \ac{M4OPT}.
+This novel dynamic exposure time observing strategy is promising for \ac{GW} follow-up with any large \ac{FOV} imaging instrument. Although we have focused on \ac{UVEX}, we encourage \ac{ULTRASAT} to try it out using the preliminary support for that mission that we have added. An \ac{M4OPT} command line option \texttt{--mission} which can take the values \texttt{uvex} or \texttt{ultrasat} selects all of the parameters described in Sections~\ref{sec:etc} and~\ref{sec:parameters} (\ac{ETC} model, bandpass, field of regard, \ac{FOV}, slew speed, field grid, and so on) between those that are appropriate for \ac{UVEX} or \ac{ULTRASAT} respectively.
 
 The \ac{M4OPT} model itself is not specific to space-based observations. With additional \ac{FOR} and foreground models it could be extended to ground-based telescopes or even heterogeneous combinations of ground and space telescopes. In the future, we plan to extend it to \ac{ZTF}, Vera Rubin Observatory, and other ground-based facilities. Ultimately, our vision is for \ac{M4OPT} to evolve into a scheduling toolkit featuring (1) a composable library of observing constraints inspired by the interface of the \texttt{astroplan} package \citep{2018AJ....155..128M}, (2) uniform support for observers on the ground and in space, and (3) a globally optimizing scheduler.
 
-The scheduler currently considers a distribution of source absolute magnitudes, but not time variability of the source. This approach may be sufficient to optimize for obtaining a detection near peak, but is probably not sufficient to ensure a well-sampled light curve at later times. In a future work, we may add a light curve model which would allow the scheduler to automatically plan longer exposures at later times when the \ac{KN} emission is expected to be weaker.
+When we constructed the luminosity function for the scheduler, we considered two \ac{KN} models that are broadly consistent with GW170817 and plausible for \ac{BNS} mergers: the jet-powered model of \citet{2018ApJ...855..103P} and the radioactively-powered model of \citet{2020ApJ...891..152H}. However, the \ac{KN} emission is likely to be qualitatively different and more varied for \ac{NSBH} mergers. Indeed, the masses and spins of the original compact objects, which we are able to measure with \ac{GW} observations, can help us predict the nature of the remnant compact object and the \ac{KN} emission \citep{2019ApJ...880L..15M}. If \ac{GW} alerts included estimates of the masses, then we could use that information to taylor the times and depths of observations for the expected emission. Since the source lumninosity function in \ac{M4OPT} is configurable, in a future work we could evaluate mass-dependent observing strategies.
+
+The scheduler currently considers a distribution of source absolute magnitudes, but not time variability of the source. This approach may be sufficient to optimize for obtaining a detection near peak, but is probably not sufficient to ensure a well-sampled light curve at later times. In a future work, we may add a light curve model which would allow the scheduler to automatically plan longer exposures before and after the predicted peak time of the \ac{KN} emission.
 
 Our probabilistic approach to scheduling and triggering follow-up observations can in principle allow for a more detailed treatment of the selection effects incurred during \ac{GW} follow-up campaigns and astrophysical inference from the population of \acp{KN} observed by missions like \ac{UVEX}. Developing a framework for \ac{KN} inference with \ac{UVEX} observations triggered by this method is an exciting direction of future work.
 
