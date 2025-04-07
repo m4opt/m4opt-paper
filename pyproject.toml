@@ -11,11 +11,11 @@ dependencies = [
     # FIXME: The latest version of CPLEX on PyPI does not yet support macOS. Remove this when fixed.
     # See https://www.ibm.com/mysupport/s/defect/aCIKe000000bpzJ/dt421849?language=en_US
     "cplex < 22.1.2",
-    "m4opt",
     "dask-jobqueue",
     "dask[diagnostics]",
     "ipykernel",
     "ipython",
+    "m4opt (>=1.0.0,<2.0.0)",
 ]
 
 [tool.poetry]
