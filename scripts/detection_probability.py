@@ -8,7 +8,8 @@ from ligo.skymap import distance
 from ligo.skymap.bayestar import rasterize
 from m4opt import missions
 from m4opt.fov import footprint_healpix
-from m4opt.synphot import DustExtinction, observing
+from m4opt.synphot import observing
+from m4opt.synphot.extinction import DustExtinction
 from scipy import stats
 
 
