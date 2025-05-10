@@ -1,3 +1,4 @@
+import ligo.skymap.plot  # noqa: F401
 import numpy as np
 import regions
 from astropy import units as u
@@ -7,7 +8,6 @@ from m4opt.fov import footprint_healpix
 from m4opt.missions import uvex
 from matplotlib import pyplot as plt
 from plots import customize_style
-import ligo.skymap.plot  # noqa: F401
 
 customize_style()
 plt.rcParams["figure.figsize"][1] = plt.rcParams["figure.figsize"][0]
