@@ -48,6 +48,6 @@ with tqdm(total=len(frames) + 3, desc="drawing", unit="frame") as progress:
             repeat=True,
             interval=50,
         ).save(
-            "anc/skygrid.gif",
+            "and/skygrid.gif",
             progress_callback=lambda i, _: saving_progress.update(),
         )
