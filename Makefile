@@ -20,8 +20,8 @@ LATEXDEPS = \
 	tables/selected-detected.tex
 
 ANIMATIONS = \
-	anc/skygrid.gif \
-	anc/example.gif
+	and/skygrid.gif \
+	and/example.gif
 
 LICENSES = licenses/*.txt
 
@@ -77,4 +77,4 @@ tables/example.tex: scripts/plan-table.py data/O5/4678.ecsv
 	python scripts/plan-table.py
 
 figures/example.pdf: data/O5/4678.ecsv
-	m4opt animate data/O5/4678.ecsv anc/example.gif --still figures/example.pdf --dpi 300 --time-step 2.5min --inset-center='35d -31d' --inset-radius=11deg
+	m4opt animate data/O5/4678.ecsv and/example.gif --still figures/example.pdf --dpi 300 --time-step 2.5min --inset-center='35d -31d' --inset-radius=11deg
