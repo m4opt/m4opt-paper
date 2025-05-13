@@ -844,7 +844,7 @@ SymPy is an open source computer algebra system written in pure Python. It is bu
  eid = {ascl:1811.001},
  howpublished = {Astrophysics Source Code Library, record ascl:1811.001},
  month = {November},
- title = {{synphot: Synthetic photometry using Astropy}},
+ title = {{Synphot: Synthetic Photometry Using Astropy}},
  year = {2018}
 }
 
@@ -884,13 +884,12 @@ SymPy is an open source computer algebra system written in pure Python. It is bu
  adsnote = {Provided by the SAO/NASA Astrophysics Data System},
  adsurl = {https://ui.adsabs.harvard.edu/abs/2019AAS...23421203C},
  author = {{Cenko}, Stephen B.},
- booktitle = {American Astronomical Society Meeting Abstracts \#234},
+ booktitle = {AAS Meeting},
  eid = {212.03},
  month = {June},
+ number = {234},
  pages = {212.03},
- series = {American Astronomical Society Meeting Abstracts},
  title = {{The Gravitational-wave Ultraviolet Counterpart Imager (GUCI) Network}},
- volume = {234},
  year = {2019}
 }
 
@@ -1149,6 +1148,8 @@ SymPy is an open source computer algebra system written in pure Python. It is bu
  adsnote = {Provided by the SAO/NASA Astrophysics Data System},
  adsurl = {https://ui.adsabs.harvard.edu/abs/2021pdaa.book.....N},
  author = {{National Academies of Sciences, Engineering, and Medicine}},
+ address = {Washington, DC},
+ publisher = {The National Academies Press},
  doi = {10.17226/26141},
  title = {{Pathways to Discovery in Astronomy and Astrophysics for the 2020s}},
  year = {2021}
@@ -1381,22 +1382,23 @@ SymPy is an open source computer algebra system written in pure Python. It is bu
  month = {December},
  pages = {5},
  title = {{Space Telescope Imaging Spectrograph Instrument Handbook for Cycle 33}},
- year = {2024}
+ year = {2024},
+ url = {https://hst-docs.stsci.edu/stisihb}
 }
 
-@article{2025arXiv250114109C,
+@article{2025PASP..137e4101C,
  adsnote = {Provided by the SAO/NASA Astrophysics Data System},
- adsurl = {https://ui.adsabs.harvard.edu/abs/2025arXiv250114109C},
- archiveprefix = {arXiv},
- author = {{Criswell}, Alexander W. and {Leggio}, Sydney C. and {Coughlin}, Michael W. and {Singer}, Leo P. and {Weizmann Kiendrebeogo}, R. and {Andreoni}, Igor and {Toivonen}, Andrew and {Kasliwal}, Mansi M.},
- eid = {arXiv:2501.14109},
- eprint = {2501.14109},
- journal = {arXiv e-prints},
- keywords = {Astrophysics - High Energy Astrophysical Phenomena},
- month = {January},
- pages = {arXiv:2501.14109},
- primaryclass = {astro-ph.HE},
+ adsurl = {https://ui.adsabs.harvard.edu/abs/2025PASP..137e4101C},
+ author = {{Criswell}, Alexander W. and {Leggio}, Sydney C. and {Coughlin}, Michael W. and {Singer}, Leo P. and {Kiendrebeogo}, R. Weizmann and {Andreoni}, Igor and {Toivonen}, Andrew and {Earnshaw}, Hannah P. and {Gezari}, Suvi and {Grefenstette}, Brian W. and {Harrison}, Fiona A. and {Kasliwal}, Mansi M.},
+ doi = {10.1088/1538-3873/adcd9c},
+ eid = {054101},
+ journal = {\pasp},
+ keywords = {Ultraviolet transient sources, Gravitational wave astronomy, 1854, 675},
+ month = {May},
+ number = {5},
+ pages = {054101},
  title = {{Electromagnetic Follow-up to Gravitational Wave Events with the UltraViolet EXplorer (UVEX)}},
+ volume = {137},
  year = {2025}
 }
 
@@ -1489,32 +1491,6 @@ SymPy is an open source computer algebra system written in pure Python. It is bu
  year = {2022}
 }
 
-@software{singer_2025_15169912,
-  author       = {Singer, Leo and
-                  pre-commit-ci[bot] and
-                  dependabot[bot] and
-                  Parazin, B and
-                  Tollerud, Erik and
-                  Bard, Chris and
-                  Healy, Brian and
-                  Bellm, Eric and
-                  Kiendrébéogo, Ramodgwendé Weizmann and
-                  Wagh, Yogesh},
-  title        = {m4opt/m4opt},
-  month        = apr,
-  year         = 2025,
-  publisher    = {Zenodo},
-  version      = {v1.0.0},
-  doi          = {10.5281/zenodo.15169912},
-  url          = {https://doi.org/10.5281/zenodo.15169912},
-  swhid        = {swh:1:dir:79a3ddbc435ded7dd203a0b2c4ca73e3128396a7
-                   ;origin=https://doi.org/10.5281/zenodo.14931966;vi
-                   sit=swh:1:snp:8bac0579c93fb9497834b425610bc1e65777
-                   fd2a;anchor=swh:1:rel:a6dc98364b69ac6be7752c9ac4e7
-                   aea220355175;path=m4opt-m4opt-6e514b1
-                  },
-}
-
 @book{NAP25217,
  abstract = {Modern science is ever more driven by computations and simulations. In particular, the state of the art in space and Earth science often arises from complex simulations of climate, space weather, and astronomical phenomena. At the same time, scientific work requires data processing, presentation, and analysis through broadly available proprietary and community software.1 Implicitly or explicitly, software is central to science. Scientific discovery, understanding, validation, and interpretation are all enhanced by access to the source code of the software used by scientists.\n\nThis report investigates and recommends options for NASA's Science Mission Directorate (SMD) as it considers how to establish a policy regarding open source software to complement its existing policy on open data. In particular, the report reviews existing data and software policies and the lessons learned from the implementation of those policies, summarizes community perspectives, and presents policy options and recommendations for implementing an open source software policy for NASA SMD.},
  address = {Washington, DC},
@@ -1547,6 +1523,33 @@ Observation Runs: Gravitational Wave Detection
 Rates, Skymaps, and Multimessenger Parameters
 (November 2024 edition)},
  url = {https://doi.org/10.5281/zenodo.14585837},
+ year = {2025},
+ version = {v3}
+}
+
+@software{singer_2025_15169912,
+ author = {Singer, Leo and
+{pre-commit-ci[bot]} and
+{dependabot[bot]} and
+Parazin, B and
+Tollerud, Erik and
+Bard, Chris and
+Healy, Brian and
+Bellm, Eric and
+Kiendrébéogo, Ramodgwendé Weizmann and
+Wagh, Yogesh},
+ doi = {10.5281/zenodo.15169912},
+ month = {April},
+ publisher = {Zenodo},
+ swhid = {swh:1:dir:79a3ddbc435ded7dd203a0b2c4ca73e3128396a7
+;origin=https://doi.org/10.5281/zenodo.14931966;vi
+sit=swh:1:snp:8bac0579c93fb9497834b425610bc1e65777
+fd2a;anchor=swh:1:rel:a6dc98364b69ac6be7752c9ac4e7
+aea220355175;path=m4opt-m4opt-6e514b1
+},
+ title = {m4opt/m4opt},
+ url = {https://doi.org/10.5281/zenodo.15169912},
+ version = {v1.0.0},
  year = {2025}
 }
 
@@ -1586,7 +1589,7 @@ Wave Events with the UltraViolet EXplorer (UVEX)},
  lccn = {99032311},
  pages = {165-201},
  publisher = {Wiley},
- title = {Building integer programming models {I}},
+ title = {Building Integer Programming Models {I}},
  url = {https://learning.oreilly.com/library/view/model-building-in/9781118506172/},
  year = {2013}
 }
