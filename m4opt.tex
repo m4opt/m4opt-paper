@@ -308,7 +308,7 @@ The full \ac{ToO} problem as it is modeled and solved by \ac{M4OPT} has elements
 \section{Exposure Time Estimation}
 \label{sec:etc}
 
-The reference \ac{ETC} for \ac{UVEX} is still closed source because the instrument is still evolving in small details. We use \ac{M4OPT}'s open-source toy model of the instrument performance that roughly reproduces the public sensitivity curve plot on the \ac{UVEX} web site\footnote{\url{https://www.uvex.caltech.edu/page/for-astronomers}; accessed 2025 January 26} (see Fig.~\ref{fig:etc}). The parameters of the toy model are listed in Table~\ref{tab:etc}.
+The reference \ac{ETC} for \ac{UVEX} is still closed source because the instrument is still evolving in small details. We use \ac{M4OPT}'s open-source toy model of the instrument performance that roughly reproduces the public sensitivity curve plot on the \ac{UVEX} web site\footnote{\url{https://www.uvex.caltech.edu/page/for-astronomers}; accessed 2025 January 26.} (see Fig.~\ref{fig:etc}). The parameters of the toy model are listed in Table~\ref{tab:etc}.
 
 \begin{deluxetable}{lc}
     \tablecaption{\label{tab:etc}\ac{ETC} Toy Model Parameters}
@@ -785,7 +785,7 @@ Same as in Section~\ref{sec:fixed-exptime-objective} above.
 \subsection{Problem 3: Variable Exposure Time with Prior Distribution of Absolute Magnitude}
 \label{sec:absmag-distn}
 
-In this variation, we do not know the precise absolute magnitude $X$ of the source. In the case of \acp{KN}, our prior knowledge about the absolute magnitude is scant; for the sake of mathematical convenience, we assume that the absolute magnitude has a normal distribution, $X \sim~ \mathcal{N}[\mu_X, \sigma_X]$. We need to compute the distribution of \textit{apparent} magnitudes $x$ in order to determine the probability of detection as a function of exposure time for each pixel.
+In this variation, we do not know the precise absolute magnitude $X$ of the source. In the case of \acp{KN}, our prior knowledge about the absolute magnitude is scant; for the sake of mathematical convenience, we assume that the absolute magnitude has a normal distribution, $X \sim \mathcal{N}[\mu_X, \sigma_X]$. We need to compute the distribution of \textit{apparent} magnitudes $x$ in order to determine the probability of detection as a function of exposure time for each pixel.
 
 Gravitational-wave sky maps provide the posterior distribution of distance, as a parametric ansatz distribution \citep{2016ApJ...829L..15S,2016ApJS..226...10S},
 %
